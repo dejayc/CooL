@@ -11,4 +11,16 @@ application =
             ["@2"] = 2,
         },
     },
+    LuaLib =
+    {
+        appConfig =
+        {
+            display =
+            {
+                hideStatusBar = true
+            }
+        }
+    }
 }
+
+return application
