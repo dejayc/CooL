@@ -2,13 +2,14 @@ application =
 {
     content =
     {
-        width = 640,
-        height = 960,
+        width = 320,
+        height = 480,
         scale = "zoomEven",
 
         imageSuffix =
         {
-            ["@2"] = 2,
+            ["@320x480"] = 1,
+            ["@640x960"] = 2,
         },
     },
     LuaLib =
@@ -17,10 +18,10 @@ application =
         {
             display =
             {
-                hideStatusBar = true
-            }
-        }
-    }
+                hideStatusBar = true,
+            },
+        },
+    },
 }
 
 return application
