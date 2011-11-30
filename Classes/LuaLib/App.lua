@@ -27,8 +27,6 @@ end
 
 function App:initDisplay()
     local statusBar = self:getConfigSettingForStatusBar()
-    io.write "statusBar is: "
-    print( statusBar )
 
     if ( statusBar == "hidden" )
     then
