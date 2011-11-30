@@ -1,5 +1,4 @@
 local Class = { className = "Class" }
-setmetatable( Class, Class )
 
 function Class:cloneMetatable( source )
     local sourceMetatable = getmetatable( source )
