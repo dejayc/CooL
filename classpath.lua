@@ -22,7 +22,8 @@ CLASSPATH.SwapBlocks = {
     GamePiece = CLASSPATH.SwapBlocks .. "GamePiece",
     GamePieceDefinition = CLASSPATH.SwapBlocks .. "GamePieceDefinition",
     GamePlay = CLASSPATH.SwapBlocks .. "GamePlay",
-    GameStage = CLASSPATH.SwapBlocks .. "GameStage"
+    GameStage = CLASSPATH.SwapBlocks .. "GameStage",
+    GameStageUi = CLASSPATH.SwapBlocks .. "GameStageUi",
 }
 
 return CLASSPATH

@@ -6,7 +6,7 @@ local app = App:new()
 app:init( appConfig )
 
 local Game = require( CLASSPATH.SwapBlocks.Game )
-local game = Game:new( { className = "Game" } )
+local game = Game:new()
 game:init( app )
 game:start()
 
