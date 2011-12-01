@@ -46,4 +46,12 @@ function App:getAppConfig()
     return self.appConfig
 end
 
+function App:getDisplayHeight()
+    return display.viewableContentHeight / display.contentScaleY
+end
+
+function App:getDisplayWidth()
+    return display.viewableContentWidth / display.contentScaleX
+end
+
 return App
