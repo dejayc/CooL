@@ -1,5 +1,6 @@
 local CLASSPATH = require( "classpath" )
 local Class = require( CLASSPATH.LuaLib.Class )
+local Data = require( CLASSPATH.LuaLib.Data )
 
 local App = Class:extend( { className = "App" } )
 
@@ -8,21 +9,19 @@ function App:init( appConfig )
     self:initDisplay()
 end
 
+function App:getConfigSettingForScalingAxis()
+    return Data.selectByNestedIndex( self,
+        "appConfig", "LuaLib", "appConfig", "display", "scaling", "axis" )
+end
+
+function App:getConfigSettingForScalingThreshold()
+    return Data.selectByNestedIndex( self,
+        "appConfig", "LuaLib", "appConfig", "display", "scaling", "threshold" )
+end
+
 function App:getConfigSettingForStatusBar()
-    local objRef = self.appConfig
-    if ( not objRef ) then return false end
-
-    objRef = objRef.LuaLib
-    if ( not objRef ) then return false end
-
-    objRef = objRef.appConfig
-    if ( not objRef ) then return false end
-
-    objRef = objRef.display
-    if ( not objRef ) then return false end
-
-    objRef = objRef.statusBar
-    return objRef
+    return Data.selectByNestedIndex( self,
+        "appConfig", "LuaLib", "appConfig", "display", "statusBar" )
 end
 
 function App:initDisplay()
