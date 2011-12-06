@@ -11,8 +11,17 @@ application =
         width = 1280,
         height = 1920,
 
-        jidth = 1280,
+        width = 1280,
         height = 960,
+
+        width = 320,
+        height = 320,
+
+        width = 320,
+        height = 240,
+
+        width = 160,
+        height = 480,
 
         scale = "none",
         scale = "letterbox",
@@ -33,12 +42,14 @@ application =
             {
                 scaling =
                 {
-                    axis = "max",
-                    axis = "min",
-                    axis = "height",
-                    axis = "width",
-                    axis = "portrait",
-                    axis = "landscape",
+                    axis = "contentWidth",
+                    axis = "contentHeight",
+                    axis = "contentScaleMin",
+                    axis = "contentScaleMax",
+                    axis = "screenWidth",
+                    axis = "screenHeight",
+                    axis = "screenResMin",
+                    axis = "screenResMax",
                     threshold = 0,
                 },
                 statusBar = "hidden",

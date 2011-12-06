@@ -1,8 +1,10 @@
 settings = {
 	orientation =
 	{
-		default = "portrait",
+		default = "landscapeLeft",
 		default = "landscapeRight",
+		default = "portrait",
+		default = "portraitUpsideDown",
 	},
 	iphone =
 	{
