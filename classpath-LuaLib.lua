@@ -6,4 +6,5 @@ return {
     App = LuaLib .. "App",
     Class = LuaLib .. "Class",
     Data = LuaLib .. "Data",
+    Display = LuaLib .. "Display",
 }
