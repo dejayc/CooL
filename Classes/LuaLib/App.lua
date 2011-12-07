@@ -9,7 +9,7 @@ function App:init( config )
 
     self:setConfig( config )
     self:setDisplay( Display:new() )
-    self:getDisplay():init( config )
+    self:getDisplay():init( self:getConfig() )
 
     Runtime:addEventListener( "orientation",
         function( event ) self:onOrientationChange( event ) end

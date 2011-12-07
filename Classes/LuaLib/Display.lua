@@ -9,7 +9,7 @@ function Display:init( config )
     self.memoized = self.memoized or {}
     self:setConfig( config )
 
-    local statusBar = config:getStatusBar()
+    local statusBar = self:getConfig():getStatusBar()
 
     if ( statusBar == "hidden" )
     then
@@ -142,8 +142,19 @@ function Display:getDynamicScale()
     return 1 / self:getDisplayScale()
 end
 
-function Display:getDynamicScaleSuffix()
-    return
+function Display:getDynamicImageSuffix()
+    local dynamicScale = self:getDynamicScale()
+
+    if ( self.memoized.dynamicImageSuffix [ dynamicScale ] ~= nil )
+    then
+        return self.memoized.dynamicImageSuffix [ dynamicScale ]
+    end
+
+    local imageSuffixes = self:getConfig():getImageSuffix()
+    local imageSuffix = ""
+
+    self.memoized.dynamicImageSuffix [ dynamicScale ] = imageSuffix 
+    return imageSuffix
 end
 
 return Display
