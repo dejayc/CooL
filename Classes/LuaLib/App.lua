@@ -5,27 +5,15 @@ local Data = require( CLASSPATH.LuaLib.Data )
 local App = Class:extend( { className = "App" } )
 
 local defaultScalingAxis = "screenResMax"
-local defaultScalingThreshold = 100
 
 function App:init( appConfig )
-    self.appConfig = appConfig
+    self:setAppConfig( appConfig )
+    self:initState()
     self:initDisplay()
-    self:onOrientationChange()
 end
 
-function App:getConfigSettingForScalingAxis()
-    return Data.selectByNestedIndex( self,
-        "appConfig", "LuaLib", "appConfig", "display", "scaling", "axis" )
-end
-
-function App:getConfigSettingForScalingThreshold()
-    return Data.selectByNestedIndex( self,
-        "appConfig", "LuaLib", "appConfig", "display", "scaling", "threshold" )
-end
-
-function App:getConfigSettingForStatusBar()
-    return Data.selectByNestedIndex( self,
-        "appConfig", "LuaLib", "appConfig", "display", "statusBar" )
+function App:initState()
+    io.flush()
 end
 
 function App:initDisplay()
@@ -49,8 +37,8 @@ function App:initDisplay()
     )
 end
 
-function App:onOrientationChange( event )
-    io.write "Changing orientation to: "
+function App:debugScreenMetrics()
+    io.write "Orientation is now: "
     print( system.orientation )
 
     io.write "(displayWidth, displayHeight): ("
@@ -65,20 +53,36 @@ function App:onOrientationChange( event )
     io.write( display.contentScaleY )
     print ")"
 
-    local scalingFactor, scalingMode = self:getDisplayScale()
-
-    io.write "Scaling mode: "
-    print( scalingMode )
-
     io.write "(displayScale, dynamicScale): ("
-    io.write( scalingFactor )
+    io.write( self:getDisplayScale() )
     io.write ", "
-    io.write( 1 / scalingFactor )
+    io.write( self:getDynamicScale() )
     print ")"
+end
+
+function App:onOrientationChange( event )
+    -- TODO: Remove
+    self:debugScreenMetrics()
 end
 
 function App:getAppConfig()
     return self.appConfig
+end
+
+function App:setAppConfig( appConfig )
+    self.appConfig = appConfig
+    self.memoized = self.memoized or {}
+    self.memoized.displayScale = {}
+end
+
+function App:getConfigSettingForScalingAxis( self )
+    return Data.selectByNestedIndex( self,
+        "appConfig", "LuaLib", "appConfig", "display", "scaling", "axis" )
+end
+
+function App:getConfigSettingForStatusBar()
+    return Data.selectByNestedIndex( self,
+        "appConfig", "LuaLib", "appConfig", "display", "statusBar" )
 end
 
 function App:getDisplayHeight()
@@ -92,17 +96,15 @@ function App:getDisplayWidth()
 end
 
 function App:getDisplayScale()
+    if ( self.memoized.displayScale [ system.orientation ] ~= nil ) then
+        return self.memoized.displayScale [ system.orientation ]
+    end
+
     local scalingAxis = self:getConfigSettingForScalingAxis()
     if ( scalingAxis == nil ) then
         scalingAxis = defaultScalingAxis
     end
 
-    local scalingThreshold = self:getConfigSettingForScalingThreshold()
-    if ( scalingThreshold == nil ) then
-        scalingThreshold = defaultScalingThreshold
-    end
-
-    local scalingMode = scalingAxis
     local scalingFactor = 1
     local height = self:getDisplayHeight()
     local heightScale = display.contentScaleY
@@ -141,34 +143,26 @@ function App:getDisplayScale()
         if ( ( system.orientation == "landscapeLeft" ) or
              ( system.orientation == "landscapeRight" ) )
         then
-            scalingMode = scalingAxis ..
-                " [" .. system.orientation .. " = landscape]"
             scalingFactor = heightScale
         else
-            scalingMode = scalingAxis ..
-                " [" .. system.orientation .. " = portrait]"
             scalingFactor = widthScale
         end
     elseif ( scalingAxis == "screenWidth" ) then
         if ( ( system.orientation == "landscapeLeft" ) or
              ( system.orientation == "landscapeRight" ) )
         then
-            scalingMode = scalingAxis ..
-                " [" .. system.orientation .. " = landscape]"
             scalingFactor = widthScale
         else
-            scalingMode = scalingAxis ..
-                " [" .. system.orientation .. " = portrait]"
             scalingFactor = heightScale
         end
     end
 
-    return scalingFactor, scalingMode
+    self.memoized.displayScale [ system.orientation ] = scalingFactor
+    return scalingFactor 
 end
 
 function App:getDynamicScale()
-    local scalingFactor, scalingMode = self:getDisplayScale()
-    return 1 / scalingFactor, scalingMode
+    return 1 / self:getDisplayScale()
 end
 
 function App:getDynamicScaleSuffix()
