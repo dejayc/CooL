@@ -1,16 +1,13 @@
 local CLASSPATH = require( "classpath" )
 local Class = require( CLASSPATH.LuaLib.Class )
-local Data = require( CLASSPATH.LuaLib.Data )
 local Display = require( CLASSPATH.LuaLib.Display )
 
 local App = Class:extend( { className = "App" } )
 
-local defaultScalingAxis = "screenResMax"
-
-function App:init( appConfig )
+function App:init( config )
     io.flush()
 
-    self:setAppConfig( appConfig )
+    self:setConfig( config )
     self:setDisplay( Display:new() )
     self:getDisplay():init( self )
 
@@ -21,33 +18,19 @@ end
 
 function App:onOrientationChange( event )
     -- TODO: Remove
-    self.getDisplay():debugScreenMetrics()
+    self:getDisplay():debugScreenMetrics()
 end
 
-function App:getAppConfig()
-    return self.appConfig
+function App:getConfig()
+    return self.config
 end
 
-function App:setAppConfig( appConfig )
-    self.appConfig = appConfig
+function App:setConfig( config )
+    self.config = config
 
     if (self:getDisplay() ~= nil ) then
         self:getDisplay():refreshAppConfig()
     end
-end
-
-function App:getConfigSettingForScalingAxis( self )
-    return Data.selectByNestedIndex( self,
-        "appConfig", "LuaLib", "application", "display", "scaling", "axis" )
-end
-
-function App:getConfigSettingDefaultForScalingAxis( self )
-    return defaultScalingAxis
-end
-
-function App:getConfigSettingForStatusBar()
-    return Data.selectByNestedIndex( self,
-        "appConfig", "LuaLib", "application", "display", "statusBar" )
 end
 
 function App:getDisplay()
