@@ -36,7 +36,7 @@ application =
     },
     LuaLib =
     {
-        appConfig =
+        application =
         {
             display =
             {
@@ -50,7 +50,6 @@ application =
                     axis = "screenHeight",
                     axis = "screenResMin",
                     axis = "screenResMax",
-                    threshold = 0,
                 },
                 statusBar = "hidden",
             },

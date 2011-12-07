@@ -1,5 +1,5 @@
 local CLASSPATH = require( "classpath" )
-local appConfig = require( "config" )
+local appConfig = require( "config-local" )
 
 local App = require( CLASSPATH.LuaLib.App )
 local app = App:new()

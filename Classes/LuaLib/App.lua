@@ -77,12 +77,12 @@ end
 
 function App:getConfigSettingForScalingAxis( self )
     return Data.selectByNestedIndex( self,
-        "appConfig", "LuaLib", "appConfig", "display", "scaling", "axis" )
+        "appConfig", "LuaLib", "application", "display", "scaling", "axis" )
 end
 
 function App:getConfigSettingForStatusBar()
     return Data.selectByNestedIndex( self,
-        "appConfig", "LuaLib", "appConfig", "display", "statusBar" )
+        "appConfig", "LuaLib", "application", "display", "statusBar" )
 end
 
 function App:getDisplayHeight()
