@@ -10,6 +10,19 @@ function Config:init( configSettings )
     self:setConfigSettings( configSettings )
 end
 
+function Config:getConfigSettings()
+    return self.configSettings
+end
+
+function Config:setConfigSettings( configSettings )
+    self.configSettings = configSettings
+end
+
+function Config:getImageSuffix()
+    return Data.selectByNestedIndex( self:getConfigSettings(),
+        "content", "imageSuffix" )
+end
+
 function Config:getScalingAxis()
     return Data.selectByNestedIndex( self:getConfigSettings(),
         "LuaLib", "application", "display", "scaling", "axis" )
@@ -22,14 +35,6 @@ end
 function Config:getStatusBar()
     return Data.selectByNestedIndex( self:getConfigSettings(),
         "LuaLib", "application", "display", "statusBar" )
-end
-
-function Config:getConfigSettings()
-    return self.configSettings
-end
-
-function Config:setConfigSettings( configSettings )
-    self.configSettings = configSettings
 end
 
 return Config

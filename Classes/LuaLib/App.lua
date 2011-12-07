@@ -9,7 +9,7 @@ function App:init( config )
 
     self:setConfig( config )
     self:setDisplay( Display:new() )
-    self:getDisplay():init( self )
+    self:getDisplay():init( config )
 
     Runtime:addEventListener( "orientation",
         function( event ) self:onOrientationChange( event ) end
@@ -29,7 +29,7 @@ function App:setConfig( config )
     self.config = config
 
     if (self:getDisplay() ~= nil ) then
-        self:getDisplay():refreshAppConfig()
+        self:getDisplay():setConfig( config )
     end
 end
 

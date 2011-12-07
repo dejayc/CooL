@@ -5,12 +5,11 @@ local Data = require( CLASSPATH.LuaLib.Data )
 
 local Display = Class:extend( { className = "Display" } )
 
-function Display:init( app )
+function Display:init( config )
     self.memoized = self.memoized or {}
-    self:setApp( app )
-    self:refreshAppConfig()
+    self:setConfig( config )
 
-    local statusBar = app:getConfig():getStatusBar()
+    local statusBar = config:getStatusBar()
 
     if ( statusBar == "hidden" )
     then
@@ -49,16 +48,18 @@ function Display:debugScreenMetrics()
     print ")"
 end
 
-function Display:getApp()
-    return self.app
+function Display:getConfig()
+    return self.config
 end
 
-function Display:setApp( app )
-    self.app = app
+function Display:setConfig( config )
+    self.config = config
+    self:refreshConfig()
 end
 
-function Display:refreshAppConfig()
+function Display:refreshConfig()
     self.memoized.displayScale = {}
+    self.memoized.dynamicImageSuffix = {}
 end
 
 function Display:getDisplayHeight()
@@ -76,9 +77,9 @@ function Display:getDisplayScale()
         return self.memoized.displayScale [ system.orientation ]
     end
 
-    local scalingAxis = self:getApp():getConfig():getScalingAxis()
+    local scalingAxis = self:getConfig():getScalingAxis()
     if ( scalingAxis == nil ) then
-        scalingAxis = self:getApp():getConfig():getDefaultScalingAxis()
+        scalingAxis = self:getConfig():getDefaultScalingAxis()
     end
 
     local scalingFactor = 1
