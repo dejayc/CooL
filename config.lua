@@ -46,7 +46,7 @@ application =
             ["@960x1440"] = 3,
         },
     },
-    LuaLib =
+    CooL =
     {
         application =
         {

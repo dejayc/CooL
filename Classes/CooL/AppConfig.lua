@@ -1,6 +1,6 @@
 local CLASSPATH = require( "classpath" )
-local Class = require( CLASSPATH.LuaLib.Class )
-local Data = require( CLASSPATH.LuaLib.Data )
+local Class = require( CLASSPATH.CooL.Class )
+local Data = require( CLASSPATH.CooL.Data )
 
 local Config = Class:extend( { className = "Config" } )
 
@@ -50,7 +50,7 @@ end
 
 function Config:getScalingAxis()
     return Data.selectByNestedIndex( self:getConfigSettings(),
-        "LuaLib", "application", "display", "scaling", "axis" )
+        "CooL", "application", "display", "scaling", "axis" )
 end
 
 function Config:getDefaultScalingAxis()
@@ -59,7 +59,7 @@ end
 
 function Config:getStatusBar()
     return Data.selectByNestedIndex( self:getConfigSettings(),
-        "LuaLib", "application", "display", "statusBar" )
+        "CooL", "application", "display", "statusBar" )
 end
 
 return Config

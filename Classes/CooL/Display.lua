@@ -1,7 +1,7 @@
 local CLASSPATH = require( "classpath" )
-local Class = require( CLASSPATH.LuaLib.Class )
-local Config = require( CLASSPATH.LuaLib.Config )
-local Data = require( CLASSPATH.LuaLib.Data )
+local Class = require( CLASSPATH.CooL.Class )
+local Config = require( CLASSPATH.CooL.Config )
+local Data = require( CLASSPATH.CooL.Data )
 
 local Display = Class:extend( { className = "Display" } )
 
