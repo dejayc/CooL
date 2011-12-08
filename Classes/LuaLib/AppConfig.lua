@@ -18,9 +18,34 @@ function Config:setConfigSettings( configSettings )
     self.configSettings = configSettings
 end
 
-function Config:getImageSuffix()
+function Config:getImageSuffixes()
     return Data.selectByNestedIndex( self:getConfigSettings(),
         "content", "imageSuffix" )
+end
+
+function Config:getImageSuffixesSorted()
+    local imageSuffixes = self:getImageSuffixes()
+    if ( imageSuffixes == nil ) then return nil end
+
+    local imageScales = {}
+    local imageSuffixesByScale = {}
+    for suffix, scale in pairs( imageSuffixes ) do
+        if ( type( scale ) == "number" ) then
+            table.insert( imageScales, scale )
+            imageSuffixesByScale[ scale ] = suffix
+        end
+    end
+
+    table.sort( imageScales )
+
+    local imageSuffixesSorted = {}
+    for _, scale in pairs( imageScales ) do
+        table.insert( imageSuffixesSorted, {
+            scale = scale,
+            suffix = imageSuffixesByScale[ scale ] } )
+    end
+
+    return imageSuffixesSorted
 end
 
 function Config:getScalingAxis()
