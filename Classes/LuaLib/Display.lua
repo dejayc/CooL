@@ -46,6 +46,10 @@ function Display:debugScreenMetrics()
     io.write ", "
     io.write( self:getDynamicScale() )
     print ")"
+
+    io.write "dynamicImageSuffix: ("
+    io.write( table.concat( self:getDynamicImageSuffixes(), "," ) )
+    print ")"
 end
 
 function Display:getConfig()
@@ -142,19 +146,39 @@ function Display:getDynamicScale()
     return 1 / self:getDisplayScale()
 end
 
-function Display:getDynamicImageSuffix()
-    local dynamicScale = self:getDynamicScale()
+function Display:getDynamicImageSuffixes ( scale )
+    scale = scale or self:getDynamicScale()
 
-    if ( self.memoized.dynamicImageSuffix [ dynamicScale ] ~= nil )
+    if ( self.memoized.dynamicImageSuffix [ scale ] ~= nil )
     then
-        return self.memoized.dynamicImageSuffix [ dynamicScale ]
+        return self.memoized.dynamicImageSuffix [ scale ]
     end
 
-    local imageSuffixes = self:getConfig():getImageSuffix()
-    local imageSuffix = ""
+    local imageSuffixesSorted = self:getConfig():getImageSuffixesSorted()
+    local imageSuffixes = {}
 
-    self.memoized.dynamicImageSuffix [ dynamicScale ] = imageSuffix 
-    return imageSuffix
+    if ( imageSuffixesSorted ~= nil ) then
+        if ( scale >= 1 ) then
+            for _, entry in ipairs( imageSuffixesSorted ) do
+                if ( entry.scale > scale ) then break end
+
+                if ( entry.scale >= 1 ) then
+                    table.insert( imageSuffixes, 1, entry.suffix )
+                end
+            end
+        else
+            for _, entry in ipairs( imageSuffixesSorted ) do
+                if ( entry.scale > 1 ) then break end
+
+                if ( entry.scale >= scale ) then
+                    table.insert( imageSuffixes, entry.suffix )
+                end
+            end
+        end
+    end
+
+    self.memoized.dynamicImageSuffix [ scale ] = imageSuffixes
+    return imageSuffixes
 end
 
 return Display
