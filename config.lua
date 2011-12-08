@@ -23,15 +23,27 @@ application =
         width = 160,
         height = 480,
 
+--
+        width = 320,
+        height = 480,
+--
+
         scale = "none",
         scale = "letterbox",
         scale = "zoomEven",
         scale = "zoomStretch",
 
+--
+        scale = "zoomStretch",
+--
+
         imageSuffix =
         {
+            ["@160x240"] = 0.5,
             ["@320x480"] = 1,
             ["@640x960"] = 2,
+            ["@800x600"] = 2.5,
+            ["@960x1440"] = 3,
         },
     },
     LuaLib =
