@@ -7,9 +7,7 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-OS_PATH_SEP = package.config:sub( 1, 1 )
-
-local CooL = "Classes" .. OS_PATH_SEP .. "CooL" .. OS_PATH_SEP
+local CooL = "Classes.CooL."
 
 return {
     App = CooL .. "App",
