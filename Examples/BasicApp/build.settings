@@ -1,9 +1,14 @@
 settings = {
 	orientation =
 	{
+--[[ List of possible values for 'default'
 		default = "landscapeLeft",
 		default = "portrait",
 		default = "portraitUpsideDown",
+		default = "landscapeRight",
+--]]
+
+-- Particular 'default' value to be used for this app
 		default = "landscapeRight",
 	},
 	iphone =
