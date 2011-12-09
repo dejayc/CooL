@@ -67,17 +67,17 @@ function Display:refreshConfig()
 end
 
 function Display:getDisplayHeight()
-    return Data.roundNumber (
-        display.viewableContentHeight / display.contentScaleY, 2 )
+    return Data.roundNumber(
+        display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
 function Display:getDisplayWidth()
-    return Data.roundNumber (
-        display.viewableContentWidth / display.contentScaleX, 2 )
+    return Data.roundNumber(
+        display.viewableContentWidth / display.contentScaleX, 0 )
 end
 
 function Display:getDisplayScale()
-    if ( self.memoized.displayScale [ system.orientation ] ~= nil ) then
+    if ( self.memoized.displayScale[ system.orientation ] ~= nil ) then
         return self.memoized.displayScale [ system.orientation ]
     end
 
@@ -138,12 +138,12 @@ function Display:getDisplayScale()
         end
     end
 
-    self.memoized.displayScale [ system.orientation ] = scalingFactor
+    self.memoized.displayScale[ system.orientation ] = scalingFactor
     return scalingFactor 
 end
 
 function Display:getDynamicScale()
-    return 1 / self:getDisplayScale()
+    return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
 
 function Display:getDynamicImageSuffixes ( scale )

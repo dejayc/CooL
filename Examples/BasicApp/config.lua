@@ -73,6 +73,7 @@ application =
 -- A wide range of dynamic image resolution suffixes for testing
             ["@160x240"] = 0.5,
             ["@320x480"] = 1,
+            ["@480x720"] = 1.5,
             ["@640x960"] = 2,
             ["@800x600"] = 2.5,
             ["@960x1440"] = 3,
