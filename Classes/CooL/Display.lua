@@ -86,8 +86,10 @@ function Display:getDisplayWidth()
 end
 
 function Display:getDisplayScale()
-    if ( self.memoized.displayScale[ system.orientation ] ~= nil ) then
-        return self.memoized.displayScale [ system.orientation ]
+    local orientation = self:getEffectiveOrientation()
+
+    if ( self.memoized.displayScale[ orientation ] ~= nil ) then
+        return self.memoized.displayScale [ orientation ]
     end
 
     local scalingAxis = self:getConfig():getScalingAxis()
@@ -130,16 +132,14 @@ function Display:getDisplayScale()
     elseif ( scalingAxis == "contentWidth" ) then
         scalingFactor = widthScale
     elseif ( scalingAxis == "screenHeight" ) then
-        if ( ( system.orientation == "landscapeLeft" ) or
-             ( system.orientation == "landscapeRight" ) )
+        if ( orientation == "landscape" )
         then
             scalingFactor = heightScale
         else
             scalingFactor = widthScale
         end
     elseif ( scalingAxis == "screenWidth" ) then
-        if ( ( system.orientation == "landscapeLeft" ) or
-             ( system.orientation == "landscapeRight" ) )
+        if ( orientation == "landscape" )
         then
             scalingFactor = widthScale
         else
@@ -147,7 +147,7 @@ function Display:getDisplayScale()
         end
     end
 
-    self.memoized.displayScale[ system.orientation ] = scalingFactor
+    self.memoized.displayScale[ orientation ] = scalingFactor
     return scalingFactor 
 end
 
@@ -188,6 +188,16 @@ function Display:getDynamicImageSuffixes ( scale )
 
     self.memoized.dynamicImageSuffix [ scale ] = imageSuffixes
     return imageSuffixes
+end
+
+function Display:getEffectiveOrientation()
+    if ( ( system.orientation == "landscapeLeft" ) or
+         ( system.orientation == "landscapeRight" ) )
+    then
+        return "landscape"
+    else
+        return "portrait"
+    end
 end
 
 return Display
