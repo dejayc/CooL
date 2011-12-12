@@ -38,8 +38,8 @@ application =
     content =
     {
 --[[ List of common 'width/height' combinations for testing
-        width = 320,
-        height = 480,
+        width = 320, -- DEFAULT
+        height = 480, -- DEFAULT
 
         width = 640,
         height = 960,
@@ -64,8 +64,6 @@ application =
         width = 320,
         height = 480,
 
-        width = 320,
-        height = 320,
 --[[ List of possible 'scale' values
         scale = "none",
         scale = "letterbox",
@@ -75,7 +73,6 @@ application =
 
 -- Particular 'scale' value to use for this application
         scale = "letterbox",
-        scale = "zoomStretch",
 
         imageSuffix =
         {
@@ -104,18 +101,17 @@ application =
                     axis = "screenWidth",
                     axis = "screenHeight",
                     axis = "screenResMin",
-                    axis = "screenResMax",
+                    axis = "screenResMax", -- DEFAULT
 --]]
 
 -- Particular 'axis' value to use for this application
                     axis = "screenResMax",
-                    axis = "contentWidth",
 
                 },
 
 --[[ List of possible 'statusBar' values
                 statusBar = "dark",
-                statusBar = "default",
+                statusBar = "default", -- DEFAULT
                 statusBar = "hidden",
                 statusBar = "translucent",
 --]]
