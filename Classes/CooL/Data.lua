@@ -11,6 +11,21 @@ local CLASSPATH = require( "classpath" )
 
 local Data = {}
 
+function Data.getDefault( target, default )
+    if ( target ~= nil ) then return target end
+    return default
+end
+
+function Data.getDefaultIf( target, default, _if )
+    if ( not _if ) then return target end
+    return Data.getDefault( target, default )
+end
+
+function Data.ite( _if, _then, _else )
+    if ( _if ) then return _then end
+    return _else
+end
+
 -- Thanks to http://lua-users.org/wiki/SimpleRound
 function Data.roundNumber( num, idp )
     local mult = 10^( idp or 0 )
