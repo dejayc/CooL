@@ -57,9 +57,15 @@ function Config:getImageSuffixesSorted()
     return imageSuffixesSorted
 end
 
-function Config:getScalingAxis()
-    return Data.selectByNestedIndex( self:getConfigSettings(),
+function Config:getScalingAxis( useDefaultIfNil )
+    local scalingAxis = Data.selectByNestedIndex( self:getConfigSettings(),
         "CooL", "application", "display", "scaling", "axis" )
+
+    if ( scalingAxis == nil and
+         ( useDefaultIfNil or useDefaultIfNil == nil ) )
+    then
+        return self:getDefaultScalingAxis()
+    end
 end
 
 function Config:getDefaultScalingAxis()
