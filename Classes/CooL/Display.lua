@@ -124,14 +124,14 @@ function Display:getDisplayScale()
         else
             scalingFactor = heightScale
         end
-    elseif ( scalingAxis == "screenWidth" ) then
+    elseif ( scalingAxis == "widthScale" ) then
         if ( orientation == "landscape" )
         then
             scalingFactor = widthScale
         else
             scalingFactor = heightScale
         end
-    elseif ( scalingAxis == "screenHeight" ) then
+    elseif ( scalingAxis == "heightScale" ) then
         if ( orientation == "landscape" )
         then
             scalingFactor = heightScale

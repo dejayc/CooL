@@ -96,8 +96,8 @@ application =
 --[[ List of possible 'axis' values
                     axis = "minScale",
                     axis = "maxScale",
-                    axis = "screenWidth",
-                    axis = "screenHeight",
+                    axis = "widthScale",
+                    axis = "heightScale",
                     axis = "minResScale",
                     axis = "maxResScale", -- DEFAULT
 --]]
