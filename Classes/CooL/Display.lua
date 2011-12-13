@@ -148,12 +148,12 @@ function Display:getDynamicScale()
     return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
 
-function Display:getDynamicImageSuffixes ( scale )
+function Display:getDynamicImageSuffixes( scale )
     scale = scale or self:getDynamicScale()
 
-    if ( self.memoized.dynamicImageSuffixes [ scale ] ~= nil )
+    if ( self.memoized.dynamicImageSuffixes[ scale ] ~= nil )
     then
-        return self.memoized.dynamicImageSuffixes [ scale ]
+        return self.memoized.dynamicImageSuffixes[ scale ]
     end
 
     local imageSuffixesSorted = self:getConfig():getImageSuffixesSorted()
@@ -179,7 +179,7 @@ function Display:getDynamicImageSuffixes ( scale )
         end
     end
 
-    self.memoized.dynamicImageSuffixes [ scale ] = imageSuffixes
+    self.memoized.dynamicImageSuffixes[ scale ] = imageSuffixes
     return imageSuffixes
 end
 

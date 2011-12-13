@@ -27,6 +27,17 @@ function Config:setConfigSettings( configSettings )
     self.configSettings = configSettings
 end
 
+function Config:getImageDir( imageSuffix )
+    local imageDir = Data.selectByNestedIndex( self:getConfigSettings(),
+        "CooL", "application", "display", "scaling", "imageDir" )
+
+    if ( imageSuffix != nil ) then
+        imageDir = imageDir[ imageSuffix ]
+    end
+
+    return imageDir
+end
+
 function Config:getImageSuffixes()
     return Data.selectByNestedIndex( self:getConfigSettings(),
         "content", "imageSuffix" )
