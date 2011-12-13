@@ -94,8 +94,8 @@ application =
                 scaling =
                 {
 --[[ List of possible 'axis' values
-                    axis = "contentScaleMin",
-                    axis = "contentScaleMax",
+                    axis = "minScale",
+                    axis = "maxScale",
                     axis = "screenWidth",
                     axis = "screenHeight",
                     axis = "screenResMin",

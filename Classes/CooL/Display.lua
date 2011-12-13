@@ -112,13 +112,13 @@ function Display:getDisplayScale()
         else
             scalingFactor = widthScale
         end
-    elseif ( scalingAxis == "contentScaleMax" ) then
+    elseif ( scalingAxis == "maxScale" ) then
         if ( heightScale > widthScale ) then
             scalingFactor = widthScale
         else
             scalingFactor = heightScale
         end
-    elseif ( scalingAxis == "contentScaleMin" ) then
+    elseif ( scalingAxis == "minScale" ) then
         if ( heightScale < widthScale ) then
             scalingFactor = widthScale
         else
