@@ -71,7 +71,7 @@ function Display:setConfig( config )
 end
 
 function Display:refreshConfig()
-    self.memoized.displayScale = {}
+    self.memoized.displayScale =  nil
     self.memoized.dynamicImageSuffixes = {}
 end
 
@@ -88,8 +88,8 @@ end
 function Display:getDisplayScale()
     local orientation = self:getEffectiveOrientation()
 
-    if ( self.memoized.displayScale[ orientation ] ~= nil ) then
-        return self.memoized.displayScale [ orientation ]
+    if ( self.memoized.displayScale ~= nil ) then
+        return self.memoized.displayScale
     end
 
     local scalingAxis = self:getConfig():getScalingAxis()
@@ -140,7 +140,7 @@ function Display:getDisplayScale()
         end
     end
 
-    self.memoized.displayScale[ orientation ] = scalingFactor
+    self.memoized.displayScale = scalingFactor
     return scalingFactor 
 end
 
