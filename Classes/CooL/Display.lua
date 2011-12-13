@@ -57,7 +57,7 @@ function Display:debugScreenMetrics()
     print ")"
 
     io.write "dynamicImageSuffixes: ("
-    io.write( table.concat( self:getDynamicImageSuffixes(), "," ) )
+    io.write( table.concat( self:getDynamicImageSuffixes(), ", " ) )
     print ")"
 end
 
@@ -142,6 +142,17 @@ function Display:getDisplayScale()
 
     self.memoized.displayScale = scalingFactor
     return scalingFactor 
+end
+
+function Display:getDynamicImageFilename( filename, scale )
+    local imageSuffixes = self:getDynamicImageSuffixes( scale )
+    local imageDirs = {}
+
+    if ( imageSuffixes ~= nil ) then
+        for _, imageSuffix in ipairs( imageSuffixes ) do
+            imageDir = self:getConfig():getImageDir( imageSuffix )
+        end
+    end
 end
 
 function Display:getDynamicImageSuffixes( scale )
