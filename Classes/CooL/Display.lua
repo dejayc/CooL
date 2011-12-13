@@ -93,9 +93,6 @@ function Display:getDisplayScale()
     end
 
     local scalingAxis = self:getConfig():getScalingAxis()
-    if ( scalingAxis == nil ) then
-        scalingAxis = self:getConfig():getDefaultScalingAxis()
-    end
 
     local scalingFactor = 1
     local height = self:getDisplayHeight()
