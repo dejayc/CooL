@@ -86,7 +86,7 @@ function Display.getDisplayHeight()
 end
 
 function Display:getDisplayScale()
-    local orientation = self.getEffectiveOrientation()
+    local orientation = Display.getEffectiveOrientation()
 
     if ( self.memoized.displayScale ~= nil ) then
         return self.memoized.displayScale
@@ -95,9 +95,9 @@ function Display:getDisplayScale()
     local scalingAxis = self:getConfig():getScalingAxis()
 
     local scalingFactor = nil
-    local height = self.getDisplayHeight()
+    local height = Display.getDisplayHeight()
     local heightScale = display.contentScaleY
-    local width = self.getDisplayWidth()
+    local width = Display.getDisplayWidth()
     local widthScale = display.contentScaleX
 
     if ( scalingAxis == "minScale" ) then
