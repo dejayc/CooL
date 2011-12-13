@@ -56,7 +56,7 @@ function Display:debugScreenMetrics()
     io.write( self:getDynamicScale() )
     print ")"
 
-    io.write "dynamicImageSuffix: ("
+    io.write "dynamicImageSuffixes: ("
     io.write( table.concat( self:getDynamicImageSuffixes(), "," ) )
     print ")"
 end
@@ -72,7 +72,7 @@ end
 
 function Display:refreshConfig()
     self.memoized.displayScale = {}
-    self.memoized.dynamicImageSuffix = {}
+    self.memoized.dynamicImageSuffixes = {}
 end
 
 function Display:getDisplayHeight()
@@ -151,9 +151,9 @@ end
 function Display:getDynamicImageSuffixes ( scale )
     scale = scale or self:getDynamicScale()
 
-    if ( self.memoized.dynamicImageSuffix [ scale ] ~= nil )
+    if ( self.memoized.dynamicImageSuffixes [ scale ] ~= nil )
     then
-        return self.memoized.dynamicImageSuffix [ scale ]
+        return self.memoized.dynamicImageSuffixes [ scale ]
     end
 
     local imageSuffixesSorted = self:getConfig():getImageSuffixesSorted()
@@ -179,7 +179,7 @@ function Display:getDynamicImageSuffixes ( scale )
         end
     end
 
-    self.memoized.dynamicImageSuffix [ scale ] = imageSuffixes
+    self.memoized.dynamicImageSuffixes [ scale ] = imageSuffixes
     return imageSuffixes
 end
 
