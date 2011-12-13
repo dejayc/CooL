@@ -64,8 +64,10 @@ function Config:getScalingAxis( useDefaultIfNil )
     if ( scalingAxis == nil and
          ( useDefaultIfNil or useDefaultIfNil == nil ) )
     then
-        return self:getDefaultScalingAxis()
+        scalingAxis = self:getDefaultScalingAxis()
     end
+
+    return scalingAxis
 end
 
 function Config:getDefaultScalingAxis()

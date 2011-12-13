@@ -94,7 +94,7 @@ function Display:getDisplayScale()
 
     local scalingAxis = self:getConfig():getScalingAxis()
 
-    local scalingFactor = 1
+    local scalingFactor = nil
     local height = self:getDisplayHeight()
     local heightScale = display.contentScaleY
     local width = self:getDisplayWidth()
