@@ -75,14 +75,14 @@ function Display:refreshConfig()
     self.memoized.dynamicImageSuffixes = {}
 end
 
-function Display:getDisplayHeight()
-    return Data.roundNumber(
-        display.viewableContentHeight / display.contentScaleY, 0 )
-end
-
 function Display:getDisplayWidth()
     return Data.roundNumber(
         display.viewableContentWidth / display.contentScaleX, 0 )
+end
+
+function Display:getDisplayHeight()
+    return Data.roundNumber(
+        display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
 function Display:getDisplayScale()
@@ -144,10 +144,6 @@ function Display:getDisplayScale()
     return scalingFactor 
 end
 
-function Display:getDynamicScale()
-    return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
-end
-
 function Display:getDynamicImageSuffixes( scale )
     scale = scale or self:getDynamicScale()
 
@@ -181,6 +177,10 @@ function Display:getDynamicImageSuffixes( scale )
 
     self.memoized.dynamicImageSuffixes[ scale ] = imageSuffixes
     return imageSuffixes
+end
+
+function Display:getDynamicScale()
+    return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
 
 function Display:getEffectiveOrientation()
