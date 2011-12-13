@@ -96,10 +96,10 @@ application =
 --[[ List of possible 'axis' values
                     axis = "minScale",
                     axis = "maxScale",
-                    axis = "widthScale",
-                    axis = "heightScale",
                     axis = "minResScale",
                     axis = "maxResScale", -- DEFAULT
+                    axis = "widthScale",
+                    axis = "heightScale",
 --]]
 
 -- Particular 'axis' value to use for this application

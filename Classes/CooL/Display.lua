@@ -100,17 +100,11 @@ function Display:getDisplayScale()
     local width = self:getDisplayWidth()
     local widthScale = display.contentScaleX
 
-    if ( scalingAxis == "maxResScale" ) then
-        if ( height > width ) then
-            scalingFactor = heightScale
-        else
+    if ( scalingAxis == "minScale" ) then
+        if ( heightScale < widthScale ) then
             scalingFactor = widthScale
-        end
-    elseif ( scalingAxis == "minResScale" ) then
-        if ( height < width ) then
-            scalingFactor = heightScale
         else
-            scalingFactor = widthScale
+            scalingFactor = heightScale
         end
     elseif ( scalingAxis == "maxScale" ) then
         if ( heightScale > widthScale ) then
@@ -118,11 +112,17 @@ function Display:getDisplayScale()
         else
             scalingFactor = heightScale
         end
-    elseif ( scalingAxis == "minScale" ) then
-        if ( heightScale < widthScale ) then
-            scalingFactor = widthScale
-        else
+    elseif ( scalingAxis == "minResScale" ) then
+        if ( height < width ) then
             scalingFactor = heightScale
+        else
+            scalingFactor = widthScale
+        end
+    elseif ( scalingAxis == "maxResScale" ) then
+        if ( height > width ) then
+            scalingFactor = heightScale
+        else
+            scalingFactor = widthScale
         end
     elseif ( scalingAxis == "widthScale" ) then
         if ( orientation == "landscape" )
