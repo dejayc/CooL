@@ -13,7 +13,7 @@ local Data = require( CLASSPATH.CooL.Data )
 
 local Config = Class:extend( { className = "Config" } )
 
-local defaultScalingAxis = "screenResMax"
+local defaultScalingAxis = "maxResScale"
 
 function Config:init( configSettings )
     self:setConfigSettings( configSettings )

@@ -100,13 +100,13 @@ function Display:getDisplayScale()
     local width = self:getDisplayWidth()
     local widthScale = display.contentScaleX
 
-    if ( scalingAxis == "screenResMax" ) then
+    if ( scalingAxis == "maxResScale" ) then
         if ( height > width ) then
             scalingFactor = heightScale
         else
             scalingFactor = widthScale
         end
-    elseif ( scalingAxis == "screenResMin" ) then
+    elseif ( scalingAxis == "minResScale" ) then
         if ( height < width ) then
             scalingFactor = heightScale
         else

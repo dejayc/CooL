@@ -98,12 +98,12 @@ application =
                     axis = "maxScale",
                     axis = "screenWidth",
                     axis = "screenHeight",
-                    axis = "screenResMin",
-                    axis = "screenResMax", -- DEFAULT
+                    axis = "minResScale",
+                    axis = "maxResScale", -- DEFAULT
 --]]
 
 -- Particular 'axis' value to use for this application
-                    axis = "screenResMax",
+                    axis = "maxResScale",
 
                 },
 
