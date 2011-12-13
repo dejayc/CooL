@@ -7,8 +7,6 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-OS_PATH_SEP = package.config:sub( 1, 1 )
-
 return {
     root = "Classes",
     CooL = require( "Classes.CooL.classpath" ),
