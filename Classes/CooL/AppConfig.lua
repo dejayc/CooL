@@ -31,7 +31,7 @@ function Config:getImageDir( imageSuffix )
     local imageDir = Data.selectByNestedIndex( self:getConfigSettings(),
         "CooL", "application", "display", "scaling", "imageDir" )
 
-    if ( imageSuffix != nil ) then
+    if ( imageSuffix ~= nil ) then
         imageDir = imageDir[ imageSuffix ]
     end
 

@@ -75,18 +75,18 @@ function Display:refreshConfig()
     self.memoized.dynamicImageSuffixes = {}
 end
 
-function Display:getDisplayWidth()
+function Display.getDisplayWidth()
     return Data.roundNumber(
         display.viewableContentWidth / display.contentScaleX, 0 )
 end
 
-function Display:getDisplayHeight()
+function Display.getDisplayHeight()
     return Data.roundNumber(
         display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
 function Display:getDisplayScale()
-    local orientation = self:getEffectiveOrientation()
+    local orientation = self.getEffectiveOrientation()
 
     if ( self.memoized.displayScale ~= nil ) then
         return self.memoized.displayScale
@@ -95,9 +95,9 @@ function Display:getDisplayScale()
     local scalingAxis = self:getConfig():getScalingAxis()
 
     local scalingFactor = nil
-    local height = self:getDisplayHeight()
+    local height = self.getDisplayHeight()
     local heightScale = display.contentScaleY
-    local width = self:getDisplayWidth()
+    local width = self.getDisplayWidth()
     local widthScale = display.contentScaleX
 
     if ( scalingAxis == "minScale" ) then
@@ -183,7 +183,7 @@ function Display:getDynamicScale()
     return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
 
-function Display:getEffectiveOrientation()
+function Display.getEffectiveOrientation()
     if ( ( system.orientation == "landscapeLeft" ) or
          ( system.orientation == "landscapeRight" ) )
     then
