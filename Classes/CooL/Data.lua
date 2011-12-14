@@ -11,6 +11,47 @@ local CLASSPATH = require( "classpath" )
 
 local Data = {}
 
+-- Thanks to http://stackoverflow.com/a/664611/111948
+-- Thanks to http://lua-users.org/wiki/CopyTable
+function Data.copy( object )
+    if ( type( object ) ~= "table" ) then
+        return object
+    end
+
+    local copy = {}
+    for index, value in pairs( object ) do
+        copy[ index ] = value
+    end
+
+    return setmetatable( copy, getmetatable( object ) )
+end
+
+-- Thanks to http://lua-users.org/wiki/CopyTable
+function Data.copyDeep( table )
+    local lookupTable = {}
+
+    local function _copy( object )
+        if ( type( object ) ~= "table" ) then
+            return object
+        end
+
+        if ( lookupTable[ object ] ) then
+            return lookupTable[ object ]
+        end
+
+        local copy = {}
+        lookupTable[ object ] = copy
+
+        for index, value in pairs( object ) do
+            copy[ _copy( index) ] = _copy( value )
+        end
+
+        return setmetatable( copy, getmetatable( object ) )
+    end
+
+    return _copy( object )
+end
+
 function Data.getDefault( target, default )
     if ( target ~= nil ) then return target end
     return default
