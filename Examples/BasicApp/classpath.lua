@@ -9,5 +9,5 @@
 
 return {
     root = "Classes",
-    CooL = require( "Classes.CooL.classpath" ),
+    CooL = require( "Classes.classpath" ),
 }
