@@ -7,8 +7,7 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-CooL =
-{
+return {
     display =
     {
         scaling =
@@ -24,6 +23,7 @@ CooL =
 
 -- Particular 'axis' value to use for this application
             axis = "maxResScale",
+        },
 
 --[[ List of possible 'statusBar' values
         statusBar = "dark",
@@ -36,5 +36,3 @@ CooL =
         statusBar = "hidden",
     },
 }
-
-return CooL 

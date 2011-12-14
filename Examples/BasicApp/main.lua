@@ -14,7 +14,7 @@ Please make sure that 'config.lua' is symlinked or copied to
 'config-Corona.lua'!
 ]]
 
-local CoronaConfig = require( CLASSPATH.CooL.CoronaConfig, "hello" )
+local CoronaConfig = require( CLASSPATH.CooL.CoronaConfig )
 local coronaConfig = CoronaConfig:new()
 coronaConfig:init( require( "config-Corona" ) )
 
