@@ -15,4 +15,5 @@ return {
     Class = CooL .. "Class",
     Data = CooL .. "Data",
     Display = CooL .. "Display",
+    File = CooL .. "File",
 }
