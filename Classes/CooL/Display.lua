@@ -11,6 +11,7 @@ local CLASSPATH = require( "classpath" )
 local Class = require( CLASSPATH.CooL.Class )
 local Config = require( CLASSPATH.CooL.Config )
 local Data = require( CLASSPATH.CooL.Data )
+local File = require( CLASSPATH.CooL.File )
 
 local Display = Class:extend( { className = "Display" } )
 
@@ -144,15 +145,42 @@ function Display:getDisplayScale()
     return scalingFactor 
 end
 
-function Display:getDynamicImageFilename( filename, scale )
-    local imageSuffixes = self:getDynamicImageSuffixes( scale )
-    local imageDirs = {}
+function Display:getImageFilenameWithSuffix(
+    imageFileName, imageRootPath, coronaPathType, scale
+)
+    if ( imageFileName == nil or imageFilename == "" ) then return nil end
 
-    if ( imageSuffixes ~= nil ) then
-        for _, imageSuffix in ipairs( imageSuffixes ) do
-            imageDir = self:getConfig():getImageDir( imageSuffix )
-        end
+    if ( imageRootPath ~= nil ) then
+        imageRootPath = imageRootPath .. File.PATH_SEPARATOR
+    else
+        imageRootPath = ""
     end
+
+    local imageSuffixes = self:getDynamicImageSuffixes( scale )
+    if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 )
+    then
+        local imageDir = self:getConfig():getImageDir()
+
+        if ( imageDir ~= nil ) then
+            imageRootPath = imageRootPath .. imageDir .. File.PATH_SEPARATOR
+        end
+
+        return File.getFilePath(
+            imageRootPath .. imageFilename, coronaPathType )
+    end
+
+    local _, _, imagePrefix, imageExt = string.find(
+        imageFileName, "^(.*)%.(.-)$" )
+
+    for _, imageSuffix in ipairs( imageSuffixes ) do
+        local filePath = File.getFilePath(
+            imageRootPath .. imagePrefix .. imageSuffix ..  "." .. imageExt,
+            coronaPathType )
+
+        if ( filePath ~= nil ) then return filePath end
+    end
+
+    return File.getFilePath( imageRootPath .. imageFileName, coronaPathType )
 end
 
 function Display:getDynamicImageSuffixes( scale )
