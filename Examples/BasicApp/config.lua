@@ -21,7 +21,7 @@
 
     Instead of requiring developers to maintain a separate configuration file
     that contains a copy of the relevant 'config.lua' settings, the developer
-    can create a symlink of 'config.lua', such as 'config-local.lua', and
+    can create a symlink of 'config.lua', such as 'config-Corona.lua', and
     then 'require' that symlinked file.  The symlinked file will be compiled
     to the target device during the build process.
 
@@ -84,40 +84,7 @@ application =
             [ "@800x600" ] = 2.5,
             [ "@960x1440" ] = 3,
         },
-    },
-    CooL =
-    {
-        application =
-        {
-            display =
-            {
-                scaling =
-                {
---[[ List of possible 'axis' values
-                    axis = "minScale",
-                    axis = "maxScale",
-                    axis = "minResScale",
-                    axis = "maxResScale", -- DEFAULT
-                    axis = "widthScale",
-                    axis = "heightScale",
---]]
-
--- Particular 'axis' value to use for this application
-                    axis = "maxResScale",
-
---[[ List of possible 'statusBar' values
-                statusBar = "dark",
-                statusBar = "default", -- DEFAULT
-                statusBar = "hidden",
-                statusBar = "translucent",
---]]
-
--- Particular 'statusBar' value to use for this application
-                statusBar = "hidden",
-            },
-        },
-    },
+    }
 }
 
--- Please remember to include the following line in all 'config.lua' files!
 return application
