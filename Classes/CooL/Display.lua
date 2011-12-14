@@ -40,9 +40,9 @@ function Display:debugScreenMetrics()
     print( system.orientation )
 
     io.write "(displayWidth, displayHeight): ("
-    io.write( self:getDisplayWidth() )
+    io.write( self.getDisplayWidth() )
     io.write ", "
-    io.write( self:getDisplayHeight() )
+    io.write( self.getDisplayHeight() )
     print ")"
 
     io.write "display.(contentScaleX, contentScaleY): ("
