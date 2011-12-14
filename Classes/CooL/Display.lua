@@ -145,10 +145,10 @@ function Display:getDisplayScale()
     return scalingFactor 
 end
 
-function Display:getImageFilenameWithSuffix(
+function Display:getImageFileNameWithSuffix(
     imageFileName, imageRootPath, coronaPathType, scale
 )
-    if ( imageFileName == nil or imageFilename == "" ) then return nil end
+    if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
     if ( imageRootPath ~= nil ) then
         imageRootPath = imageRootPath .. File.PATH_SEPARATOR
@@ -166,7 +166,7 @@ function Display:getImageFilenameWithSuffix(
         end
 
         return File.getFilePath(
-            imageRootPath .. imageFilename, coronaPathType )
+            imageRootPath .. imageFileName, coronaPathType )
     end
 
     local _, _, imagePrefix, imageExt = string.find(
