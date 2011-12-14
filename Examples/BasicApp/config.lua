@@ -105,18 +105,6 @@ application =
 -- Particular 'axis' value to use for this application
                     axis = "maxResScale",
 
--- Subdirectories under which various scaled images appear; optional
-                    imageDir =
-                    {
-                        [ "@160x240" ] = "160x240",
-                        [ "@320x480" ] = "320x480",
-                        [ "@480x720" ] = "480x720",
-                        [ "@640x960" ] = "640x960",
-                        [ "@800x600" ] = "800x600",
-                        [ "@960x1440" ] = "960x1440",
-                    },
-                },
-
 --[[ List of possible 'statusBar' values
                 statusBar = "dark",
                 statusBar = "default", -- DEFAULT
