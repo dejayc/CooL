@@ -9,7 +9,7 @@
 
 local CLASSPATH = require( "classpath" )
 local Class = require( CLASSPATH.CooL.Class )
-local Config = require( CLASSPATH.CooL.Config )
+local Config = require( CLASSPATH.CooL.CoronaConfig )
 local Data = require( CLASSPATH.CooL.Data )
 local File = require( CLASSPATH.CooL.File )
 
