@@ -7,13 +7,14 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-local CooL = "Classes.CooL."
+local _, _, INCLUDE_PATH = string.find( ..., "^(.*%.).-$" )
+if ( INCLUDE_PATH == nil ) then INCLUDE_PATH = "" end
 
 return {
-    App = CooL .. "App",
-    Config = CooL .. "AppConfig",
-    Class = CooL .. "Class",
-    Data = CooL .. "Data",
-    Display = CooL .. "Display",
-    File = CooL .. "File",
+    App = INCLUDE_PATH .. "App",
+    Class = INCLUDE_PATH .. "Class",
+    CoronaConfig = INCLUDE_PATH .. "CoronaConfig",
+    Data = INCLUDE_PATH .. "Data",
+    Display = INCLUDE_PATH .. "Display",
+    File = INCLUDE_PATH .. "File",
 }
