@@ -7,22 +7,27 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-local _, _, THIS_PACKAGE_PREFIX = string.find( ..., "^(.*%.).-$" )
-if ( THIS_PACKAGE_PREFIX == nil ) then THIS_PACKAGE_PREFIX = "" end
+-- Define CooL globals, and determine current package path
+PACKAGE_CLASS_PATTERN = "^.*%.(.-)$"
+PACKAGE_PATH_PATTERN = "^(.*%.).-$"
 
--- Globals
-COOL_PACKAGE_PREFIX = THIS_PACKAGE_PREFIX
-COOL_CLASS_PACKAGE = COOL_PACKAGE_PREFIX .. "Class"
-require( THIS_PACKAGE_PREFIX .. "globals" )
+local _, _, packagePath = string.find( ..., PACKAGE_PATH_PATTERN )
+if ( packagePath == nil ) then packagePath = "" end
+
+COOL_PACKAGE_PATH = packagePath
+COOL_CLASS_PACKAGE = COOL_PACKAGE_PATH .. "Class"
+
+-- Load CooL 'Globals' file
+require( packagePath .. "globals" )
 
 -- CooL Classpaths
 return {
-    App = THIS_PACKAGE_PREFIX .. "App",
+    App = packagePath .. "App",
     Class = COOL_CLASS_PACKAGE,
-    Config = THIS_PACKAGE_PREFIX .. "Config",
-    Data = THIS_PACKAGE_PREFIX .. "Data",
-    Display = THIS_PACKAGE_PREFIX .. "Display",
-    File = THIS_PACKAGE_PREFIX .. "File",
-    FrameworkConfig = THIS_PACKAGE_PREFIX .. "FrameworkConfig",
-    PlatformConfig = THIS_PACKAGE_PREFIX .. "PlatformConfig",
+    Config = packagePath .. "Config",
+    Data = packagePath .. "Data",
+    Display = packagePath .. "Display",
+    File = packagePath .. "File",
+    FrameworkConfig = packagePath .. "FrameworkConfig",
+    PlatformConfig = packagePath .. "PlatformConfig",
 }
