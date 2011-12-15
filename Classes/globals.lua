@@ -8,11 +8,11 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 function cast( name, ... )
-    return require( name ):new( ... )
+    return require( name ):cast( ... )
 end
 
 function new( name, ... )
-    return require( name ):new( nil, ... )
+    return require( name ):new( ... )
 end
 
 function extend( name, ... )

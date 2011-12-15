@@ -9,6 +9,13 @@
 
 local Class = { className = "Class" }
 
+function Class:cast( object )
+    object = object or {}
+    setmetatable( object, getmetatable( self.class ))
+
+    return object
+end
+
 function Class:cloneMetatable( source )
     local sourceMetatable = getmetatable( source )
     local targetMetatable = {}
@@ -60,11 +67,12 @@ function Class:extend( object )
     return object
 end
 
-function Class:new( object )
-    object = object or {}
-    setmetatable( object, getmetatable( self.class ))
-
-    return object
+--[[
+    'Class:new' is the same as 'Class:cast', except that a new object instance
+    is always created.
+--]]
+function Class:new()
+    return self:cast( {} )
 end
 
 function Class:__tostring()
