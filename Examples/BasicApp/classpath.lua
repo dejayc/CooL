@@ -9,5 +9,9 @@
 
 return {
     root = "Classes",
+    config = {
+        framework = "config-framework",
+        platform = "config-platform",
+    },
     CooL = require( "Classes.classpath" ),
 }

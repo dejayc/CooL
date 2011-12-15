@@ -13,8 +13,8 @@ if ( INCLUDE_PATH == nil ) then INCLUDE_PATH = "" end
 return {
     App = INCLUDE_PATH .. "App",
     Class = INCLUDE_PATH .. "Class",
-    CoronaConfig = INCLUDE_PATH .. "CoronaConfig",
     Data = INCLUDE_PATH .. "Data",
     Display = INCLUDE_PATH .. "Display",
     File = INCLUDE_PATH .. "File",
+    PlatformConfig = INCLUDE_PATH .. "PlatformConfig",
 }

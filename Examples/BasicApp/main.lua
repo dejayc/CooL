@@ -9,23 +9,22 @@
 
 local CLASSPATH = require( "classpath" )
 
-print [[
-Please make sure that 'config.lua' is symlinked or copied to
-'config-Corona.lua'!
-]]
+io.flush()
+print( string.format( [[
+Please make sure that 'config.lua' is symlinked or copied to '%s'!
 
-local CoronaConfig = require( CLASSPATH.CooL.CoronaConfig )
-local coronaConfig = CoronaConfig:new()
-coronaConfig:init( require( "config-Corona" ) )
-
-print [[
 This basic app isn't very visual, but debugging print statements will reveal
 screen statistics when you rotate the hardware in the Corona simulator.
-]]
+]],
+tostring( CLASSPATH.config.platform ) ) )
+
+local PlatformConfig = require( CLASSPATH.CooL.PlatformConfig )
+local platformConfig = PlatformConfig:new()
+platformConfig:init( require( CLASSPATH.config.platform ) )
 
 local App = require( CLASSPATH.CooL.App )
 local app = App:new()
-app:init( coronaConfig )
+app:init( platformConfig )
 
 local function createDisplayReadout()
     local textObj = display.newText(
