@@ -7,14 +7,26 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-function cast( name, ... )
-    return require( name ):cast( ... )
+function cast( target, ... )
+    if ( type( target ) == "string" ) then target = require( target ) end
+    return target:cast( ... )
 end
 
-function new( name, ... )
-    return require( name ):new( ... )
+function cast( target, ... )
+    if ( type( target ) == "string" ) then target = require( target ) end
+    return target:cast( ... )
 end
 
-function extend( name, ... )
-    return require( name ):extend( ... )
+function class( ... )
+    return require( COOL_CLASS_PACKAGE ):extend( ... )
+end
+
+function new( target, ... )
+    if ( type( target ) == "string" ) then target = require( target ) end
+    return target:new( ... )
+end
+
+function extend( target, ... )
+    if ( type( target ) == "string" ) then target = require( target ) end
+    return target:extend( ... )
 end
