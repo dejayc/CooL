@@ -21,8 +21,11 @@ tostring( CLASSPATH.config.platform ) ) )
 local platformConfig = new( CLASSPATH.CooL.PlatformConfig )
 platformConfig:init( require( CLASSPATH.config.platform ) )
 
+local frameworkConfig = new( CLASSPATH.CooL.FrameworkConfig )
+frameworkConfig:init( require( CLASSPATH.config.framework ) )
+
 local app = new( CLASSPATH.CooL.App )
-app:init( platformConfig )
+app:init( platformConfig, frameworkConfig )
 
 local function createDisplayReadout()
     local textObj = display.newText(

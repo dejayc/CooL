@@ -8,57 +8,13 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Data = require( CLASSPATH.CooL.Data )
 
-local FrameworkConfig = autoclass( packagePath ( ... ) )
+local FrameworkConfig = autoextend( CLASSPATH.CooL.Config, packagePath ( ... ) )
 
 local defaultScalingAxis = "maxResScale"
 
-function Config:init( configSettings )
-    self:setConfigSettings( configSettings )
-end
-
-function Config:getConfigSettings()
-    return self.configSettings
-end
-
-function Config:setConfigSettings( configSettings )
-    self.configSettings = configSettings
-end
-
-function Config:getImageSuffixes()
-    return Data.selectByNestedIndex( self:getConfigSettings(),
-        "content", "imageSuffix" )
-end
-
-function Config:getImageSuffixesSorted()
-    local imageSuffixes = self:getImageSuffixes()
-    if ( imageSuffixes == nil ) then return nil end
-
-    local imageScales = {}
-    local imageSuffixesByScale = {}
-    for suffix, scale in pairs( imageSuffixes ) do
-        if ( type( scale ) == "number" ) then
-            table.insert( imageScales, scale )
-            imageSuffixesByScale[ scale ] = suffix
-        end
-    end
-
-    table.sort( imageScales )
-
-    local imageSuffixesSorted = {}
-    for _, scale in pairs( imageScales ) do
-        table.insert( imageSuffixesSorted, {
-            scale = scale,
-            suffix = imageSuffixesByScale[ scale ] } )
-    end
-
-    return imageSuffixesSorted
-end
-
-function Config:getScalingAxis( useDefaultIfNil )
-    local scalingAxis = Data.selectByNestedIndex( self:getConfigSettings(),
-        "CooL", "application", "display", "scaling", "axis" )
+function FrameworkConfig:getScalingAxis( useDefaultIfNil )
+    local scalingAxis = self:getValue( "display", "scaling", "axis" )
 
     if ( scalingAxis == nil and
          ( useDefaultIfNil or useDefaultIfNil == nil ) )
@@ -69,13 +25,12 @@ function Config:getScalingAxis( useDefaultIfNil )
     return scalingAxis
 end
 
-function Config:getDefaultScalingAxis()
+function FrameworkConfig:getDefaultScalingAxis()
     return defaultScalingAxis
 end
 
-function Config:getStatusBar()
-    return Data.selectByNestedIndex( self:getConfigSettings(),
-        "CooL", "application", "display", "statusBar" )
+function FrameworkConfig:getStatusBar()
+    return self:getValue( "display", "statusBar" )
 end
 
-return Config
+return FrameworkConfig

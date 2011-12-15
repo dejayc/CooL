@@ -8,17 +8,16 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Config = require( CLASSPATH.CooL.PlatformConfig )
 local Data = require( CLASSPATH.CooL.Data )
 local File = require( CLASSPATH.CooL.File )
 
 local Display = autoclass( packagePath ( ... ) )
 
-function Display:init( config )
+function Display:init( app )
     self.memoized = self.memoized or {}
-    self:setConfig( config )
+    self:setApp( app )
 
-    local statusBar = self:getConfig():getStatusBar()
+    local statusBar = self:getApp():getFrameworkConfig():getStatusBar()
 
     if ( statusBar == "hidden" )
     then
@@ -61,12 +60,12 @@ function Display:debugScreenMetrics()
     print ")"
 end
 
-function Display:getConfig()
-    return self.config
+function Display:getApp()
+    return self.app
 end
 
-function Display:setConfig( config )
-    self.config = config
+function Display:setApp( app )
+    self.app = app
     self:refreshConfig()
 end
 
@@ -92,7 +91,7 @@ function Display:getDisplayScale()
         return self.memoized.displayScale
     end
 
-    local scalingAxis = self:getConfig():getScalingAxis()
+    local scalingAxis = self:getApp():getFrameworkConfig():getScalingAxis()
 
     local scalingFactor = nil
     local height = Display.getDisplayHeight()
@@ -158,12 +157,6 @@ function Display:getImageFileNameWithSuffix(
     local imageSuffixes = self:getDynamicImageSuffixes( scale )
     if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 )
     then
-        local imageDir = self:getConfig():getImageDir()
-
-        if ( imageDir ~= nil ) then
-            imageRootPath = imageRootPath .. imageDir .. File.PATH_SEPARATOR
-        end
-
         return File.getFilePath(
             imageRootPath .. imageFileName, coronaPathType )
     end
@@ -190,8 +183,9 @@ function Display:getDynamicImageSuffixes( scale )
         return self.memoized.dynamicImageSuffixes[ scale ]
     end
 
-    local imageSuffixesSorted = self:getConfig():getImageSuffixesSorted()
     local imageSuffixes = {}
+    local imageSuffixesSorted =
+        self:getApp():getPlatformConfig():getImageSuffixesSorted()
 
     if ( imageSuffixesSorted ~= nil ) then
         if ( scale >= 1 ) then

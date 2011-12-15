@@ -25,7 +25,7 @@ function Config:setValues( values )
 end
 
 function Config:getValue( ... )
-    return Data.selectByNestedIndex( self.getValues(), ... )
+    return Data.selectByNestedIndex( self:getValues(), ... )
 end
 
 return Config

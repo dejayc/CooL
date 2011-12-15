@@ -8,16 +8,16 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Display = require( CLASSPATH.CooL.Display )
 
 local App = autoclass( packagePath ( ... ) )
 
-function App:init( config )
+function App:init( platformConfig, frameworkConfig )
     io.flush()
 
-    self:setConfig( config )
-    self:setDisplay( Display:new() )
-    self:getDisplay():init( self:getConfig() )
+    self:setPlatformConfig( platformConfig )
+    self:setFrameworkConfig( frameworkConfig )
+    self:setDisplay( new( CLASSPATH.CooL.Display ) )
+    self:getDisplay():init( self )
 
     Runtime:addEventListener( "orientation",
         function( event ) self:onOrientationChange( event ) end
@@ -29,15 +29,27 @@ function App:onOrientationChange( event )
     self:getDisplay():debugScreenMetrics()
 end
 
-function App:getConfig()
-    return self.config
+function App:getFrameworkConfig()
+    return self.frameworkConfig
 end
 
-function App:setConfig( config )
-    self.config = config
+function App:setFrameworkConfig( frameworkConfig )
+    self.frameworkConfig = frameworkConfig
 
-    if (self:getDisplay() ~= nil ) then
-        self:getDisplay():setConfig( config )
+    if ( self:getDisplay() ~= nil ) then
+        self:getDisplay():refreshConfig()
+    end
+end
+
+function App:getPlatformConfig()
+    return self.platformConfig
+end
+
+function App:setPlatformConfig( platformConfig )
+    self.platformConfig = platformConfig
+
+    if ( self:getDisplay() ~= nil ) then
+        self:getDisplay():refreshConfig()
     end
 end
 
