@@ -8,10 +8,9 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Class = require( CLASSPATH.CooL.Class )
 local Display = require( CLASSPATH.CooL.Display )
 
-local App = Class:extend( { className = "App" } )
+local App = class( { className = "App" } )
 
 function App:init( config )
     io.flush()

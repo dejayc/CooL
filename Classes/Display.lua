@@ -8,12 +8,11 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Class = require( CLASSPATH.CooL.Class )
 local Config = require( CLASSPATH.CooL.PlatformConfig )
 local Data = require( CLASSPATH.CooL.Data )
 local File = require( CLASSPATH.CooL.File )
 
-local Display = Class:extend( { className = "Display" } )
+local Display = class( { className = "Display" } )
 
 function Display:init( config )
     self.memoized = self.memoized or {}

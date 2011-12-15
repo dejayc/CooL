@@ -18,12 +18,10 @@ screen statistics when you rotate the hardware in the Corona simulator.
 ]],
 tostring( CLASSPATH.config.platform ) ) )
 
-local PlatformConfig = require( CLASSPATH.CooL.PlatformConfig )
-local platformConfig = PlatformConfig:new()
+local platformConfig = new( CLASSPATH.CooL.PlatformConfig )
 platformConfig:init( require( CLASSPATH.config.platform ) )
 
-local App = require( CLASSPATH.CooL.App )
-local app = App:new()
+local app = new( CLASSPATH.CooL.App )
 app:init( platformConfig )
 
 local function createDisplayReadout()

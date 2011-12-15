@@ -8,10 +8,9 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Class = require( CLASSPATH.CooL.Class )
 local Data = require( CLASSPATH.CooL.Data )
 
-local Config = Class:extend( { className = "Config" } )
+local Config = class( { className = "Config" } )
 
 local defaultScalingAxis = "maxResScale"
 
