@@ -7,7 +7,7 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-local _, _, INCLUDE_PATH = string.find( arg[ 1], "^(.*%.).-$" )
+local _, _, INCLUDE_PATH = string.find( ..., "^(.*%.).-$" )
 if ( INCLUDE_PATH == nil ) then INCLUDE_PATH = "" end
 
 require( INCLUDE_PATH .. "globals" )
