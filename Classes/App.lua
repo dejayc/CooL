@@ -10,7 +10,7 @@
 local CLASSPATH = require( "classpath" )
 local Display = require( CLASSPATH.CooL.Display )
 
-local App = class( { className = "App" } )
+local App = autoclass( packagePath ( ... ) )
 
 function App:init( config )
     io.flush()

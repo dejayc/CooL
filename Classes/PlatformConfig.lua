@@ -10,7 +10,7 @@
 local CLASSPATH = require( "classpath" )
 local Data = require( CLASSPATH.CooL.Data )
 
-local Config = class( { className = "Config" } )
+local Config = autoclass( packagePath ( ... ) )
 
 local defaultScalingAxis = "maxResScale"
 

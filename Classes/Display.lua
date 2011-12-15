@@ -12,7 +12,7 @@ local Config = require( CLASSPATH.CooL.PlatformConfig )
 local Data = require( CLASSPATH.CooL.Data )
 local File = require( CLASSPATH.CooL.File )
 
-local Display = class( { className = "Display" } )
+local Display = autoclass( packagePath ( ... ) )
 
 function Display:init( config )
     self.memoized = self.memoized or {}

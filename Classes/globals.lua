@@ -7,6 +7,12 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+function autoclass( name, object, ... )
+    if ( object == nil ) then object = {} end
+    object.className = className( name )
+    return require( COOL_CLASS_PACKAGE ):extend( object, ... )
+end
+
 function cast( target, ... )
     if ( type( target ) == "string" ) then target = require( target ) end
     return target:cast( ... )
@@ -35,4 +41,8 @@ end
 function packageName( packagePath )
     local _, _, name = string.find( packagePath, PACKAGE_PATH_PATTERN )
     return name
+end
+
+function packagePath( ... )
+    return arg[ 1 ]
 end
