@@ -10,7 +10,13 @@
 function autoclass( name, object, ... )
     if ( object == nil ) then object = {} end
     object.className = className( name )
-    return require( COOL_CLASS_PACKAGE ):extend( object, ... )
+    return class( object, ... )
+end
+
+function autoextend( target, name, object, ... )
+    if ( object == nil ) then object = {} end
+    object.className = className( name )
+    return extend( target, object, ... )
 end
 
 function cast( target, ... )
