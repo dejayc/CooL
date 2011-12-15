@@ -12,21 +12,16 @@ function cast( target, ... )
     return target:cast( ... )
 end
 
-function cast( target, ... )
-    if ( type( target ) == "string" ) then target = require( target ) end
-    return target:cast( ... )
-end
-
 function class( ... )
     return require( COOL_CLASS_PACKAGE ):extend( ... )
-end
-
-function new( target, ... )
-    if ( type( target ) == "string" ) then target = require( target ) end
-    return target:new( ... )
 end
 
 function extend( target, ... )
     if ( type( target ) == "string" ) then target = require( target ) end
     return target:extend( ... )
+end
+
+function new( target, ... )
+    if ( type( target ) == "string" ) then target = require( target ) end
+    return target:new( ... )
 end
