@@ -12,70 +12,20 @@ local Data = require( CLASSPATH.CooL.Data )
 
 local Config = class( { className = "Config" } )
 
-local defaultScalingAxis = "maxResScale"
-
-function Config:init( configSettings )
-    self:setConfigSettings( configSettings )
+function Config:init( values )
+    self:setValues( values )
 end
 
-function Config:getConfigSettings()
-    return self.configSettings
+function Config:getValues()
+    return self.values
 end
 
-function Config:setConfigSettings( configSettings )
-    self.configSettings = configSettings
+function Config:setValues( values )
+    self.values = values
 end
 
-function Config:getImageSuffixes()
-    return Data.selectByNestedIndex( self:getConfigSettings(),
-        "content", "imageSuffix" )
-end
-
-function Config:getImageSuffixesSorted()
-    local imageSuffixes = self:getImageSuffixes()
-    if ( imageSuffixes == nil ) then return nil end
-
-    local imageScales = {}
-    local imageSuffixesByScale = {}
-    for suffix, scale in pairs( imageSuffixes ) do
-        if ( type( scale ) == "number" ) then
-            table.insert( imageScales, scale )
-            imageSuffixesByScale[ scale ] = suffix
-        end
-    end
-
-    table.sort( imageScales )
-
-    local imageSuffixesSorted = {}
-    for _, scale in pairs( imageScales ) do
-        table.insert( imageSuffixesSorted, {
-            scale = scale,
-            suffix = imageSuffixesByScale[ scale ] } )
-    end
-
-    return imageSuffixesSorted
-end
-
-function Config:getScalingAxis( useDefaultIfNil )
-    local scalingAxis = Data.selectByNestedIndex( self:getConfigSettings(),
-        "CooL", "application", "display", "scaling", "axis" )
-
-    if ( scalingAxis == nil and
-         ( useDefaultIfNil or useDefaultIfNil == nil ) )
-    then
-        scalingAxis = self:getDefaultScalingAxis()
-    end
-
-    return scalingAxis
-end
-
-function Config:getDefaultScalingAxis()
-    return defaultScalingAxis
-end
-
-function Config:getStatusBar()
-    return Data.selectByNestedIndex( self:getConfigSettings(),
-        "CooL", "application", "display", "statusBar" )
+function Config:getValue( ... )
+    return Data.selectByNestedIndex( self.getValues(), ... )
 end
 
 return Config
