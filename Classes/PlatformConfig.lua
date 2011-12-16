@@ -63,8 +63,11 @@ function CLASS:getImageFileNameForScale(
         end
     end
 
+    local filePath = File.getFilePath(
+        imageRootPath .. imageFileName, coronaPathType )
+
     self.memoized.imageFileNameForScale[ memoizeIndex ] = filePath
-    return File.getFilePath( imageRootPath .. imageFileName, coronaPathType )
+    return filePath
 end
 
 function CLASS:getImageSuffixes()
