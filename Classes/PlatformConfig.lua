@@ -42,32 +42,32 @@ function CLASS:getImageFileNameForScale(
     local imageSuffixes = self:getImageSuffixesForScale( scale )
     if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 )
     then
-        local filePath = File.getFilePath(
+        local imagePath = File.getFilePath(
             imageRootPath .. imageFileName, coronaPathType )
 
-        self.memoized.imageFileNameForScale[ memoizeIndex ] = filePath
-        return filePath
+        self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
+        return imagePath
     end
 
     local _, _, imagePrefix, imageExt = string.find(
         imageFileName, "^(.*)%.(.-)$" )
 
     for _, imageSuffix in ipairs( imageSuffixes ) do
-        local filePath = File.getFilePath(
+        local imagePath = File.getFilePath(
             imageRootPath .. imagePrefix .. imageSuffix ..  "." .. imageExt,
             coronaPathType )
 
-        if ( filePath ~= nil ) then
-            self.memoized.imageFileNameForScale[ memoizeIndex ] = filePath
-            return filePath
+        if ( imagePath ~= nil ) then
+            self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
+            return imagePath
         end
     end
 
-    local filePath = File.getFilePath(
+    local imagePath = File.getFilePath(
         imageRootPath .. imageFileName, coronaPathType )
 
-    self.memoized.imageFileNameForScale[ memoizeIndex ] = filePath
-    return filePath
+    self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
+    return imagePath
 end
 
 function CLASS:getImageSuffixes()
