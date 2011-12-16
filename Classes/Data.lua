@@ -120,4 +120,16 @@ function CLASS.selectByNestedIndex( targetTable, ... )
     return objRef
 end
 
+function CLASS.getNumericKeysSorted( targetTable )
+    local sorted = {}
+    for index, value in pairs( targetTable ) do
+        if ( type( index ) == "number" ) then
+            table.insert( sorted, index )
+        end
+    end
+
+    table.sort( sorted )
+    return sorted
+end
+
 return CLASS
