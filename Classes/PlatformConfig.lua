@@ -78,7 +78,7 @@ function CLASS:getImageSuffixesForScale( scale )
     end
 
     local imageSuffixes = {}
-    local imageSuffixesSorted = self:getImageSuffixesSorted()
+    local imageSuffixesSorted = self:getImageSuffixesSortedByScale()
 
     if ( imageSuffixesSorted ~= nil ) then
         if ( scale >= 1 ) then
@@ -104,7 +104,7 @@ function CLASS:getImageSuffixesForScale( scale )
     return imageSuffixes
 end
 
-function CLASS:getImageSuffixesSorted()
+function CLASS:getImageSuffixesSortedByScale()
     local imageSuffixes = self:getImageSuffixes()
     if ( imageSuffixes == nil ) then return nil end
 
