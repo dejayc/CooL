@@ -143,6 +143,20 @@ function Display:getDisplayScale()
     return scalingFactor 
 end
 
+function Display:getDynamicScale()
+    return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
+end
+
+function Display.getEffectiveOrientation()
+    if ( ( system.orientation == "landscapeLeft" ) or
+         ( system.orientation == "landscapeRight" ) )
+    then
+        return "landscape"
+    else
+        return "portrait"
+    end
+end
+
 function Display:getImageFileNameWithSuffix(
     imageFileName, imageRootPath, coronaPathType, scale
 )
@@ -209,20 +223,6 @@ function Display:getImageSuffixesForScale( scale )
 
     self.memoized.imageSuffixesForScale[ scale ] = imageSuffixes
     return imageSuffixes
-end
-
-function Display:getDynamicScale()
-    return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
-end
-
-function Display.getEffectiveOrientation()
-    if ( ( system.orientation == "landscapeLeft" ) or
-         ( system.orientation == "landscapeRight" ) )
-    then
-        return "landscape"
-    else
-        return "portrait"
-    end
 end
 
 return Display
