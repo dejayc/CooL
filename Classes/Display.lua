@@ -157,7 +157,7 @@ function Display.getEffectiveOrientation()
     end
 end
 
-function Display:getImageFileNameWithSuffix(
+function Display:getImageFileNameForScale(
     imageFileName, imageRootPath, coronaPathType, scale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
