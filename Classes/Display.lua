@@ -56,7 +56,9 @@ function Display:debugScreenMetrics()
     print ")"
 
     io.write "imageSuffixesForScale: ("
-    io.write( table.concat( self:getImageSuffixesForScale(), ", " ) )
+    io.write( table.concat(
+        self:getApp():getPlatformConfig():getImageSuffixesForScale(
+            self:getDynamicScale() ), ", " ) )
     print ")"
 end
 
@@ -71,7 +73,6 @@ end
 
 function Display:refreshConfig()
     self.memoized.displayScale =  nil
-    self.memoized.imageSuffixesForScale = {}
 end
 
 function Display.getDisplayWidth()
@@ -155,74 +156,6 @@ function Display.getEffectiveOrientation()
     else
         return "portrait"
     end
-end
-
-function Display:getImageFileNameForScale(
-    imageFileName, imageRootPath, coronaPathType, scale
-)
-    if ( imageFileName == nil or imageFileName == "" ) then return nil end
-
-    if ( imageRootPath ~= nil ) then
-        imageRootPath = imageRootPath .. File.PATH_SEPARATOR
-    else
-        imageRootPath = ""
-    end
-
-    local imageSuffixes = self:getImageSuffixesForScale( scale )
-    if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 )
-    then
-        return File.getFilePath(
-            imageRootPath .. imageFileName, coronaPathType )
-    end
-
-    local _, _, imagePrefix, imageExt = string.find(
-        imageFileName, "^(.*)%.(.-)$" )
-
-    for _, imageSuffix in ipairs( imageSuffixes ) do
-        local filePath = File.getFilePath(
-            imageRootPath .. imagePrefix .. imageSuffix ..  "." .. imageExt,
-            coronaPathType )
-
-        if ( filePath ~= nil ) then return filePath end
-    end
-
-    return File.getFilePath( imageRootPath .. imageFileName, coronaPathType )
-end
-
-function Display:getImageSuffixesForScale( scale )
-    scale = scale or self:getDynamicScale()
-
-    if ( self.memoized.imageSuffixesForScale[ scale ] ~= nil )
-    then
-        return self.memoized.imageSuffixesForScale[ scale ]
-    end
-
-    local imageSuffixes = {}
-    local imageSuffixesSorted =
-        self:getApp():getPlatformConfig():getImageSuffixesSorted()
-
-    if ( imageSuffixesSorted ~= nil ) then
-        if ( scale >= 1 ) then
-            for _, entry in ipairs( imageSuffixesSorted ) do
-                if ( entry.scale > scale ) then break end
-
-                if ( entry.scale >= 1 ) then
-                    table.insert( imageSuffixes, 1, entry.suffix )
-                end
-            end
-        else
-            for _, entry in ipairs( imageSuffixesSorted ) do
-                if ( entry.scale > 1 ) then break end
-
-                if ( entry.scale >= scale ) then
-                    table.insert( imageSuffixes, entry.suffix )
-                end
-            end
-        end
-    end
-
-    self.memoized.imageSuffixesForScale[ scale ] = imageSuffixes
-    return imageSuffixes
 end
 
 return Display

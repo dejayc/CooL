@@ -23,6 +23,38 @@ return {
 
 -- Particular 'axis' value to use for this application
             axis = "maxResScale",
+
+-- Replacement for the underpowered 'imageSuffix' feature
+            imageLookup =
+            {
+                [ 1 ] =
+                {
+                    {
+                        suffix = "@320x480",
+                        subdir = "320x480",
+                    },
+                    "default",
+                    {
+                        subdir = "320x480",
+                    },
+                },
+                [ 2 ] =
+                {
+                    {
+                        suffix = "@640x960",
+                        subdir = "640x960",
+                    },
+                    {
+                        subdir = "640x960",
+                    },
+                    {
+                        suffix = "-hd",
+                        subdir = "hd",
+                    },
+                    "default",
+                },
+            },
+
         },
 
 --[[ List of possible 'statusBar' values
