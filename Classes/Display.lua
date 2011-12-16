@@ -55,8 +55,8 @@ function Display:debugScreenMetrics()
     io.write( self:getDynamicScale() )
     print ")"
 
-    io.write "dynamicImageSuffixes: ("
-    io.write( table.concat( self:getDynamicImageSuffixes(), ", " ) )
+    io.write "imageSuffixesForScale: ("
+    io.write( table.concat( self:getImageSuffixesForScale(), ", " ) )
     print ")"
 end
 
@@ -71,7 +71,7 @@ end
 
 function Display:refreshConfig()
     self.memoized.displayScale =  nil
-    self.memoized.dynamicImageSuffixes = {}
+    self.memoized.imageSuffixesForScale = {}
 end
 
 function Display.getDisplayWidth()
@@ -154,7 +154,7 @@ function Display:getImageFileNameWithSuffix(
         imageRootPath = ""
     end
 
-    local imageSuffixes = self:getDynamicImageSuffixes( scale )
+    local imageSuffixes = self:getImageSuffixesForScale( scale )
     if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 )
     then
         return File.getFilePath(
@@ -175,12 +175,12 @@ function Display:getImageFileNameWithSuffix(
     return File.getFilePath( imageRootPath .. imageFileName, coronaPathType )
 end
 
-function Display:getDynamicImageSuffixes( scale )
+function Display:getImageSuffixesForScale( scale )
     scale = scale or self:getDynamicScale()
 
-    if ( self.memoized.dynamicImageSuffixes[ scale ] ~= nil )
+    if ( self.memoized.imageSuffixesForScale[ scale ] ~= nil )
     then
-        return self.memoized.dynamicImageSuffixes[ scale ]
+        return self.memoized.imageSuffixesForScale[ scale ]
     end
 
     local imageSuffixes = {}
@@ -207,7 +207,7 @@ function Display:getDynamicImageSuffixes( scale )
         end
     end
 
-    self.memoized.dynamicImageSuffixes[ scale ] = imageSuffixes
+    self.memoized.imageSuffixesForScale[ scale ] = imageSuffixes
     return imageSuffixes
 end
 
