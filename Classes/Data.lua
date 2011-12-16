@@ -101,6 +101,21 @@ function CLASS.memoize( fn, self )
     } )
 end
 
+function CLASS.permuteValues( table1, table2 )
+    if ( table1 == nil ) then return table1 end
+    if ( table2 == nil ) then return table2 end
+
+    if ( type( table1 ) ~= "table" ) then table1 = { table1 } end
+    if ( type( table2 ) ~= "table" ) then table2 = { table2 } end
+
+    local permutations = {}
+    for index1, value1 in pairs( table1 ) do
+        for index2, value2 in pairs( table2 ) do
+            table.insert( permutations, { value1, value2 } )
+        end
+    end
+end
+
 -- Thanks to http://lua-users.org/wiki/SimpleRound
 function CLASS.roundNumber( num, idp )
     local mult = 10^( idp or 0 )
