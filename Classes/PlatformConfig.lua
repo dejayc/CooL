@@ -19,7 +19,7 @@ function CLASS:init( ... )
     }
 end
 
-function CLASS:getImageFileNameForScale(
+function CLASS:findImageFileNameForScale(
     imageFileName, imageRootPath, coronaPathType, scale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
