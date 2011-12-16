@@ -52,3 +52,11 @@ end
 function packagePath( ... )
     return arg[ 1 ]
 end
+
+function printf( ... )
+    print( string.format( ... ) )
+end
+
+function writef( ... )
+    io.write( string.format( ... ) )
+end
