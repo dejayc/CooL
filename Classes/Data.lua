@@ -67,25 +67,6 @@ function CLASS.ite( _if, _then, _else )
     return _else
 end
 
--- Thanks to http://lua-users.org/wiki/SimpleRound
-function CLASS.roundNumber( num, idp )
-    local mult = 10^( idp or 0 )
-    return math.floor( num * mult + 0.5 ) / mult
-end
-
-function CLASS.selectByNestedIndex( targetTable, ... )
-    if ( targetTable == nil ) then return nil end
-
-    local objRef = targetTable
-
-    for i, v in ipairs( arg ) do
-        objRef = objRef [ v ]
-        if ( objRef == nill ) then return nill end
-    end
-
-    return objRef
-end
-
 -- Thanks to http://lua-users.org/wiki/FuncTables
 function CLASS.memoize( fn, self )
     fn = fn or function( x ) return nil end
@@ -118,6 +99,25 @@ function CLASS.memoize( fn, self )
             return table[ key ]
         end
     } )
+end
+
+-- Thanks to http://lua-users.org/wiki/SimpleRound
+function CLASS.roundNumber( num, idp )
+    local mult = 10^( idp or 0 )
+    return math.floor( num * mult + 0.5 ) / mult
+end
+
+function CLASS.selectByNestedIndex( targetTable, ... )
+    if ( targetTable == nil ) then return nil end
+
+    local objRef = targetTable
+
+    for i, v in ipairs( arg ) do
+        objRef = objRef [ v ]
+        if ( objRef == nill ) then return nill end
+    end
+
+    return objRef
 end
 
 return CLASS
