@@ -9,11 +9,16 @@
 
 local CLASSPATH = require( "classpath" )
 
-local FrameworkConfig = autoextend( CLASSPATH.CooL.Config, packagePath ( ... ) )
+local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
 
 local defaultScalingAxis = "maxResScale"
 
-function FrameworkConfig:getScalingAxis( useDefaultIfNil )
+function CLASS:init( ... )
+    self.super:init( ... )
+    self.memoized = self.memoized or {}
+end
+
+function CLASS:getScalingAxis( useDefaultIfNil )
     local scalingAxis = self:getValue( "display", "scaling", "axis" )
 
     if ( scalingAxis == nil and
@@ -25,12 +30,12 @@ function FrameworkConfig:getScalingAxis( useDefaultIfNil )
     return scalingAxis
 end
 
-function FrameworkConfig:getDefaultScalingAxis()
+function CLASS:getDefaultScalingAxis()
     return defaultScalingAxis
 end
 
-function FrameworkConfig:getStatusBar()
+function CLASS:getStatusBar()
     return self:getValue( "display", "statusBar" )
 end
 
-return FrameworkConfig
+return CLASS

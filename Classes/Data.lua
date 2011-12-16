@@ -9,11 +9,11 @@
 
 local CLASSPATH = require( "classpath" )
 
-local Data = {}
+local CLASS = {}
 
 -- Thanks to http://stackoverflow.com/a/664611/111948
 -- Thanks to http://lua-users.org/wiki/CopyTable
-function Data.copy( object )
+function CLASS.copy( object )
     if ( type( object ) ~= "table" ) then
         return object
     end
@@ -27,7 +27,7 @@ function Data.copy( object )
 end
 
 -- Thanks to http://lua-users.org/wiki/CopyTable
-function Data.copyDeep( table )
+function CLASS.copyDeep( table )
     local lookupTable = {}
 
     local function _copy( object )
@@ -52,28 +52,28 @@ function Data.copyDeep( table )
     return _copy( object )
 end
 
-function Data.getDefault( target, default )
+function CLASS.getDefault( target, default )
     if ( target ~= nil ) then return target end
     return default
 end
 
-function Data.getDefaultIf( target, default, _if )
+function CLASS.getDefaultIf( target, default, _if )
     if ( not _if ) then return target end
     return Data.getDefault( target, default )
 end
 
-function Data.ite( _if, _then, _else )
+function CLASS.ite( _if, _then, _else )
     if ( _if ) then return _then end
     return _else
 end
 
 -- Thanks to http://lua-users.org/wiki/SimpleRound
-function Data.roundNumber( num, idp )
+function CLASS.roundNumber( num, idp )
     local mult = 10^( idp or 0 )
     return math.floor( num * mult + 0.5 ) / mult
 end
 
-function Data.selectByNestedIndex( targetTable, ... )
+function CLASS.selectByNestedIndex( targetTable, ... )
     if ( targetTable == nil ) then return nil end
 
     local objRef = targetTable
@@ -87,7 +87,7 @@ function Data.selectByNestedIndex( targetTable, ... )
 end
 
 -- Thanks to http://lua-users.org/wiki/FuncTables
-function Data.memoize( fn, self )
+function CLASS.memoize( fn, self )
     fn = fn or function( x ) return nil end
 
     if ( self == nil ) then
@@ -120,4 +120,4 @@ function Data.memoize( fn, self )
     } )
 end
 
-return Data
+return CLASS

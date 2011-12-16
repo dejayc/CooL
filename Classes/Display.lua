@@ -11,9 +11,9 @@ local CLASSPATH = require( "classpath" )
 local Data = require( CLASSPATH.CooL.Data )
 local File = require( CLASSPATH.CooL.File )
 
-local Display = autoclass( packagePath ( ... ) )
+local CLASS = autoclass( packagePath( ... ) )
 
-function Display:init( app )
+function CLASS:init( app )
     self.memoized = self.memoized or {}
     self:setApp( app )
 
@@ -33,7 +33,7 @@ function Display:init( app )
     end
 end
 
-function Display:debugScreenMetrics()
+function CLASS:debugScreenMetrics()
     io.write "Orientation is now: "
     print( system.orientation )
 
@@ -62,31 +62,31 @@ function Display:debugScreenMetrics()
     print ")"
 end
 
-function Display:getApp()
+function CLASS:getApp()
     return self.app
 end
 
-function Display:setApp( app )
+function CLASS:setApp( app )
     self.app = app
     self:refreshConfig()
 end
 
-function Display:refreshConfig()
+function CLASS:refreshConfig()
     self.memoized.displayScale =  nil
 end
 
-function Display.getDisplayWidth()
+function CLASS.getDisplayWidth()
     return Data.roundNumber(
         display.viewableContentWidth / display.contentScaleX, 0 )
 end
 
-function Display.getDisplayHeight()
+function CLASS.getDisplayHeight()
     return Data.roundNumber(
         display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
-function Display:getDisplayScale()
-    local orientation = Display.getEffectiveOrientation()
+function CLASS:getDisplayScale()
+    local orientation = CLASS.getEffectiveOrientation()
 
     if ( self.memoized.displayScale ~= nil ) then
         return self.memoized.displayScale
@@ -95,9 +95,9 @@ function Display:getDisplayScale()
     local scalingAxis = self:getApp():getFrameworkConfig():getScalingAxis()
 
     local scalingFactor = nil
-    local height = Display.getDisplayHeight()
+    local height = CLASS.getDisplayHeight()
     local heightScale = display.contentScaleY
-    local width = Display.getDisplayWidth()
+    local width = CLASS.getDisplayWidth()
     local widthScale = display.contentScaleX
 
     if ( scalingAxis == "minScale" ) then
@@ -144,11 +144,11 @@ function Display:getDisplayScale()
     return scalingFactor 
 end
 
-function Display:getDynamicScale()
+function CLASS:getDynamicScale()
     return Data.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
 
-function Display.getEffectiveOrientation()
+function CLASS.getEffectiveOrientation()
     if ( ( system.orientation == "landscapeLeft" ) or
          ( system.orientation == "landscapeRight" ) )
     then
@@ -158,4 +158,4 @@ function Display.getEffectiveOrientation()
     end
 end
 
-return Display
+return CLASS

@@ -9,18 +9,18 @@
 
 local CLASSPATH = require( "classpath" )
 
-local File = {}
+local CLASS = {}
 
-File.PATH_SEPARATOR = package.config:sub( 1, 1 )
+CLASS.PATH_SEPARATOR = package.config:sub( 1, 1 )
 
-function File.fileExists( filename, coronaPathType )
-  return File.getFilePath( filename, coronaPathType ) ~= nil
+function CLASS.fileExists( filename, coronaPathType )
+  return CLASS.getFilePath( filename, coronaPathType ) ~= nil
 end
 
 -- Thanks to http://bsharpe.com/code/coronasdk-how-to-know-if-a-file-exists/
-function File.getFilePath( filename, coronaPathType )
+function CLASS.getFilePath( filename, coronaPathType )
   local filePath = system.pathForFile( filename, coronaPathType )
   return filePath
 end
 
-return File
+return CLASS

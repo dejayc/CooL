@@ -9,9 +9,9 @@
 
 local CLASSPATH = require( "classpath" )
 
-local App = autoclass( packagePath ( ... ) )
+local CLASS = autoclass( packagePath( ... ) )
 
-function App:init( platformConfig, frameworkConfig )
+function CLASS:init( platformConfig, frameworkConfig )
     io.flush()
 
     self:setPlatformConfig( platformConfig )
@@ -24,16 +24,16 @@ function App:init( platformConfig, frameworkConfig )
     )
 end
 
-function App:onOrientationChange( event )
+function CLASS:onOrientationChange( event )
     -- TODO: Remove
     self:getDisplay():debugScreenMetrics()
 end
 
-function App:getFrameworkConfig()
+function CLASS:getFrameworkConfig()
     return self.frameworkConfig
 end
 
-function App:setFrameworkConfig( frameworkConfig )
+function CLASS:setFrameworkConfig( frameworkConfig )
     self.frameworkConfig = frameworkConfig
 
     if ( self:getDisplay() ~= nil ) then
@@ -41,11 +41,11 @@ function App:setFrameworkConfig( frameworkConfig )
     end
 end
 
-function App:getPlatformConfig()
+function CLASS:getPlatformConfig()
     return self.platformConfig
 end
 
-function App:setPlatformConfig( platformConfig )
+function CLASS:setPlatformConfig( platformConfig )
     self.platformConfig = platformConfig
 
     if ( self:getPlatformConfig() ~= nil ) then
@@ -57,12 +57,12 @@ function App:setPlatformConfig( platformConfig )
     end
 end
 
-function App:getDisplay()
+function CLASS:getDisplay()
     return self.display
 end
 
-function App:setDisplay( display )
+function CLASS:setDisplay( display )
     self.display = display
 end
 
-return App
+return CLASS

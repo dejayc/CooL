@@ -7,16 +7,16 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-local Class = { className = "Class" }
+local CLASS = { className = "Class" }
 
-function Class:cast( object )
+function CLASS:cast( object )
     object = object or {}
     setmetatable( object, getmetatable( self.class ))
 
     return object
 end
 
-function Class:cloneMetatable( source )
+function CLASS:cloneMetatable( source )
     local sourceMetatable = getmetatable( source )
     local targetMetatable = {}
 
@@ -27,7 +27,7 @@ function Class:cloneMetatable( source )
     return setmetatable( self, targetMetatable )
 end
 
-function Class:copyMetatable( source )
+function CLASS:copyMetatable( source )
     local sourceMetatable = getmetatable( source )
     local targetMetatable = getmetatable( self )
 
@@ -41,7 +41,7 @@ function Class:copyMetatable( source )
     return self
 end
 
-function Class:extend( object )
+function CLASS:extend( object )
     object = object or {}
 
     --[[
@@ -71,11 +71,11 @@ end
     'Class:new' is the same as 'Class:cast', except that a new object instance
     is always created.
 --]]
-function Class:new()
+function CLASS:new()
     return self:cast( {} )
 end
 
-function Class:__tostring()
+function CLASS:__tostring()
     if ( not self ) then return "undefined" end
     if ( not self.className ) then return self end
     if ( not self.super ) then return self.className end
@@ -84,7 +84,7 @@ function Class:__tostring()
     return self.className .. " (" .. self.super.className .. ")"
 end
 
-setmetatable( Class, {
-    __tostring = Class.__tostring })
+setmetatable( CLASS, {
+    __tostring = CLASS.__tostring })
 
-return Class
+return CLASS

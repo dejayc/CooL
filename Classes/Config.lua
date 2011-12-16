@@ -10,22 +10,22 @@
 local CLASSPATH = require( "classpath" )
 local Data = require( CLASSPATH.CooL.Data )
 
-local Config = autoclass( packagePath ( ... ) )
+local CLASS = autoclass( packagePath( ... ) )
 
-function Config:init( values )
+function CLASS:init( values )
     self:setValues( values )
 end
 
-function Config:getValues()
+function CLASS:getValues()
     return self.values
 end
 
-function Config:setValues( values )
+function CLASS:setValues( values )
     self.values = values
 end
 
-function Config:getValue( ... )
+function CLASS:getValue( ... )
     return Data.selectByNestedIndex( self:getValues(), ... )
 end
 
-return Config
+return CLASS

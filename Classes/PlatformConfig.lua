@@ -9,19 +9,19 @@
 
 local CLASSPATH = require( "classpath" )
 
-local PlatformConfig = autoextend( CLASSPATH.CooL.Config, packagePath ( ... ) )
+local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
 
-function PlatformConfig:init( ... )
+function CLASS:init( ... )
     self.super:init( ... )
     self.memoized = self.memoized or {}
 end
 
-function PlatformConfig:refreshConfig()
+function CLASS:refreshConfig()
     self.memoized.imageFileNameForScale = {}
     self.memoized.imageSuffixesForScale = {}
 end
 
-function PlatformConfig:getImageFileNameForScale(
+function CLASS:getImageFileNameForScale(
     imageFileName, imageRootPath, coronaPathType, scale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
@@ -69,11 +69,11 @@ function PlatformConfig:getImageFileNameForScale(
     return File.getFilePath( imageRootPath .. imageFileName, coronaPathType )
 end
 
-function PlatformConfig:getImageSuffixes()
+function CLASS:getImageSuffixes()
     return self:getValue( "content", "imageSuffix" )
 end
 
-function PlatformConfig:getImageSuffixesForScale( scale )
+function CLASS:getImageSuffixesForScale( scale )
     if ( self.memoized.imageSuffixesForScale[ scale ] ~= nil )
     then
         return self.memoized.imageSuffixesForScale[ scale ]
@@ -106,7 +106,7 @@ function PlatformConfig:getImageSuffixesForScale( scale )
     return imageSuffixes
 end
 
-function PlatformConfig:getImageSuffixesSorted()
+function CLASS:getImageSuffixesSorted()
     local imageSuffixes = self:getImageSuffixes()
     if ( imageSuffixes == nil ) then return nil end
 
@@ -131,4 +131,4 @@ function PlatformConfig:getImageSuffixesSorted()
     return imageSuffixesSorted
 end
 
-return PlatformConfig
+return CLASS
