@@ -15,7 +15,6 @@ local defaultScalingAxis = "maxResScale"
 
 function CLASS:init( ... )
     self.super:init( ... )
-    self.memoized = self.memoized or {}
 end
 
 function CLASS:getScalingAxis( useDefaultIfNil )

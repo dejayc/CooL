@@ -48,10 +48,6 @@ end
 function CLASS:setPlatformConfig( platformConfig )
     self.platformConfig = platformConfig
 
-    if ( self:getPlatformConfig() ~= nil ) then
-        self:getPlatformConfig():refreshConfig()
-    end
-
     if ( self:getDisplay() ~= nil ) then
         self:getDisplay():refreshConfig()
     end

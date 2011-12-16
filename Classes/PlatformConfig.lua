@@ -13,12 +13,10 @@ local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
 
 function CLASS:init( ... )
     self.super:init( ... )
-    self.memoized = self.memoized or {}
-end
-
-function CLASS:refreshConfig()
-    self.memoized.imageFileNameForScale = {}
-    self.memoized.imageSuffixesForScale = {}
+    self.memoized = {
+        imageFileNameForScale = {},
+        imageSuffixesForScale = {},
+    }
 end
 
 function CLASS:getImageFileNameForScale(

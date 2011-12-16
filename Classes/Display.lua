@@ -14,7 +14,7 @@ local File = require( CLASSPATH.CooL.File )
 local CLASS = autoclass( packagePath( ... ) )
 
 function CLASS:init( app )
-    self.memoized = self.memoized or {}
+    self.memoized = {}
     self:setApp( app )
 
     local statusBar = self:getApp():getFrameworkConfig():getStatusBar()
