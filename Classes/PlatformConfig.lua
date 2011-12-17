@@ -70,7 +70,7 @@ function CLASS:findImageFileNameForScale(
 end
 
 function CLASS:getImageSuffixes()
-    return self:getValue( "content", "imageSuffix" )
+    return self:getValue( true, "content", "imageSuffix" )
 end
 
 function CLASS:getImageSuffixesForScale( scale )
