@@ -30,28 +30,26 @@ return {
                 [ 1 ] =
                 {
                     {
-                        suffix = "@320x480",
                         subdir = "320x480",
+                        suffix = "@320x480",
                     },
-                    "default",
                     {
                         subdir = "320x480",
                     },
                 },
-                [ 2 ] =
+                [ 1.5 ] =
                 {
                     {
+                        subdir = "640x960",
                         suffix = "@640x960",
-                        subdir = "640x960",
                     },
                     {
                         subdir = "640x960",
                     },
                     {
-                        suffix = "-hd",
                         subdir = "hd",
+                        suffix = { "-hd", "@2x", },
                     },
-                    "default",
                 },
             },
 

@@ -8,6 +8,7 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
+local File = require( CLASSPATH.CooL.File )
 
 local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
 
@@ -28,8 +29,7 @@ function CLASS:findImageFileNameForScale(
         tostring( imageFileName ), tostring( imageRootPath ),
         tostring( coronaPathType ), tostring( scale ) )
 
-    if ( self.memoized.imageFileNameForScale[ memoizeIndex ] ~= nil )
-    then
+    if ( self.memoized.imageFileNameForScale[ memoizeIndex ] ~= nil ) then
         return self.memoized.imageFileNameForScale[ memoizeIndex ]
     end
 
@@ -40,8 +40,7 @@ function CLASS:findImageFileNameForScale(
     end
 
     local imageSuffixes = self:getImageSuffixesForScale( scale )
-    if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 )
-    then
+    if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 ) then
         local imagePath = File.getFilePath(
             imageRootPath .. imageFileName, coronaPathType )
 
@@ -75,8 +74,7 @@ function CLASS:getImageSuffixes()
 end
 
 function CLASS:getImageSuffixesForScale( scale )
-    if ( self.memoized.imageSuffixesForScale[ scale ] ~= nil )
-    then
+    if ( self.memoized.imageSuffixesForScale[ scale ] ~= nil ) then
         return self.memoized.imageSuffixesForScale[ scale ]
     end
 

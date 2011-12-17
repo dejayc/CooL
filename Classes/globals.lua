@@ -53,10 +53,10 @@ function packagePath( ... )
     return arg[ 1 ]
 end
 
-function printf( ... )
-    print( string.format( ... ) )
+function printf( format, ... )
+    writef( format .. "\n", ... )
 end
 
-function writef( ... )
-    io.write( string.format( ... ) )
+function writef( format, ... )
+    io.write( string.format( format, ... ) )
 end

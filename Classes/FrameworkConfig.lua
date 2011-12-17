@@ -8,6 +8,8 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
+local Data = require( CLASSPATH.CooL.Data )
+local File = require( CLASSPATH.CooL.File )
 
 local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
 
@@ -15,6 +17,159 @@ local defaultScalingAxis = "maxResScale"
 
 function CLASS:init( ... )
     self.super:init( ... )
+    self.memoized = {
+        imageFileNameForScale = {},
+        imageLookupsForScale = {},
+        imageLookupsSortedByScale = nil,
+    }
+end
+
+function CLASS:findImageFileNameForScale(
+    imageFileName, imageRootPath, coronaPathType, scale
+)
+    if ( imageFileName == nil or imageFileName == "" ) then return nil end
+
+    local memoizeIndex = string.format( "%s:%s:%s:%s",
+        tostring( imageFileName ), tostring( imageRootPath ),
+        tostring( coronaPathType ), tostring( scale ) )
+
+    if ( self.memoized.imageFileNameForScale[ memoizeIndex ] ~= nil ) then
+        return self.memoized.imageFileNameForScale[ memoizeIndex ]
+    end
+
+    if ( imageRootPath ~= nil ) then
+        imageRootPath = imageRootPath .. File.PATH_SEPARATOR
+    else
+        imageRootPath = ""
+    end
+
+    local imageLookups = self:getImageLookupsForScale( scale )
+    if ( imageLookups == nil or table.getn( imageLookups ) < 1 ) then
+        local imagePath = File.getFilePath(
+            imageRootPath .. imageFileName, coronaPathType )
+
+        self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
+        return imagePath
+    end
+
+    local _, _, imagePrefix, imageExt = string.find(
+        imageFileName, "^(.*)%.(.-)$" )
+
+    local attempted = {}
+
+    for _, imageLookup in ipairs( imageLookups ) do
+        local imageSubdirs = imageLookup.subdir
+        if ( imageSubdirs == nil ) then imageSubdirs = "" end
+
+        local imageSuffixes = imageLookup.suffix
+        if ( imageSuffixes == nil ) then imageSuffixes = "" end
+
+        if ( imageSubdirs == "" and imageSuffixes == "" ) then break end
+
+        if ( type( imageSubdirs ) ~= "table" ) then
+            imageSubdirs = { imageSubdirs }
+        end
+
+        if ( type( imageSuffixes ) ~= "table" ) then
+            imageSuffixes = { imageSuffixes }
+        end
+
+        for _, imageSubdir in ipairs( imageSubdirs ) do
+            for _, imageSuffix in ipairs( imageSuffixes ) do
+                local imagePath = imageRootPath
+
+                if ( imageSubdir ~= "" ) then
+                    imagePath = imagePath .. imageSubdir .. File.PATH_SEPARATOR
+                end
+
+                imagePath = imagePath .. imagePrefix .. imageSuffix ..
+                    "." .. imageExt
+
+                if ( attempted[ imagePath ] == nil ) then
+                    attempted[ imagePath ] = true
+    
+                    imagePath = File.getFilePath( imagePath, coronaPathType )
+    
+                    if ( imagePath ~= nil ) then
+                        self.memoized.imageFileNameForScale[ memoizeIndex ] =
+                            imagePath
+                        return imagePath
+                    end
+                end
+            end
+        end
+    end
+
+    local imagePath = imageRootPath .. imageFileName
+
+    if ( attempted[ imagePath ] ~= nil ) then return nil end
+
+    imagePath = File.getFilePath( imagePath, coronaPathType )
+    self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
+    return imagePath
+end
+
+function CLASS:getImageLookups()
+    return self:getValue( "display", "scaling", "imageLookup" )
+end
+
+function CLASS:getImageLookupsForScale( scale )
+    if ( self.memoized.imageLookupsForScale[ scale ] ~= nil ) then
+        return self.memoized.imageLookupsForScale[ scale ]
+    end
+
+    local imageLookups = {}
+    local imageLookupsSortedByScale = self:getImageLookupsSortedByScale()
+
+    if ( imageLookupsSortedByScale ~= nil ) then
+        if ( scale >= 1 ) then
+            for _, entry in ipairs( imageLookupsSortedByScale ) do
+                if ( entry.scale > scale ) then break end
+
+                if ( entry.scale >= 1 ) then
+                    local index = 1
+                    for _, lookup in pairs( entry.lookup ) do
+                        table.insert( imageLookups, index, lookup )
+                        index = index + 1
+                    end
+                end
+            end
+        else
+            for _, entry in ipairs( imageLookupsSortedByScale ) do
+                if ( entry.scale > 1 ) then break end
+
+                if ( entry.scale >= scale ) then
+                    for _, lookup in pairs( entry.lookup ) do
+                        table.insert( imageLookups, lookup )
+                    end
+                end
+            end
+        end
+    end
+
+    self.memoized.imageLookupsForScale[ scale ] = imageLookups
+    return imageLookups
+end
+
+function CLASS:getImageLookupsSortedByScale()
+    if ( self.memoized.imageLookupsSortedByScale ~= nil ) then
+        return self.memoized.imageLookupsSortedByScale
+    end
+
+    local imageLookups = self:getImageLookups()
+    if ( imageLookups == nil ) then return nil end
+
+    local imageScales = Data.getNumericKeysSorted( imageLookups )
+    local imageLookupsSortedByScale = {}
+
+    for _, scale in pairs( imageScales ) do
+        table.insert( imageLookupsSortedByScale, {
+            scale = scale,
+            lookup = imageLookups[ scale ] } )
+    end
+
+    self.memoized.imageLookupsSortedByScale = imageLookupsSortedByScale
+    return imageLookupsSortedByScale
 end
 
 function CLASS:getScalingAxis( useDefaultIfNil )

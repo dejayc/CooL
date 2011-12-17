@@ -27,6 +27,13 @@ frameworkConfig:init( require( CLASSPATH.config.framework ) )
 local app = new( CLASSPATH.CooL.App )
 app:init( platformConfig, frameworkConfig )
 
+local spritePath = "Assets/Sprites"
+app:getFrameworkConfig():findImageFileNameForScale(
+    "Square4.png", spritePath, nil, app:getDisplay():getDynamicScale())
+
+app:getPlatformConfig():findImageFileNameForScale(
+    "Square3.png", spritePath, nil, app:getDisplay():getDynamicScale())
+
 local function createDisplayReadout()
     local textObj = display.newText(
         "Scale: " .. app:getDisplay():getDynamicScale(),
