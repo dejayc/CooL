@@ -13,10 +13,21 @@ local File = require( CLASSPATH.CooL.File )
 
 local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
 
-local defaultScalingAxis = "maxResScale"
+local defaults = {
+    display = {
+        scaling = {
+            axis = "maxResScale",
+            imageLookup = {
+                tryFallback = true,
+            },
+        },
+    },
+}
 
 function CLASS:init( ... )
     self.super:init( ... )
+    self:setDefaultValues( defaults )
+
     self.memoized = {
         imageFileNameForScale = {},
         imageLookupsForScale = {},
@@ -64,8 +75,6 @@ function CLASS:findImageFileNameForScale(
         local imageSuffixes = imageLookup.suffix
         if ( imageSuffixes == nil ) then imageSuffixes = "" end
 
-        if ( imageSubdirs == "" and imageSuffixes == "" ) then break end
-
         if ( type( imageSubdirs ) ~= "table" ) then
             imageSubdirs = { imageSubdirs }
         end
@@ -74,31 +83,40 @@ function CLASS:findImageFileNameForScale(
             imageSuffixes = { imageSuffixes }
         end
 
-        for _, imageSubdir in ipairs( imageSubdirs ) do
-            for _, imageSuffix in ipairs( imageSuffixes ) do
-                local imagePath = imageRootPath
-
-                if ( imageSubdir ~= "" ) then
-                    imagePath = imagePath .. imageSubdir .. File.PATH_SEPARATOR
-                end
-
-                imagePath = imagePath .. imagePrefix .. imageSuffix ..
-                    "." .. imageExt
-
-                if ( attempted[ imagePath ] == nil ) then
-                    attempted[ imagePath ] = true
+        for _, imageSubdir in ipairs( imageSubdirs )
+        do
+            for _, imageSuffix in ipairs( imageSuffixes )
+            do
+                if ( imageSubdir ~= "" or imageSuffix ~= "" )
+                then
+                    local imagePath = imageRootPath
     
-                    imagePath = File.getFilePath( imagePath, coronaPathType )
-    
-                    if ( imagePath ~= nil ) then
-                        self.memoized.imageFileNameForScale[ memoizeIndex ] =
-                            imagePath
-                        return imagePath
+                    if ( imageSubdir ~= "" ) then
+                        imagePath = imagePath .. imageSubdir ..
+                            File.PATH_SEPARATOR
+                    end
+
+                    imagePath = imagePath .. imagePrefix .. imageSuffix ..
+                        "." .. imageExt
+
+                    if ( attempted[ imagePath ] == nil ) then
+                        attempted[ imagePath ] = true
+
+                        imagePath = File.getFilePath(
+                            imagePath, coronaPathType )
+
+                        if ( imagePath ~= nil ) then
+                            self.memoized.imageFileNameForScale[
+                                memoizeIndex ] = imagePath
+                            return imagePath
+                        end
                     end
                 end
             end
         end
     end
+
+    if ( not self:getImageLookupTryFallback() ) then return nil end
 
     local imagePath = imageRootPath .. imageFileName
 
@@ -110,7 +128,7 @@ function CLASS:findImageFileNameForScale(
 end
 
 function CLASS:getImageLookups()
-    return self:getValue( "display", "scaling", "imageLookup" )
+    return self:getValue( false, "display", "scaling", "imageLookup" )
 end
 
 function CLASS:getImageLookupsForScale( scale )
@@ -172,24 +190,17 @@ function CLASS:getImageLookupsSortedByScale()
     return imageLookupsSortedByScale
 end
 
-function CLASS:getScalingAxis( useDefaultIfNil )
-    local scalingAxis = self:getValue( "display", "scaling", "axis" )
-
-    if ( scalingAxis == nil and
-         ( useDefaultIfNil or useDefaultIfNil == nil ) )
-    then
-        scalingAxis = self:getDefaultScalingAxis()
-    end
-
-    return scalingAxis
+function CLASS:getImageLookupTryFallback( useDefaultIfNil )
+    return self:getValue(
+        useDefaultIfNil, "display", "scaling", "imageLookup", "tryFallback" )
 end
 
-function CLASS:getDefaultScalingAxis()
-    return defaultScalingAxis
+function CLASS:getScalingAxis( useDefaultIfNil )
+    return self:getValue( useDefaultIfNil, "display", "scaling", "axis" )
 end
 
 function CLASS:getStatusBar()
-    return self:getValue( "display", "statusBar" )
+    return self:getValue( true, "display", "statusBar" )
 end
 
 return CLASS
