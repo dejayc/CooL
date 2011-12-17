@@ -30,27 +30,26 @@ return {
                 [ 1 ] =
                 {
                     {
-                        subdir = "320x480",
-                        suffix = "@320x480",
-                    },
-                    {
-                        subdir = "320x480",
+                        subdir = { "320x480", "@1x", "sd", "", },
+                        suffix = { "@320x480", "@1x", "" },
                     },
                 },
-                [ 1.5 ] =
+                [ 2 ] =
                 {
                     {
-                        subdir = "640x960",
-                        suffix = "@640x960",
-                    },
-                    {
-                        subdir = "640x960",
-                    },
-                    {
-                        subdir = "hd",
-                        suffix = { "-hd", "@2x", },
+                        subdir = { "640x960", "@2x", "hd", "", },
+                        suffix = { "@640x960", "@2x", "", },
                     },
                 },
+
+--[[ List of possible 'tryFallback' values
+                tryFallback = true, -- DEFAULT
+                tryFallback = false,
+--]]
+
+-- Particular 'tryFallback' value to use for this application
+                tryFallback = true,
+
             },
 
         },
