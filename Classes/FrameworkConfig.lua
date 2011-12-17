@@ -30,8 +30,8 @@ function CLASS:init( ... )
 
     self.memoized = {
         imageFileNameForScale = {},
-        imageLookupForScale = {},
-        imageLookupSortedByScale = nil,
+        imageLookupsForScale = {},
+        imageLookupsSortedByScale = nil,
     }
 end
 
@@ -54,7 +54,7 @@ function CLASS:findImageFileNameForScale(
         imageRootPath = ""
     end
 
-    local imageLookups = self:getImageLookupForScale( scale )
+    local imageLookups = self:getImageLookupsForScale( scale )
     if ( imageLookups == nil or table.getn( imageLookups ) < 1 ) then
         local imagePath = File.getFilePath(
             imageRootPath .. imageFileName, coronaPathType )
@@ -130,63 +130,63 @@ function CLASS:getImageLookup()
     return self:getValue( false, "display", "scaling", "imageLookup" )
 end
 
-function CLASS:getImageLookupForScale( scale )
-    if ( self.memoized.imageLookupForScale[ scale ] ~= nil ) then
-        return self.memoized.imageLookupForScale[ scale ]
+function CLASS:getImageLookupsForScale( scale )
+    if ( self.memoized.imageLookupsForScale[ scale ] ~= nil ) then
+        return self.memoized.imageLookupsForScale[ scale ]
     end
 
-    local imageLookup = {}
-    local imageLookupSortedByScale = self:getImageLookupSortedByScale()
+    local imageLookupsForScale = {}
+    local imageLookupsSortedByScale = self:getImageLookupsSortedByScale()
 
-    if ( imageLookupSortedByScale ~= nil ) then
+    if ( imageLookupsSortedByScale ~= nil ) then
         if ( scale >= 1 ) then
-            for _, entry in ipairs( imageLookupSortedByScale ) do
+            for _, entry in ipairs( imageLookupsSortedByScale ) do
                 if ( entry.scale > scale ) then break end
 
                 if ( entry.scale >= 1 ) then
                     local index = 1
                     for _, lookup in pairs( entry.lookup ) do
-                        table.insert( imageLookup, index, lookup )
+                        table.insert( imageLookupsForScale, index, lookup )
                         index = index + 1
                     end
                 end
             end
         else
-            for _, entry in ipairs( imageLookupSortedByScale ) do
+            for _, entry in ipairs( imageLookupsSortedByScale ) do
                 if ( entry.scale > 1 ) then break end
 
                 if ( entry.scale >= scale ) then
                     for _, lookup in pairs( entry.lookup ) do
-                        table.insert( imageLookup, lookup )
+                        table.insert( imageLookupsForScale, lookup )
                     end
                 end
             end
         end
     end
 
-    self.memoized.imageLookupForScale[ scale ] = imageLookup
-    return imageLookup
+    self.memoized.imageLookupsForScale[ scale ] = imageLookupsForScale
+    return imageLookupsForScale
 end
 
-function CLASS:getImageLookupSortedByScale()
-    if ( self.memoized.imageLookupSortedByScale ~= nil ) then
-        return self.memoized.imageLookupSortedByScale
+function CLASS:getImageLookupsSortedByScale()
+    if ( self.memoized.imageLookupsSortedByScale ~= nil ) then
+        return self.memoized.imageLookupsSortedByScale
     end
 
     local imageLookup = self:getImageLookup()
     if ( imageLookup == nil ) then return nil end
 
     local imageScales = Data.getNumericKeysSorted( imageLookup )
-    local imageLookupSortedByScale = {}
+    local imageLookupsSortedByScale = {}
 
     for _, scale in pairs( imageScales ) do
-        table.insert( imageLookupSortedByScale, {
+        table.insert( imageLookupsSortedByScale, {
             scale = scale,
             lookup = imageLookup[ scale ] } )
     end
 
-    self.memoized.imageLookupSortedByScale = imageLookupSortedByScale
-    return imageLookupSortedByScale
+    self.memoized.imageLookupsSortedByScale = imageLookupsSortedByScale
+    return imageLookupsSortedByScale
 end
 
 function CLASS:getImageLookupTryFallback( useDefaultIfNil )
