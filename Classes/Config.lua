@@ -24,8 +24,34 @@ function CLASS:setValues( values )
     self.values = values
 end
 
-function CLASS:getValue( ... )
-    return Data.selectByNestedIndex( self:getValues(), ... )
+function CLASS:getValue( useDefault, ... )
+    local value = Data.selectByNestedIndex( self:getValues(), ... )
+
+    if ( value == nil and ( useDefault or useDefault == nil ) ) then
+        value = self:getDefaultValue( ... )
+    end
+
+    return value
+end
+
+function CLASS:setValue( value, ... )
+    Data.updateByNestedIndex( value, self:getValues(), ... )
+end
+
+function CLASS:getDefaultValues()
+    return self.defaultValues
+end
+
+function CLASS:setDefaultValues( defaultValues )
+    self.defaultValues = defaultValues
+end
+
+function CLASS:getDefaultValue( ... )
+    return Data.selectByNestedIndex( self:getDefaultValues(), ... )
+end
+
+function CLASS:setDefaultValue( value, ... )
+    Data.updateByNestedIndex( value, self:getDefaultValues(), ... )
 end
 
 return CLASS
