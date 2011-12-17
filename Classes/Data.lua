@@ -112,9 +112,29 @@ function CLASS.selectByNestedIndex( targetTable, ... )
 
     local objRef = targetTable
 
-    for i, v in ipairs( arg ) do
-        objRef = objRef [ v ]
-        if ( objRef == nill ) then return nill end
+    for argIndex, argValue in ipairs( arg ) do
+        objRef = objRef [ argValue ]
+        if ( objRef == nil ) then return nil end
+    end
+
+    return objRef
+end
+
+function CLASS.updateByNestedIndex( value, targetTable, ... )
+    if ( targetTable == nil ) then return nil end
+
+    local objRef = targetTable
+    local pathDepth = table.getn( arg )
+
+    for argIndex, argValue in ipairs( arg ) do
+        if ( argIndex == pathDepth ) then
+            objRef [ argValue ] = value
+            break
+        end
+        if ( objRef [ argValue ] == nil ) then
+            objRef [ argValue ] = {}
+        end
+        objRef = objRef [ argValue ]
     end
 
     return objRef
