@@ -49,7 +49,7 @@ function CLASS.copyDeep( table )
         return setmetatable( copy, getmetatable( object ) )
     end
 
-    return _copy( object )
+    return _copy( table )
 end
 
 function CLASS.getDefault( target, default )
