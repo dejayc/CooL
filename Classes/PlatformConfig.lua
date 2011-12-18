@@ -13,7 +13,8 @@ local File = require( CLASSPATH.CooL.File )
 local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
 
 function CLASS:init( ... )
-    self.super:init( ... )
+    self.super.init( self, ... )
+
     self.memoized = {
         imageFileNameForScale = {},
         imageSuffixesForScale = {},
@@ -69,8 +70,9 @@ function CLASS:findImageFileNameForScale(
     return imagePath
 end
 
-function CLASS:getImageSuffixes()
-    return self:getValue( true, "content", "imageSuffix" )
+function CLASS:getImageSuffix()
+    printf( "imageSuffix: [%s]", self:getValues().content.imageSuffix[ "@160x240" ] )
+    return self:getValue( false, "content", "imageSuffix" )
 end
 
 function CLASS:getImageSuffixesForScale( scale )
@@ -78,40 +80,40 @@ function CLASS:getImageSuffixesForScale( scale )
         return self.memoized.imageSuffixesForScale[ scale ]
     end
 
-    local imageSuffixes = {}
-    local imageSuffixesSorted = self:getImageSuffixesSortedByScale()
+    local imageSuffixesForScale = {}
+    local imageSuffixesSortedByScale = self:getImageSuffixesSortedByScale()
 
-    if ( imageSuffixesSorted ~= nil ) then
+    if ( imageSuffixesSortedByScale ~= nil ) then
         if ( scale >= 1 ) then
-            for _, entry in ipairs( imageSuffixesSorted ) do
+            for _, entry in ipairs( imageSuffixesSortedByScale ) do
                 if ( entry.scale > scale ) then break end
 
                 if ( entry.scale >= 1 ) then
-                    table.insert( imageSuffixes, 1, entry.suffix )
+                    table.insert( imageSuffixesForScale, 1, entry.suffix )
                 end
             end
         else
-            for _, entry in ipairs( imageSuffixesSorted ) do
+            for _, entry in ipairs( imageSuffixesSortedByScale ) do
                 if ( entry.scale > 1 ) then break end
 
                 if ( entry.scale >= scale ) then
-                    table.insert( imageSuffixes, entry.suffix )
+                    table.insert( imageSuffixesForScale, entry.suffix )
                 end
             end
         end
     end
 
-    self.memoized.imageSuffixesForScale[ scale ] = imageSuffixes
-    return imageSuffixes
+    self.memoized.imageSuffixesForScale[ scale ] = imageSuffixesForScale
+    return imageSuffixesForScale
 end
 
 function CLASS:getImageSuffixesSortedByScale()
-    local imageSuffixes = self:getImageSuffixes()
-    if ( imageSuffixes == nil ) then return nil end
+    local imageSuffix = self:getImageSuffix()
+    if ( imageSuffix == nil ) then return nil end
 
     local imageScales = {}
     local imageSuffixesByScale = {}
-    for suffix, scale in pairs( imageSuffixes ) do
+    for suffix, scale in pairs( imageSuffix ) do
         if ( type( scale ) == "number" ) then
             table.insert( imageScales, scale )
             imageSuffixesByScale[ scale ] = suffix
@@ -120,14 +122,18 @@ function CLASS:getImageSuffixesSortedByScale()
 
     table.sort( imageScales )
 
-    local imageSuffixesSorted = {}
+    local imageSuffixesSortedByScale = {}
     for _, scale in pairs( imageScales ) do
-        table.insert( imageSuffixesSorted, {
+        table.insert( imageSuffixesSortedByScale, {
             scale = scale,
             suffix = imageSuffixesByScale[ scale ] } )
     end
 
-    return imageSuffixesSorted
+    return imageSuffixesSortedByScale
+end
+
+function CLASS:test()
+    printf( "imageSuffix: [%s]", self:getValues().content.imageSuffix[ "@160x240" ] )
 end
 
 return CLASS
