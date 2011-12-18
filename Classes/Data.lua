@@ -62,6 +62,18 @@ function CLASS.getDefaultIf( target, default, _if )
     return Data.getDefault( target, default )
 end
 
+function CLASS.getNumericKeysSorted( targetTable )
+    local sorted = {}
+    for index, value in pairs( targetTable ) do
+        if ( type( index ) == "number" ) then
+            table.insert( sorted, index )
+        end
+    end
+
+    table.sort( sorted )
+    return sorted
+end
+
 function CLASS.ite( _if, _then, _else )
     if ( _if ) then return _then end
     return _else
@@ -138,18 +150,6 @@ function CLASS.updateByNestedIndex( value, targetTable, ... )
     end
 
     return objRef
-end
-
-function CLASS.getNumericKeysSorted( targetTable )
-    local sorted = {}
-    for index, value in pairs( targetTable ) do
-        if ( type( index ) == "number" ) then
-            table.insert( sorted, index )
-        end
-    end
-
-    table.sort( sorted )
-    return sorted
 end
 
 return CLASS
