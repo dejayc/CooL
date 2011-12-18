@@ -25,7 +25,7 @@ local defaults = {
 }
 
 function CLASS:init( ... )
-    self.super:init( ... )
+    self.super.init( self, ... )
     self:setDefaultValues( defaults )
 
     self.memoized = {
