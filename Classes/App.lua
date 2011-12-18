@@ -17,16 +17,7 @@ function CLASS:init( platformConfig, frameworkConfig )
     self:setPlatformConfig( platformConfig )
     self:setFrameworkConfig( frameworkConfig )
     self:setDisplay( new( CLASSPATH.CooL.Display ) )
-    self:getDisplay():init( self )
-
-    Runtime:addEventListener( "orientation",
-        function( event ) self:onOrientationChange( event ) end
-    )
-end
-
-function CLASS:onOrientationChange( event )
-    -- TODO: Remove
-    self:getDisplay():debugScreenMetrics()
+    self:getDisplay():init( frameworkConfig:getStatusBar() )
 end
 
 function CLASS:getFrameworkConfig()
@@ -35,10 +26,6 @@ end
 
 function CLASS:setFrameworkConfig( frameworkConfig )
     self.frameworkConfig = frameworkConfig
-
-    if ( self:getDisplay() ~= nil ) then
-        self:getDisplay():refreshConfig()
-    end
 end
 
 function CLASS:getPlatformConfig()
@@ -47,10 +34,6 @@ end
 
 function CLASS:setPlatformConfig( platformConfig )
     self.platformConfig = platformConfig
-
-    if ( self:getDisplay() ~= nil ) then
-        self:getDisplay():refreshConfig()
-    end
 end
 
 function CLASS:getDisplay()

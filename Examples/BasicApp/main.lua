@@ -13,8 +13,8 @@ io.flush()
 print( string.format( [[
 Please make sure that 'config.lua' is symlinked or copied to '%s'!
 
-This basic app isn't very visual, but debugging print statements will reveal
-screen statistics when you rotate the hardware in the Corona simulator.
+This basic app doesn't do much, but demonstrates how various objects within
+the framework should be constructed and invoked.
 ]],
 tostring( CLASSPATH.config.platform ) ) )
 
@@ -27,13 +27,47 @@ frameworkConfig:init( require( CLASSPATH.config.framework ) )
 local app = new( CLASSPATH.CooL.App )
 app:init( platformConfig, frameworkConfig )
 
+local function debugScreenMetrics()
+    io.write "Orientation is now: "
+    print( system.orientation )
+
+    io.write "(displayWidth, displayHeight): ("
+    io.write( app:getDisplay():getDisplayWidth() )
+    io.write ", "
+    io.write( app:getDisplay():getDisplayHeight() )
+    print ")"
+
+    io.write "display.(contentScaleX, contentScaleY): ("
+    io.write( display.contentScaleX )
+    io.write ", "
+    io.write( display.contentScaleY )
+    print ")"
+
+    io.write "(displayScale, dynamicScale): ("
+    io.write( app:getDisplay():getDisplayScale(
+        frameworkConfig:getScalingAxis() ) )
+    io.write ", "
+    io.write( app:getDisplay():getDynamicScale(
+        frameworkConfig:getScalingAxis() ) )
+    print ")"
+
+    io.write "imageSuffixesForScale: ("
+    io.write( table.concat(
+        app:getPlatformConfig():getImageSuffixesForScale(
+            app:getDisplay():getDynamicScale(
+                frameworkConfig:getScalingAxis() ) ), ", " ) )
+    print ")"
+end
+
 local function createDisplayReadout()
     local textObj = display.newText(
-        "Scale: " .. app:getDisplay():getDynamicScale(),
+        "Scale: " .. app:getDisplay():getDynamicScale(
+            frameworkConfig:getScalingAxis() ),
         0, 0, nil, 10);
 
     return function( event )
-        textObj.text = "Scale: " .. app:getDisplay():getDynamicScale()
+        textObj.text = "Scale: " .. app:getDisplay():getDynamicScale(
+            frameworkConfig:getScalingAxis() )
     end
 end
 
