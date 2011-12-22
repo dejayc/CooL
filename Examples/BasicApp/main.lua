@@ -27,6 +27,21 @@ frameworkConfig:init( require( CLASSPATH.config.framework ) )
 local app = new( CLASSPATH.CooL.App )
 app:init( platformConfig, frameworkConfig )
 
+printf( "frameworkDisplay:displayScale [%s]",
+    tostring( app:getFrameworkDisplay():getDisplayScale() ) )
+printf( "platformDisplay:displayScale [%s]",
+    tostring( app:getPlatformDisplay():getDisplayScale() ) )
+
+local spriteDir = "Assets/Sprites"
+local imageFile = "Square2.png"
+
+printf( "frameworkDisplay:findImageFileNameForScale [%s]",
+    tostring( app:getFrameworkDisplay():findImageFileNameForScale(
+        imageFile, spriteDir ) ) )
+printf( "platformDisplay:findImageFileNameForScale [%s]",
+    tostring( app:getPlatformDisplay():findImageFileNameForScale(
+        imageFile, spriteDir ) ) )
+
 local function debugScreenMetrics()
     io.write "Orientation is now: "
     print( system.orientation )
@@ -61,13 +76,12 @@ end
 
 local function createDisplayReadout()
     local textObj = display.newText(
-        "Scale: " .. app:getDisplay():getDynamicScale(
-            frameworkConfig:getScalingAxis() ),
+        "Scale: " .. app:getFrameworkDisplay():getDynamicScale(),
         0, 0, nil, 10);
 
     return function( event )
-        textObj.text = "Scale: " .. app:getDisplay():getDynamicScale(
-            frameworkConfig:getScalingAxis() )
+        textObj.text = "Scale: " .. app:getFrameworkDisplay():
+            getDynamicScale()
     end
 end
 

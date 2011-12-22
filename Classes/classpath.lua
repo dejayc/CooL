@@ -29,5 +29,7 @@ return {
     Display = packagePath .. "Display",
     File = packagePath .. "File",
     FrameworkConfig = packagePath .. "FrameworkConfig",
+    FrameworkDisplay = packagePath .. "FrameworkDisplay",
     PlatformConfig = packagePath .. "PlatformConfig",
+    PlatformDisplay = packagePath .. "PlatformDisplay",
 }

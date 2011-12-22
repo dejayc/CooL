@@ -13,8 +13,7 @@ local File = require( CLASSPATH.CooL.File )
 
 local CLASS = autoclass( packagePath( ... ) )
 
-function CLASS:init( statusBar )
-    self:setStatusBar( statusBar )
+function CLASS:init()
 end
 
 function CLASS.getDisplayWidth()
@@ -27,60 +26,13 @@ function CLASS.getDisplayHeight()
         display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
-function CLASS:getDisplayScale( scalingAxis, orientation )
-    local orientation = CLASS.getEffectiveOrientation()
-
-    local scalingFactor = nil
-    local height = CLASS.getDisplayHeight()
-    local heightScale = display.contentScaleY
-    local width = CLASS.getDisplayWidth()
-    local widthScale = display.contentScaleX
-
-    if ( scalingAxis == "minScale" ) then
-        if ( heightScale < widthScale ) then
-            scalingFactor = widthScale
-        else
-            scalingFactor = heightScale
-        end
-    elseif ( scalingAxis == "maxScale" ) then
-        if ( heightScale > widthScale ) then
-            scalingFactor = widthScale
-        else
-            scalingFactor = heightScale
-        end
-    elseif ( scalingAxis == "minResScale" ) then
-        if ( height < width ) then
-            scalingFactor = heightScale
-        else
-            scalingFactor = widthScale
-        end
-    elseif ( scalingAxis == "maxResScale" ) then
-        if ( height > width ) then
-            scalingFactor = heightScale
-        else
-            scalingFactor = widthScale
-        end
-    elseif ( scalingAxis == "widthScale" ) then
-        if ( orientation == "landscape" )
-        then
-            scalingFactor = widthScale
-        else
-            scalingFactor = heightScale
-        end
-    elseif ( scalingAxis == "heightScale" ) then
-        if ( orientation == "landscape" )
-        then
-            scalingFactor = heightScale
-        else
-            scalingFactor = widthScale
-        end
-    end
-    return scalingFactor 
+-- Abstract, must be defined in subclasses in order to work
+function CLASS:getDisplayScale()
+    error( "Illegal call to abstract function 'Display:getDisplayScale'" )
 end
 
-function CLASS:getDynamicScale( scalingAxis, orientation )
-    return Data.roundNumber(
-        1 / self:getDisplayScale( scalingAxis, orientation ), 3 )
+function CLASS:getDynamicScale( ... )
+    return Data.roundNumber( 1 / self:getDisplayScale( ... ), 3 )
 end
 
 function CLASS.getEffectiveOrientation( orientation )
@@ -95,7 +47,7 @@ function CLASS.getEffectiveOrientation( orientation )
     end
 end
 
-function CLASS:setStatusBar( statusBar )
+function CLASS.setStatusBar( statusBar )
     if ( statusBar == "hidden" )
     then
         display.setStatusBar( display.HiddenStatusBar )
