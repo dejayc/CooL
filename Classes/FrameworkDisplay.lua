@@ -31,13 +31,13 @@ end
 function CLASS:refreshConfig()
     self.memoized = {
         displayScale = {}, 
-        imageFileNameForScale = {},
+        imageForScale = {},
         imageLookupsForScale = {},
         imageLookupsSortedByScale = nil,
     }
 end
 
-function CLASS:findImageFileNameForScale(
+function CLASS:findImageForScale(
     imageFileName, imageRootPath, coronaPathType, scale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
@@ -48,8 +48,10 @@ function CLASS:findImageFileNameForScale(
         tostring( imageFileName ), tostring( imageRootPath ),
         tostring( coronaPathType ), tostring( scale ) )
 
-    if ( self.memoized.imageFileNameForScale[ memoizeIndex ] ~= nil ) then
-        return self.memoized.imageFileNameForScale[ memoizeIndex ]
+    if ( self.memoized.imageForScale[ memoizeIndex ] ~= nil ) then
+        return
+            self.memoized.imageForScale[ memoizeIndex ].imagePath,
+            self.memoized.imageForScale[ memoizeIndex ].scale
     end
 
     if ( imageRootPath ~= nil ) then
@@ -63,8 +65,10 @@ function CLASS:findImageFileNameForScale(
         local imagePath = File.getFilePath(
             imageRootPath .. imageFileName, coronaPathType )
 
-        self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
-        return imagePath
+        self.memoized.imageForScale[ memoizeIndex ] = {
+            imagePath = imagePath, scale = 1
+        }
+        return imagePath, 1
     end
 
     local _, _, imagePrefix, imageExt = string.find(
@@ -72,7 +76,10 @@ function CLASS:findImageFileNameForScale(
 
     local attempted = {}
 
-    for _, imageLookup in ipairs( imageLookups ) do
+    for _, entry in ipairs( imageLookups ) do
+        local imageLookup = entry.lookup
+        local imageScale = entry.scale
+
         local imageSubdirs = imageLookup.subdir
         if ( imageSubdirs == nil ) then imageSubdirs = "" end
 
@@ -110,9 +117,10 @@ function CLASS:findImageFileNameForScale(
                             imagePath, coronaPathType )
 
                         if ( imagePath ~= nil ) then
-                            self.memoized.imageFileNameForScale[
-                                memoizeIndex ] = imagePath
-                            return imagePath
+                            self.memoized.imageForScale[ memoizeIndex ] = {
+                                imagePath = imagePath, scale = imageScale
+                            }
+                            return imagePath, imageScale
                         end
                     end
                 end
@@ -128,8 +136,10 @@ function CLASS:findImageFileNameForScale(
     if ( attempted[ imagePath ] ~= nil ) then return nil end
 
     imagePath = File.getFilePath( imagePath, coronaPathType )
-    self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
-    return imagePath
+    self.memoized.imageForScale[ memoizeIndex ] = {
+        imagePath = imagePath, scale = 1
+    }
+    return imagePath, 1
 end
 
 function CLASS:getDisplayScale( scalingAxis )
@@ -204,7 +214,8 @@ function CLASS:getImageLookupsForScale( scale )
                 if ( entry.scale >= 1 ) then
                     local index = 1
                     for _, lookup in pairs( entry.lookup ) do
-                        table.insert( imageLookupsForScale, index, lookup )
+                        table.insert( imageLookupsForScale, index,
+                            { lookup = lookup, scale = entry.scale } )
                         index = index + 1
                     end
                 end
@@ -215,7 +226,8 @@ function CLASS:getImageLookupsForScale( scale )
 
                 if ( entry.scale >= scale ) then
                     for _, lookup in pairs( entry.lookup ) do
-                        table.insert( imageLookupsForScale, lookup )
+                        table.insert( imageLookupsForScale,
+                            { lookup = lookup, scale = entry.scale } )
                     end
                 end
             end

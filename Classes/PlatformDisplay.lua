@@ -29,13 +29,13 @@ end
 
 function CLASS:refreshConfig()
     self.memoized = {
-        imageFileNameForScale = {},
+        imageForScale = {},
         imageSuffixesForScale = {},
-        imageSuffixesSortedByScale = {},
+        imageSuffixesSortedByScale = nil,
     }
 end
 
-function CLASS:findImageFileNameForScale(
+function CLASS:findImageForScale(
     imageFileName, imageRootPath, coronaPathType, scale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
@@ -46,8 +46,10 @@ function CLASS:findImageFileNameForScale(
         tostring( imageFileName ), tostring( imageRootPath ),
         tostring( coronaPathType ), tostring( scale ) )
 
-    if ( self.memoized.imageFileNameForScale[ memoizeIndex ] ~= nil ) then
-        return self.memoized.imageFileNameForScale[ memoizeIndex ]
+    if ( self.memoized.imageForScale[ memoizeIndex ] ~= nil ) then
+        return
+            self.memoized.imageForScale[ memoizeIndex ].imagePath,
+            self.memoized.imageForScale[ memoizeIndex ].scale
     end
 
     if ( imageRootPath ~= nil ) then
@@ -61,29 +63,38 @@ function CLASS:findImageFileNameForScale(
         local imagePath = File.getFilePath(
             imageRootPath .. imageFileName, coronaPathType )
 
-        self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
-        return imagePath
+        self.memoized.imageForScale[ memoizeIndex ] = {
+            imagePath = imagePath, scale = 1
+        }
+        return imagePath, 1
     end
 
     local _, _, imagePrefix, imageExt = string.find(
         imageFileName, "^(.*)%.(.-)$" )
 
-    for _, imageSuffix in ipairs( imageSuffixes ) do
+    for _, entry in ipairs( imageSuffixes ) do
+        local imageSuffix = entry.imageSuffix
+        local imageScale = entry.scale
+
         local imagePath = File.getFilePath(
             imageRootPath .. imagePrefix .. imageSuffix ..  "." .. imageExt,
             coronaPathType )
 
         if ( imagePath ~= nil ) then
-            self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
-            return imagePath
+            self.memoized.imageForScale[ memoizeIndex ] = {
+                imagePath = imagePath, scale = imageScale
+            }
+            return imagePath, imageScale
         end
     end
 
     local imagePath = File.getFilePath(
         imageRootPath .. imageFileName, coronaPathType )
 
-    self.memoized.imageFileNameForScale[ memoizeIndex ] = imagePath
-    return imagePath
+    self.memoized.imageForScale[ memoizeIndex ] = {
+        imagePath = imagePath, scale = 1
+    }
+    return imagePath, 1
 end
 
 function CLASS:getDisplayScale()
@@ -111,7 +122,8 @@ function CLASS:getImageSuffixesForScale( scale )
                 if ( entry.scale > scale ) then break end
 
                 if ( entry.scale >= 1 ) then
-                    table.insert( imageSuffixesForScale, 1, entry.suffix )
+                    table.insert( imageSuffixesForScale, 1, {
+                        imageSuffix = entry.suffix, scale = entry.scale } )
                 end
             end
         else
@@ -119,7 +131,8 @@ function CLASS:getImageSuffixesForScale( scale )
                 if ( entry.scale > 1 ) then break end
 
                 if ( entry.scale >= scale ) then
-                    table.insert( imageSuffixesForScale, entry.suffix )
+                    table.insert( imageSuffixesForScale, {
+                        imageSuffix = entry.suffix, scale = entry.scale } )
                 end
             end
         end

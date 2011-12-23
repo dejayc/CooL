@@ -33,14 +33,19 @@ printf( "platformDisplay:displayScale [%s]",
     tostring( app:getPlatformDisplay():getDisplayScale() ) )
 
 local spriteDir = "Assets/Sprites"
-local imageFile = "Square2.png"
+local imageFile = "Square.png"
 
-printf( "frameworkDisplay:findImageFileNameForScale [%s]",
-    tostring( app:getFrameworkDisplay():findImageFileNameForScale(
-        imageFile, spriteDir ) ) )
-printf( "platformDisplay:findImageFileNameForScale [%s]",
-    tostring( app:getPlatformDisplay():findImageFileNameForScale(
-        imageFile, spriteDir ) ) )
+local imagePath, imageScale = app:getFrameworkDisplay():findImageForScale(
+    imageFile, spriteDir )
+
+printf( "frameworkDisplay:findImageForScale [%s],[%s]",
+    tostring( imagePath ), tostring( imageScale ) )
+
+imagePath, imageScale = app:getPlatformDisplay():findImageForScale(
+    imageFile, spriteDir )
+
+printf( "platformDisplay:findImageForScale [%s],[%s]",
+    tostring( imagePath ), tostring( imageScale ) )
 
 local function debugScreenMetrics()
     io.write "Orientation is now: "
