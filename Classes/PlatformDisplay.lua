@@ -36,20 +36,20 @@ function CLASS:refreshConfig()
 end
 
 function CLASS:findImageForScale(
-    imageFileName, imageRootPath, coronaPathType, scale
+    imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
-    scale = scale or self:getDynamicScale()
+    dynamicScale = dynamicScale or self:getDynamicScale()
 
     local memoizeIndex = string.format( "%s:%s:%s:%s",
         tostring( imageFileName ), tostring( imageRootPath ),
-        tostring( coronaPathType ), tostring( scale ) )
+        tostring( coronaPathType ), tostring( dynamicScale ) )
 
     if ( self.memoized.imageForScale[ memoizeIndex ] ~= nil ) then
         return
             self.memoized.imageForScale[ memoizeIndex ].imagePath,
-            self.memoized.imageForScale[ memoizeIndex ].scale
+            self.memoized.imageForScale[ memoizeIndex ].imageScale
     end
 
     if ( imageRootPath ~= nil ) then
@@ -58,41 +58,38 @@ function CLASS:findImageForScale(
         imageRootPath = ""
     end
 
-    local imageSuffixes = self:getImageSuffixesForScale( scale )
-    if ( imageSuffixes == nil or table.getn( imageSuffixes ) < 1 ) then
-        local imagePath = File.getFilePath(
-            imageRootPath .. imageFileName, coronaPathType )
+    local imageSuffixes = self:getImageSuffixesForScale( dynamicScale )
+    if ( table.getn( imageSuffixes or {} ) > 0 ) then
 
-        self.memoized.imageForScale[ memoizeIndex ] = {
-            imagePath = imagePath, scale = 1
-        }
-        return imagePath, 1
-    end
+        local _, _, imagePrefix, imageExt = string.find(
+            imageFileName, "^(.*)%.(.-)$" )
 
-    local _, _, imagePrefix, imageExt = string.find(
-        imageFileName, "^(.*)%.(.-)$" )
+        for _, entry in ipairs( imageSuffixes ) do
+            local imageSuffix = entry.imageSuffix
+            local imageScale = entry.scale
 
-    for _, entry in ipairs( imageSuffixes ) do
-        local imageSuffix = entry.imageSuffix
-        local imageScale = entry.scale
+            local imagePath = imageRootPath .. imagePrefix .. imageSuffix ..
+                "." .. imageExt
 
-        local imagePath = File.getFilePath(
-            imageRootPath .. imagePrefix .. imageSuffix ..  "." .. imageExt,
-            coronaPathType )
-
-        if ( imagePath ~= nil ) then
-            self.memoized.imageForScale[ memoizeIndex ] = {
-                imagePath = imagePath, scale = imageScale
-            }
-            return imagePath, imageScale
+            if ( File.getFilePath( imagePath, coronaPathType ) )
+            then
+                self.memoized.imageForScale[ memoizeIndex ] = {
+                    imagePath = imagePath, imageScale = imageScale
+                }
+                return imagePath, imageScale
+            end
         end
     end
 
-    local imagePath = File.getFilePath(
-        imageRootPath .. imageFileName, coronaPathType )
+    local imagePath = imageRootPath .. imageFileName
+
+    if ( File.getFilePath( imagePath, coronaPathType ) == nil ) then
+        self.memoized.imageForScale[ memoizeIndex ] = {}
+        return nil
+    end
 
     self.memoized.imageForScale[ memoizeIndex ] = {
-        imagePath = imagePath, scale = 1
+        imagePath = imagePath, imageScale = 1
     }
     return imagePath, 1
 end
