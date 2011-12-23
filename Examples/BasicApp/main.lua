@@ -27,25 +27,15 @@ frameworkConfig:init( require( CLASSPATH.config.framework ) )
 local app = new( CLASSPATH.CooL.App )
 app:init( platformConfig, frameworkConfig )
 
-printf( "frameworkDisplay:displayScale [%s]",
-    tostring( app:getFrameworkDisplay():getDisplayScale() ) )
-printf( "platformDisplay:displayScale [%s]",
-    tostring( app:getPlatformDisplay():getDisplayScale() ) )
-
 local spriteDir = "Assets/Sprites"
 local imageFile = "Square.png"
-
 local imagePath, imageScale = app:getFrameworkDisplay():findImageForScale(
     imageFile, spriteDir )
 
-printf( "frameworkDisplay:findImageForScale [%s],[%s]",
-    tostring( imagePath ), tostring( imageScale ) )
-
-imagePath, imageScale = app:getPlatformDisplay():findImageForScale(
-    imageFile, spriteDir )
-
-printf( "platformDisplay:findImageForScale [%s],[%s]",
-    tostring( imagePath ), tostring( imageScale ) )
+-- local image = display.newImage( spriteDir .. "/" .. imageFile, 0, 0 )
+local image = display.newImage( imagePath, 0, 0 )
+image.xScale = 1 / imageScale
+image.yScale = 1 / imageScale
 
 local function debugScreenMetrics()
     io.write "Orientation is now: "

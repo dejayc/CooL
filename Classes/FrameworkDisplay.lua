@@ -35,23 +35,24 @@ function CLASS:refreshConfig()
         imageLookupsForScale = {},
         imageLookupsSortedByScale = nil,
     }
+    self.memoized.imageForScale.attempted = {}
 end
 
 function CLASS:findImageForScale(
-    imageFileName, imageRootPath, coronaPathType, scale
+    imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
-    scale = scale or self:getDynamicScale()
+    dynamicScale = dynamicScale or self:getDynamicScale()
 
     local memoizeIndex = string.format( "%s:%s:%s:%s",
         tostring( imageFileName ), tostring( imageRootPath ),
-        tostring( coronaPathType ), tostring( scale ) )
+        tostring( coronaPathType ), tostring( dynamicScale ) )
 
     if ( self.memoized.imageForScale[ memoizeIndex ] ~= nil ) then
         return
             self.memoized.imageForScale[ memoizeIndex ].imagePath,
-            self.memoized.imageForScale[ memoizeIndex ].scale
+            self.memoized.imageForScale[ memoizeIndex ].imageScale
     end
 
     if ( imageRootPath ~= nil ) then
@@ -60,67 +61,61 @@ function CLASS:findImageForScale(
         imageRootPath = ""
     end
 
-    local imageLookups = self:getImageLookupsForScale( scale )
-    if ( imageLookups == nil or table.getn( imageLookups ) < 1 ) then
-        local imagePath = File.getFilePath(
-            imageRootPath .. imageFileName, coronaPathType )
+    local imageLookups = self:getImageLookupsForScale( dynamicScale )
+    if ( table.getn( imageLookups or {} ) > 0 ) then
 
-        self.memoized.imageForScale[ memoizeIndex ] = {
-            imagePath = imagePath, scale = 1
-        }
-        return imagePath, 1
-    end
+        local _, _, imagePrefix, imageExt = string.find(
+            imageFileName, "^(.*)%.(.-)$" )
 
-    local _, _, imagePrefix, imageExt = string.find(
-        imageFileName, "^(.*)%.(.-)$" )
+        local checkedPaths = {}
 
-    local attempted = {}
+        for _, entry in ipairs( imageLookups ) do
+            local imageLookup = entry.lookup
+            local imageScale = entry.scale
 
-    for _, entry in ipairs( imageLookups ) do
-        local imageLookup = entry.lookup
-        local imageScale = entry.scale
+            local imageSubdirs = imageLookup.subdir
+            if ( imageSubdirs == nil ) then imageSubdirs = "" end
 
-        local imageSubdirs = imageLookup.subdir
-        if ( imageSubdirs == nil ) then imageSubdirs = "" end
+            if ( type( imageSubdirs ) ~= "table" ) then
+                imageSubdirs = { imageSubdirs }
+            end
 
-        if ( type( imageSubdirs ) ~= "table" ) then
-            imageSubdirs = { imageSubdirs }
-        end
+            local imageSuffixes = imageLookup.suffix
+            if ( imageSuffixes == nil ) then imageSuffixes = "" end
 
-        local imageSuffixes = imageLookup.suffix
-        if ( imageSuffixes == nil ) then imageSuffixes = "" end
+            if ( type( imageSuffixes ) ~= "table" ) then
+                imageSuffixes = { imageSuffixes }
+            end
 
-        if ( type( imageSuffixes ) ~= "table" ) then
-            imageSuffixes = { imageSuffixes }
-        end
-
-        for _, imageSubdir in ipairs( imageSubdirs )
-        do
-            for _, imageSuffix in ipairs( imageSuffixes )
+            for _, imageSubdir in ipairs( imageSubdirs )
             do
-                if ( imageSubdir ~= "" or imageSuffix ~= "" )
-                then
-                    local imagePath = imageRootPath
- 
-                    if ( imageSubdir ~= "" ) then
-                        imagePath = imagePath .. imageSubdir ..
-                            File.PATH_SEPARATOR
-                    end
+                for _, imageSuffix in ipairs( imageSuffixes )
+                do
+                    if ( imageSubdir ~= "" or imageSuffix ~= "" )
+                    then
+                        local imagePath = imageRootPath
 
-                    imagePath = imagePath .. imagePrefix .. imageSuffix ..
-                        "." .. imageExt
+                        if ( imageSubdir ~= "" ) then
+                            imagePath = imagePath .. imageSubdir ..
+                                File.PATH_SEPARATOR
+                        end
 
-                    if ( attempted[ imagePath ] == nil ) then
-                        attempted[ imagePath ] = true
+                        imagePath = imagePath .. imagePrefix .. imageSuffix ..
+                            "." .. imageExt
 
-                        imagePath = File.getFilePath(
-                            imagePath, coronaPathType )
+                        if ( checkedPaths[ imagePath ] == nil ) then
+                            checkedPaths[ imagePath ] = true
 
-                        if ( imagePath ~= nil ) then
-                            self.memoized.imageForScale[ memoizeIndex ] = {
-                                imagePath = imagePath, scale = imageScale
-                            }
-                            return imagePath, imageScale
+                            if ( File.getFilePath(
+                                imagePath, coronaPathType ) ~= nil )
+                            then
+                                self.memoized.imageForScale[ memoizeIndex ] =
+                                {
+                                    imagePath = imagePath,
+                                    imageScale = imageScale,
+                                }
+                                return imagePath, imageScale
+                            end
                         end
                     end
                 end
@@ -129,15 +124,18 @@ function CLASS:findImageForScale(
     end
 
     if ( not self:getFrameworkConfig():getImageLookupTryFallback() ) then
+        self.memoized.imageForScale[ memoizeIndex ] = { }
         return nil
     end
 
     local imagePath = imageRootPath .. imageFileName
-    if ( attempted[ imagePath ] ~= nil ) then return nil end
 
-    imagePath = File.getFilePath( imagePath, coronaPathType )
+    if ( File.getFilePath( imagePath, coronaPathType ) == nil ) then
+        imagePath = nil
+    end
+
     self.memoized.imageForScale[ memoizeIndex ] = {
-        imagePath = imagePath, scale = 1
+        imagePath = imagePath, imageScale = 1
     }
     return imagePath, 1
 end
