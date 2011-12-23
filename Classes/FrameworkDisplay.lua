@@ -74,14 +74,14 @@ function CLASS:findImageForScale(
             local imageScale = entry.scale
 
             local imageSubdirs = imageLookup.subdir
-            if ( imageSubdirs == nil ) then imageSubdirs = "" end
+            if ( imageSubdirs == nil ) then imageSubdirs = { "" } end
 
             if ( type( imageSubdirs ) ~= "table" ) then
                 imageSubdirs = { imageSubdirs }
             end
 
             local imageSuffixes = imageLookup.suffix
-            if ( imageSuffixes == nil ) then imageSuffixes = "" end
+            if ( imageSuffixes == nil ) then imageSuffixes = { "" } end
 
             if ( type( imageSuffixes ) ~= "table" ) then
                 imageSuffixes = { imageSuffixes }
@@ -124,14 +124,15 @@ function CLASS:findImageForScale(
     end
 
     if ( not self:getFrameworkConfig():getImageLookupTryFallback() ) then
-        self.memoized.imageForScale[ memoizeIndex ] = { }
+        self.memoized.imageForScale[ memoizeIndex ] = {}
         return nil
     end
 
     local imagePath = imageRootPath .. imageFileName
 
     if ( File.getFilePath( imagePath, coronaPathType ) == nil ) then
-        imagePath = nil
+        self.memoized.imageForScale[ memoizeIndex ] = {}
+        return nil
     end
 
     self.memoized.imageForScale[ memoizeIndex ] = {
