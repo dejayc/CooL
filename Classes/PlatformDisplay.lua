@@ -35,7 +35,7 @@ function CLASS:refreshConfig()
     }
 end
 
-function CLASS:findImageForScale(
+function CLASS:findImage(
     imageFileName, imageRootPath, coronaPathType
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
