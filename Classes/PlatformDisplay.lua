@@ -36,11 +36,11 @@ function CLASS:refreshConfig()
 end
 
 function CLASS:findImageForScale(
-    imageFileName, imageRootPath, coronaPathType, dynamicScale
+    imageFileName, imageRootPath, coronaPathType
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
-    dynamicScale = dynamicScale or self:getDynamicScale()
+    local dynamicScale = self:getDynamicScale()
 
     local memoizeIndex = string.format( "%s:%s:%s:%s",
         tostring( imageFileName ), tostring( imageRootPath ),
