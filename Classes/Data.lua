@@ -27,7 +27,7 @@ function CLASS.copy( object )
 end
 
 -- Thanks to http://lua-users.org/wiki/CopyTable
-function CLASS.copyDeep( table )
+function CLASS.copyDeep( targetTable )
     local lookupTable = {}
 
     local function _copy( object )
@@ -49,7 +49,7 @@ function CLASS.copyDeep( table )
         return setmetatable( copy, getmetatable( object ) )
     end
 
-    return _copy( table )
+    return _copy( targetTable )
 end
 
 function CLASS.getDefault( target, default )
@@ -86,29 +86,29 @@ function CLASS.memoize( fn, self )
     if ( self == nil ) then
     return setmetatable( {},
     {
-        __index = function( table, key )
+        __index = function( targetTable, key )
             key = key or ""
             local value = fn( key )
-            table[ key ] = value
+            targetTable[ key ] = value
             return value
         end,
-        __call  = function( table, key )
-            return table[ key ]
+        __call  = function( targetTable, key )
+            return targetTable[ key ]
         end
     } )
     end
 
     return setmetatable( {},
     {
-        __index = function( table, key )
+        __index = function( targetTable, key )
             key = key or ""
             local value = fn( self, key )
-            table[ key ] = value
+            targetTable[ key ] = value
             return value
         end,
-        __call  = function( table, self, key )
+        __call  = function( targetTable, self, key )
             key = key or ""
-            return table[ key ]
+            return targetTable[ key ]
         end
     } )
 end
