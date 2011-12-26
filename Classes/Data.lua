@@ -74,6 +74,12 @@ function CLASS.getNumericKeysSorted( targetTable )
     return sorted
 end
 
+function CLASS.isNonEmptyTable( targetTable )
+    return
+        type( targetTable ) == "table" and
+        table.getn( targetTable ) > 0
+end
+
 function CLASS.ite( _if, _then, _else )
     if ( _if ) then return _then end
     return _else
