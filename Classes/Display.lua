@@ -47,6 +47,37 @@ function CLASS.getEffectiveOrientation( orientation )
     end
 end
 
+-- Abstract, must be defined in subclasses in order to work
+function CLASS:findImage()
+    error( "Illegal call to abstract function 'Display:findImageForScale'" )
+end
+
+function CLASS:getImage(
+    imageFileName, imageRootPath, xPos, yPos, coronaPathType
+)
+    local imagePath, imageScale = self:findImage(
+        imageFileName, imageRootPath, coronaPathType )
+
+    if ( imagePath ~= nil ) then
+        local image = display.newImage( imagePath, xPos, yPos )
+        image.xScale = 1 / imageScale
+        image.yScale = 1 / imageScale
+        return image
+    end
+end
+
+function CLASS.getImageBoundingBox( image )
+    xBound = ( image.width * image.xScale ) / 2
+    yBound = ( image.height * image.yScale ) / 2
+
+    return {
+        -xBound, -yBound,
+        xBound, -yBound,
+        xBound, yBound,
+        -xBound, yBound
+    }
+end
+
 function CLASS.setStatusBar( statusBar )
     if ( statusBar == "hidden" )
     then
