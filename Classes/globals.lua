@@ -7,6 +7,9 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+-- Global "nil" object to represent nil values in tables.
+NIL = {}
+
 function autoclass( name, object, ... )
     if ( object == nil ) then object = {} end
     object.className = className( name )
