@@ -119,6 +119,55 @@ function CLASS.memoize( fn, self )
     } )
 end
 
+function CLASS.memoizeMulti( fn, fnIndex, self )
+    fn = fn or function( x ) return nil end
+    fnIndex = fnIndex or function( ... ) return table.concat( ..., ":" ) end
+
+    if ( self == nil ) then
+    return setmetatable( {},
+    {
+        __call  = function( targetTable, ... )
+            local key = fnIndex( ... )
+            local values = targetTable[ key ]
+
+            if ( values == nil ) then
+                values = CLASS.pack( fn( ... ) )
+                targetTable[ key ] = values
+            end
+
+            if ( table.getn( values ) > 0 ) then
+                return unpack( values )
+            end
+
+            return nil
+        end
+    } )
+    end
+
+    return setmetatable( {},
+    {
+        __call  = function( targetTable, self, ... )
+            local key = fnIndex( ... )
+            local values = targetTable[ key ]
+
+            if ( values == nil ) then
+                values = CLASS.pack( fn( self, ... ) )
+                targetTable[ key ] = values
+            end
+
+            if ( table.getn( values ) > 0 ) then
+                return unpack( values )
+            end
+
+            return nil
+        end
+    } )
+end
+
+function CLASS.pack( ... )
+    return arg
+end
+
 -- Thanks to http://lua-users.org/wiki/SimpleRound
 function CLASS.roundNumber( num, idp )
     local mult = 10^( idp or 0 )
