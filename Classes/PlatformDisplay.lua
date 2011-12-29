@@ -46,10 +46,14 @@ function CLASS:findImage(
         tostring( imageFileName ), tostring( imageRootPath ),
         tostring( coronaPathType ), tostring( dynamicScale ) )
 
-    if ( self.memoized.imageForScale[ memoizeIndex ] ~= nil ) then
-        return
-            self.memoized.imageForScale[ memoizeIndex ].imagePath,
-            self.memoized.imageForScale[ memoizeIndex ].imageScale
+    local memoizeEntry = self.memoized.imageForScale[ memoizeIndex ]
+    if ( type( memoizeEntry ) == "table" ) then
+        if ( table.getn( memoizeEntry ) > 0 ) then
+            return
+                memoizeEntry.imagePath, memoizeEntry.imageFileName,
+                memoizeEntry.imageScale
+        end
+        return nil
     end
 
     if ( imageRootPath ~= nil ) then
@@ -59,7 +63,7 @@ function CLASS:findImage(
     end
 
     local imageSuffixes = self:getImageSuffixesForScale( dynamicScale )
-    if ( table.getn( imageSuffixes or {} ) > 0 ) then
+    if ( Data.isNonEmptyTable( imageSuffixes ) ) then
 
         local _, _, imagePrefix, imageExt = string.find(
             imageFileName, "^(.*)%.(.-)$" )
@@ -68,30 +72,32 @@ function CLASS:findImage(
             local imageSuffix = entry.imageSuffix
             local imageScale = entry.scale
 
-            local imagePath = imageRootPath .. imagePrefix .. imageSuffix ..
-                "." .. imageExt
+            local imageFileName = imagePrefix .. imageSuffix .. "." .. imageExt
+            local checkedPath = imageRootPath .. imageFileName
 
-            if ( File.getFilePath( imagePath, coronaPathType ) )
+            if ( File.getFilePath( checkedPath, coronaPathType ) )
             then
                 self.memoized.imageForScale[ memoizeIndex ] = {
-                    imagePath = imagePath, imageScale = imageScale
+                    imagePath = imageRootPath, imageFileName = imageFileName,
+                    imageScale = imageScale
                 }
-                return imagePath, imageScale
+                return imageRootPath, imageFileName, imageScale
             end
         end
     end
 
-    local imagePath = imageRootPath .. imageFileName
+    local checkedPath = imageRootPath .. imageFileName
 
-    if ( File.getFilePath( imagePath, coronaPathType ) == nil ) then
+    if ( File.getFilePath( imageRootPath, coronaPathType ) == nil ) then
         self.memoized.imageForScale[ memoizeIndex ] = {}
         return nil
     end
 
     self.memoized.imageForScale[ memoizeIndex ] = {
-        imagePath = imagePath, imageScale = 1
+        imagePath = imageRootPath, imageFileName = imageFileName,
+        imageScale = 1
     }
-    return imagePath, 1
+    return imageRootPath, imageFilename, 1
 end
 
 function CLASS:getDisplayScale()
