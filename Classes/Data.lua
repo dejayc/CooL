@@ -121,7 +121,9 @@ end
 
 function CLASS.memoizeMulti( fn, fnIndex, self )
     fn = fn or function( x ) return nil end
-    fnIndex = fnIndex or function( ... ) return table.concat( ..., ":" ) end
+    fnIndex = fnIndex or function( ... )
+        return "[" .. table.concat( ..., "]:[" ) .. "]"
+    end
 
     if ( self == nil ) then
     return setmetatable( {},
