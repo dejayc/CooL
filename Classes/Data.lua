@@ -86,55 +86,23 @@ function CLASS.ite( _if, _then, _else )
 end
 
 -- Thanks to http://lua-users.org/wiki/FuncTables
-function CLASS.memoize( fn, self )
-    fn = fn or function( x ) return nil end
-
-    if ( self == nil ) then
-    return setmetatable( {},
-    {
-        __index = function( targetTable, key )
-            key = key or ""
-            local value = fn( key )
-            targetTable[ key ] = value
-            return value
-        end,
-        __call  = function( targetTable, key )
-            return targetTable[ key ]
+function CLASS.memoize( fn )
+    local function fnKey( ... )
+        local key = ""
+        for i = 1, table.getn( arg ) do
+            key = key .. "[" .. tostring( arg[ i ] ) .. "]"
         end
-    } )
+        return key 
     end
 
-    return setmetatable( {},
-    {
-        __index = function( targetTable, key )
-            key = key or ""
-            local value = fn( self, key )
-            targetTable[ key ] = value
-            return value
-        end,
-        __call  = function( targetTable, self, key )
-            key = key or ""
-            return targetTable[ key ]
-        end
-    } )
-end
-
-function CLASS.memoizeMulti( fn, fnIndex, self )
-    fn = fn or function( x ) return nil end
-    fnIndex = fnIndex or function( ... )
-        return "[" .. table.concat( ..., "]:[" ) .. "]"
-    end
-
-    if ( self == nil ) then
-    return setmetatable( {},
-    {
+    local object = {
         __call  = function( targetTable, ... )
-            local key = fnIndex( ... )
-            local values = targetTable[ key ]
+            local key = fnKey( ... )
+            local values = targetTable.__memoized[ key ]
 
             if ( values == nil ) then
                 values = CLASS.pack( fn( ... ) )
-                targetTable[ key ] = values
+                targetTable.__memoized[ key ] = values
             end
 
             if ( table.getn( values ) > 0 ) then
@@ -142,28 +110,13 @@ function CLASS.memoizeMulti( fn, fnIndex, self )
             end
 
             return nil
-        end
-    } )
-    end
+        end,
+        __forget = function( self ) self.__memoized = {} end,
+        __memoized = {},
+        __mode = "v",
+    }
 
-    return setmetatable( {},
-    {
-        __call  = function( targetTable, self, ... )
-            local key = fnIndex( ... )
-            local values = targetTable[ key ]
-
-            if ( values == nil ) then
-                values = CLASS.pack( fn( self, ... ) )
-                targetTable[ key ] = values
-            end
-
-            if ( table.getn( values ) > 0 ) then
-                return unpack( values )
-            end
-
-            return nil
-        end
-    } )
+    return setmetatable( object, object )
 end
 
 function CLASS.pack( ... )
