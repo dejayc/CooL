@@ -7,11 +7,14 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-return {
+local CLASSPATH = {
     root = "Classes",
-    config = {
-        framework = "config-framework",
-        platform = "config-platform",
-    },
     CooL = require( "Classes.classpath" ),
 }
+
+CLASSPATH.CooL.config = {
+    framework = "config-framework",
+    platform = "config-platform",
+}
+
+return CLASSPATH
