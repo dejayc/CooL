@@ -16,13 +16,13 @@ Please make sure that 'config.lua' is symlinked or copied to '%s'!
 This basic app doesn't do much, but demonstrates how various objects within
 the framework should be constructed and invoked.
 ]],
-tostring( CLASSPATH.config.platform ) ) )
+tostring( CLASSPATH.CooL.config.platform ) ) )
 
 local platformConfig = new( CLASSPATH.CooL.PlatformConfig )
-platformConfig:init( require( CLASSPATH.config.platform ) )
+platformConfig:init( require( CLASSPATH.CooL.config.platform ) )
 
 local frameworkConfig = new( CLASSPATH.CooL.FrameworkConfig )
-frameworkConfig:init( require( CLASSPATH.config.framework ) )
+frameworkConfig:init( require( CLASSPATH.CooL.config.framework ) )
 
 local app = new( CLASSPATH.CooL.App )
 app:init( platformConfig, frameworkConfig )
