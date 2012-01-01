@@ -28,33 +28,15 @@ function CLASS:setPlatformConfig( platformConfig )
 end
 
 function CLASS:refreshConfig()
-    self.memoized = {
-        imageForScale = {},
-        imageSuffixesForScale = {},
-        imageSuffixesSortedByScale = nil,
-    }
+    self.findImage:__forget()
+    self.getImageSuffixesForScale:__forget()
+    self.getImageSuffixesSortedByScale:__forget()
 end
 
-function CLASS:findImage(
-    imageFileName, imageRootPath, coronaPathType
+CLASS.findImage = Data.memoize( function (
+    self, imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
-
-    local dynamicScale = self:getDynamicScale()
-
-    local memoizeIndex = string.format( "%s:%s:%s:%s",
-        tostring( imageFileName ), tostring( imageRootPath ),
-        tostring( coronaPathType ), tostring( dynamicScale ) )
-
-    local memoizeEntry = self.memoized.imageForScale[ memoizeIndex ]
-    if ( type( memoizeEntry ) == "table" ) then
-        if ( table.getn( memoizeEntry ) > 0 ) then
-            return
-                memoizeEntry.imagePath, memoizeEntry.imageFileName,
-                memoizeEntry.imageScale
-        end
-        return nil
-    end
 
     if ( imageRootPath ~= nil ) then
         imageRootPath = imageRootPath .. File.PATH_SEPARATOR
@@ -62,7 +44,9 @@ function CLASS:findImage(
         imageRootPath = ""
     end
 
+    dynamicScale = dynamicScale or self:getDynamicScale()
     local imageSuffixes = self:getImageSuffixesForScale( dynamicScale )
+
     if ( Data.isNonEmptyTable( imageSuffixes ) ) then
 
         local _, _, imagePrefix, imageExt = string.find(
@@ -77,10 +61,6 @@ function CLASS:findImage(
 
             if ( File.getFilePath( checkedPath, coronaPathType ) )
             then
-                self.memoized.imageForScale[ memoizeIndex ] = {
-                    imagePath = imageRootPath, imageFileName = imageFileName,
-                    imageScale = imageScale
-                }
                 return imageRootPath, imageFileName, imageScale
             end
         end
@@ -88,17 +68,12 @@ function CLASS:findImage(
 
     local checkedPath = imageRootPath .. imageFileName
 
-    if ( File.getFilePath( imageRootPath, coronaPathType ) == nil ) then
-        self.memoized.imageForScale[ memoizeIndex ] = {}
+    if ( File.getFilePath( checkedPath, coronaPathType ) == nil ) then
         return nil
     end
 
-    self.memoized.imageForScale[ memoizeIndex ] = {
-        imagePath = imageRootPath, imageFileName = imageFileName,
-        imageScale = 1
-    }
-    return imageRootPath, imageFilename, 1
-end
+    return imageRootPath, imageFileName, 1
+end )
 
 function CLASS:getDisplayScale()
     local heightScale = display.contentScaleY
@@ -111,11 +86,9 @@ function CLASS:getDisplayScale()
     end
 end
 
-function CLASS:getImageSuffixesForScale( scale )
-    if ( self.memoized.imageSuffixesForScale[ scale ] ~= nil ) then
-        return self.memoized.imageSuffixesForScale[ scale ]
-    end
-
+CLASS.getImageSuffixesForScale = Data.memoize( function(
+    self, scale
+)
     local imageSuffixesForScale = {}
     local imageSuffixesSortedByScale = self:getImageSuffixesSortedByScale()
 
@@ -141,15 +114,12 @@ function CLASS:getImageSuffixesForScale( scale )
         end
     end
 
-    self.memoized.imageSuffixesForScale[ scale ] = imageSuffixesForScale
     return imageSuffixesForScale
-end
+end )
 
-function CLASS:getImageSuffixesSortedByScale()
-    if ( self.memoized.imageSuffixesSortedByScale ~= nil ) then
-        return self.memoized.imageSuffixesSortedByScale
-    end
-
+CLASS.getImageSuffixesSortedByScale = Data.memoize( function(
+    self
+)
     local imageSuffix = self:getPlatformConfig():getImageSuffix()
     if ( imageSuffix == nil ) then return nil end
 
@@ -171,8 +141,7 @@ function CLASS:getImageSuffixesSortedByScale()
             suffix = imageSuffixesByScale[ scale ] } )
     end
 
-    self.memoized.imageSuffixesSortedByScale = imageSuffixesSortedByScale
     return imageSuffixesSortedByScale
-end
+end )
 
 return CLASS

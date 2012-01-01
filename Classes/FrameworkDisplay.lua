@@ -29,35 +29,16 @@ function CLASS:setFrameworkConfig( frameworkConfig )
 end
 
 function CLASS:refreshConfig()
-    self.memoized = {
-        displayScale = {}, 
-        imageForScale = {},
-        imageLookupsForScale = {},
-        imageLookupsSortedByScale = nil,
-    }
-    self.memoized.imageForScale.attempted = {}
+    self.findImage:__forget()
+    self.getDisplayScale:__forget()
+    self.getImageLookupsForScale:__forget()
+    self.getImageLookupsSortedByScale:__forget()
 end
 
-function CLASS:findImage(
-    imageFileName, imageRootPath, coronaPathType
+CLASS.findImage = Data.memoize( function(
+    self, imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
-
-    local dynamicScale = self:getDynamicScale()
-
-    local memoizeIndex = string.format( "%s:%s:%s:%s",
-        tostring( imageFileName ), tostring( imageRootPath ),
-        tostring( coronaPathType ), tostring( dynamicScale ) )
-
-    local memoizeEntry = self.memoized.imageForScale[ memoizeIndex ]
-    if ( type( memoizeEntry ) == "table" ) then
-        if ( table.getn( memoizeEntry ) > 0 ) then
-            return
-                memoizeEntry.imagePath, memoizeEntry.imageFileName,
-                memoizeEntry.imageScale
-        end
-        return nil
-    end
 
     if ( imageRootPath ~= nil ) then
         imageRootPath = imageRootPath .. File.PATH_SEPARATOR
@@ -65,7 +46,9 @@ function CLASS:findImage(
         imageRootPath = ""
     end
 
+    dynamicScale = dynamicScale or self:getDynamicScale()
     local imageLookups = self:getImageLookupsForScale( dynamicScale )
+
     if ( Data.isNonEmptyTable( imageLookups ) ) then
 
         local _, _, imagePrefix, imageExt = string.find(
@@ -117,12 +100,6 @@ function CLASS:findImage(
                             if ( File.getFilePath(
                                 checkedPath, coronaPathType ) ~= nil )
                             then
-                                self.memoized.imageForScale[ memoizeIndex ] =
-                                {
-                                    imagePath = imagePath,
-                                    imageFileName = imageFileName,
-                                    imageScale = imageScale,
-                                }
                                 return imagePath, imageFileName, imageScale
                             end
                         end
@@ -133,30 +110,22 @@ function CLASS:findImage(
     end
 
     if ( not self:getFrameworkConfig():getImageLookupTryFallback() ) then
-        self.memoized.imageForScale[ memoizeIndex ] = {}
         return nil
     end
 
     local checkedPath = imageRootPath .. imageFileName
 
     if ( File.getFilePath( checkedPath, coronaPathType ) == nil ) then
-        self.memoized.imageForScale[ memoizeIndex ] = {}
         return nil
     end
 
-    self.memoized.imageForScale[ memoizeIndex ] = {
-        imagePath = imageRootPath, imageFileName = imageFileName,
-        imageScale = 1
-    }
     return imageRootPath, imageFileName, 1
-end
+end )
 
-function CLASS:getDisplayScale( scalingAxis )
+CLASS.getDisplayScale = Data.memoize( function(
+    self, scalingAxis
+)
     scalingAxis = scalingAxis or self:getFrameworkConfig():getScalingAxis()
-
-    if ( self.memoized.displayScale[ scalingAxis ] ~= nil ) then
-        return self.memoized.displayScale[ scalingAxis ]
-    end
 
     local displayScale = nil
     local height = CLASS.getDisplayHeight()
@@ -203,15 +172,12 @@ function CLASS:getDisplayScale( scalingAxis )
             displayScale = widthScale
         end
     end
-    self.memoized.displayScale[ scalingAxis ] = displayScale
     return displayScale
-end
+end )
 
-function CLASS:getImageLookupsForScale( scale )
-    if ( self.memoized.imageLookupsForScale[ scale ] ~= nil ) then
-        return self.memoized.imageLookupsForScale[ scale ]
-    end
-
+CLASS.getImageLookupsForScale = Data.memoize( function(
+    self, scale
+)
     local imageLookupsForScale = {}
     local imageLookupsSortedByScale = self:getImageLookupsSortedByScale()
 
@@ -243,15 +209,12 @@ function CLASS:getImageLookupsForScale( scale )
         end
     end
 
-    self.memoized.imageLookupsForScale[ scale ] = imageLookupsForScale
     return imageLookupsForScale
-end
+end )
 
-function CLASS:getImageLookupsSortedByScale()
-    if ( self.memoized.imageLookupsSortedByScale ~= nil ) then
-        return self.memoized.imageLookupsSortedByScale
-    end
-
+CLASS.getImageLookupsSortedByScale = Data.memoize( function(
+    self
+)
     local imageLookup = self:getFrameworkConfig():getImageLookup()
     if ( imageLookup == nil ) then return nil end
 
@@ -264,8 +227,7 @@ function CLASS:getImageLookupsSortedByScale()
             lookup = imageLookup[ scale ] } )
     end
 
-    self.memoized.imageLookupsSortedByScale = imageLookupsSortedByScale
     return imageLookupsSortedByScale
-end
+end )
 
 return CLASS
