@@ -74,6 +74,10 @@ function CLASS.getNumericKeysSorted( targetTable )
     return sorted
 end
 
+function CLASS.hasValue( value )
+    return value ~= nil and value ~= ""
+end
+
 function CLASS.isNonEmptyTable( targetTable )
     return
         type( targetTable ) == "table" and
