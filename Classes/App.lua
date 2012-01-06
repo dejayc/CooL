@@ -15,11 +15,19 @@ function CLASS:init( platformConfig, frameworkConfig )
     io.flush()
 
     self:setPlatformConfig( platformConfig )
-    self:setPlatformDisplay( new( CLASSPATH.CooL.PlatformDisplay ) )
-    self:getPlatformDisplay():init( self:getPlatformConfig() )
     self:setFrameworkConfig( frameworkConfig )
-    self:setFrameworkDisplay( new( CLASSPATH.CooL.FrameworkDisplay ) )
-    self:getFrameworkDisplay():init( self:getFrameworkConfig() )
+
+    self:setDisplayManager( new( CLASSPATH.CooL.DisplayManager ) )
+    self:getDisplayManager():init(
+        self:getPlatformConfig(), self:getFrameworkConfig() )
+end
+
+function CLASS:getDisplayManager()
+    return self.displayManager
+end
+
+function CLASS:setDisplayManager( displayManager )
+    self.displayManager = displayManager
 end
 
 function CLASS:getFrameworkConfig()
@@ -30,28 +38,12 @@ function CLASS:setFrameworkConfig( frameworkConfig )
     self.frameworkConfig = frameworkConfig
 end
 
-function CLASS:getFrameworkDisplay()
-    return self.frameworkDisplay
-end
-
-function CLASS:setFrameworkDisplay( frameworkDisplay )
-    self.frameworkDisplay = frameworkDisplay
-end
-
 function CLASS:getPlatformConfig()
     return self.platformConfig
 end
 
 function CLASS:setPlatformConfig( platformConfig )
     self.platformConfig = platformConfig
-end
-
-function CLASS:getPlatformDisplay()
-    return self.platformDisplay
-end
-
-function CLASS:setPlatformDisplay( platformDisplay )
-    self.platformDisplay = platformDisplay
 end
 
 return CLASS

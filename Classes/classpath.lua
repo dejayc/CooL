@@ -27,6 +27,7 @@ return {
     Config = packagePath .. "Config",
     Data = packagePath .. "Data",
     Display = packagePath .. "Display",
+    DisplayManager = packagePath .. "DisplayManager",
     File = packagePath .. "File",
     FrameworkConfig = packagePath .. "FrameworkConfig",
     FrameworkDisplay = packagePath .. "FrameworkDisplay",
