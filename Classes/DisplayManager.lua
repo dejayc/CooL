@@ -46,39 +46,9 @@ function CLASS:refreshConfig()
     self.getDisplayScale:__forget()
 end
 
-CLASS.findImage = Data.memoize( function(
-    self, imageFileName, imageRootPath, coronaPathType, dynamicScale
+function CLASS:findImage(
+    imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
-    local hasDefaultArguments = false
-
-    if ( imageFileName == nil ) then
-        imageFileName = ""
-        hasDefaultArguments = true
-    end
-
-    if ( imageRootPath == nil ) then
-        imageRootPath = ""
-        hasDefaultArguments = true
-    end
-
-    if ( coronaPathType == nil ) then
-        coronaPathType = system.ResourceDirectory
-        hasDefaultArguments = true
-    end
-
-    if ( dynamicScale == nil ) then
-        dynamicScale = self:getDynamicScale()
-        hasDefaultArguments = true
-    end
-
-    -- If default values have been used, call the method again with the
-    -- default values so that the results are memoized for both method
-    -- invocations.
-    if ( hasDefaultArguments ) then
-        return self:findImage(
-            imageFileName, imageRootPath, coronaPathType, dynamicScale )
-    end
-
     if ( self:getFrameworkDisplay():getFrameworkConfig():hasImageLookup() )
     then
         local imagePath, imageFileName, imageScale =
@@ -93,11 +63,9 @@ CLASS.findImage = Data.memoize( function(
 
     return self:getPlatformDisplay():findImage(
         imageFileName, imageRootPath, coronaPathType, dynamicScale )
-end )
+end
 
-CLASS.getDisplayScale = Data.memoize( function(
-    self, scalingAxis
-)
+function CLASS.getDisplayScale( scalingAxis )
     local hasDefaultArguments = false
 
     if ( scalingAxis == nil and
@@ -108,16 +76,9 @@ CLASS.getDisplayScale = Data.memoize( function(
         hasDefaultArguments = true
     end
 
-    -- If default values have been used, call the method again with the
-    -- default values so that the results are memoized for both method
-    -- invocations.
-    if ( hasDefaultArguments ) then
-        return self:getDisplayScale( scalingAxis )
-    end
-
     if ( scalingAxis ~= nil ) then
         return self:getFrameworkDisplay():getDisplayScale( scalingAxis )
     end
 
     return self:getPlatformDisplay():getDisplayScale()
-end )
+end
