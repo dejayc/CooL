@@ -42,14 +42,6 @@ return {
                     },
                 },
 
---[[ List of possible 'tryFallback' values
-                tryFallback = true, -- DEFAULT
-                tryFallback = false,
---]]
-
--- Particular 'tryFallback' value to use for this application
-                tryFallback = true,
-
             },
 
         },
