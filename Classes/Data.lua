@@ -90,8 +90,8 @@ function CLASS.ite( _if, _then, _else )
 end
 
 -- Thanks to http://lua-users.org/wiki/FuncTables
-function CLASS.memoize( fn )
-    local function fnKey( ... )
+function CLASS.memoize( fn, fnKey )
+    fnKey = fnKey or function ( ... )
         local key = ""
         for i = 1, table.getn( arg ) do
             key = key .. "[" .. tostring( arg[ i ] ) .. "]"
