@@ -14,23 +14,8 @@ local File = require( CLASSPATH.CooL.File )
 local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
 
 function CLASS:init( platformConfig, ... )
-    self.super.init( self, platformConfig, ... )
-    self:setPlatformConfig( platformConfig )
-end
-
-function CLASS:getPlatformConfig()
-    return self.platformConfig
-end
-
-function CLASS:setPlatformConfig( platformConfig )
-    self.platformConfig = platformConfig 
-    self:refreshConfig()
-end
-
-function CLASS:refreshConfig()
-    self.findImage:__forget()
-    self.getImageSuffixesForScale:__forget()
-    self.getImageSuffixesSortedByScale:__forget()
+    self.super.init( self, ... )
+    self.imageSuffix = platformConfig:getImageSuffix()
 end
 
 CLASS.findImage = Data.memoize( function (
@@ -115,6 +100,10 @@ function CLASS:getDisplayScale()
     end
 end
 
+function CLASS:getImageSuffix()
+    return self.imageSuffix
+end
+
 CLASS.getImageSuffixesForScale = Data.memoize( function(
     self, scale
 )
@@ -149,7 +138,7 @@ end )
 CLASS.getImageSuffixesSortedByScale = Data.memoize( function(
     self
 )
-    local imageSuffix = self:getPlatformConfig():getImageSuffix()
+    local imageSuffix = self:getImageSuffix()
     if ( imageSuffix == nil ) then return nil end
 
     local imageScales = {}

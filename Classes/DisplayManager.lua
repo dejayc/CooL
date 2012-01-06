@@ -29,7 +29,6 @@ end
 
 function CLASS:setFrameworkDisplay( frameworkDisplay )
     self.frameworkDisplay = frameworkDisplay
-    self:refreshConfig()
 end
 
 function CLASS:getPlatformDisplay()
@@ -38,18 +37,12 @@ end
 
 function CLASS:setPlatformDisplay( platformDisplay )
     self.platformDisplay = platformDisplay
-    self:refreshConfig()
-end
-
-function CLASS:refreshConfig()
-    self.findImage:__forget()
-    self.getDisplayScale:__forget()
 end
 
 function CLASS:findImage(
     imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
-    if ( self:getFrameworkDisplay():getFrameworkConfig():hasImageLookup() )
+    if ( self:getFrameworkDisplay():hasImageLookup() )
     then
         local imagePath, imageFileName, imageScale =
             self:getFrameworkDisplay():findImage(
@@ -69,10 +62,9 @@ function CLASS.getDisplayScale( scalingAxis )
     local hasDefaultArguments = false
 
     if ( scalingAxis == nil and
-         self:getFrameworkDisplay():getFrameworkConfig():hasScalingAxis() )
+         self:getFrameworkDisplay():hasScalingAxis() )
     then
-        scalingAxis = self:getFrameworkDisplay():getFrameworkConfig():
-            getScalingAxis()
+        scalingAxis = self:getFrameworkDisplay():getScalingAxis()
         hasDefaultArguments = true
     end
 
@@ -82,3 +74,5 @@ function CLASS.getDisplayScale( scalingAxis )
 
     return self:getPlatformDisplay():getDisplayScale()
 end
+
+return CLASS

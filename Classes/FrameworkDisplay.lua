@@ -14,25 +14,10 @@ local File = require( CLASSPATH.CooL.File )
 local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
 
 function CLASS:init( frameworkConfig, ... )
-    self.super.init( self, frameworkConfig, ... )
-    self:setFrameworkConfig( frameworkConfig )
-    self.setStatusBar( self:getFrameworkConfig():getStatusBar() )
-end
-
-function CLASS:getFrameworkConfig()
-    return self.frameworkConfig
-end
-
-function CLASS:setFrameworkConfig( frameworkConfig )
-    self.frameworkConfig = frameworkConfig 
-    self:refreshConfig()
-end
-
-function CLASS:refreshConfig()
-    self.findImage:__forget()
-    self.getDisplayScale:__forget()
-    self.getImageLookupsForScale:__forget()
-    self.getImageLookupsSortedByScale:__forget()
+    self.super.init( self, ... )
+    self.imageLookup = frameworkConfig:getImageLookup()
+    self.scalingAxis = frameworkConfig:getScalingAxis()
+    self.setStatusBar( frameworkConfig:getStatusBar() )
 end
 
 CLASS.findImage = Data.memoize( function(
@@ -164,7 +149,7 @@ CLASS.getDisplayScale = Data.memoize( function(
     local hasDefaultArguments = false
 
     if ( scalingAxis == nil ) then
-        scalingAxis = self:getFrameworkConfig():getScalingAxis()
+        scalingAxis = self:getScalingAxis()
         hasDefaultArguments = true
     end
 
@@ -223,6 +208,14 @@ CLASS.getDisplayScale = Data.memoize( function(
     return displayScale
 end )
 
+function CLASS:getImageLookup()
+    return self.imageLookup
+end
+
+function CLASS:hasImageLookup()
+    return Data.hasValue( self.imageLookup )
+end
+
 CLASS.getImageLookupsForScale = Data.memoize( function(
     self, scale
 )
@@ -263,7 +256,7 @@ end )
 CLASS.getImageLookupsSortedByScale = Data.memoize( function(
     self
 )
-    local imageLookup = self:getFrameworkConfig():getImageLookup()
+    local imageLookup = self:getImageLookup()
     if ( imageLookup == nil ) then return nil end
 
     local imageScales = Data.getNumericKeysSorted( imageLookup )
@@ -277,5 +270,13 @@ CLASS.getImageLookupsSortedByScale = Data.memoize( function(
 
     return imageLookupsSortedByScale
 end )
+
+function CLASS:getScalingAxis()
+    return self.scalingAxis
+end
+
+function CLASS:hasScalingAxis()
+    return Data.hasValue( self.scalingAxis )
+end
 
 return CLASS
