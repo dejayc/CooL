@@ -38,6 +38,10 @@ function CLASS:setValue( value, ... )
     Data.updateByNestedIndex( value, self:getValues(), ... )
 end
 
+function CLASS:hasValue( ... )
+    return Data.hasValue( self:getValue( false, ... ) )
+end
+
 function CLASS:getDefaultValues()
     return self.defaultValues
 end

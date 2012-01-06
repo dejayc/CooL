@@ -32,17 +32,24 @@ function CLASS:getImageLookup()
     return self:getValue( false, "display", "scaling", "imageLookup" )
 end
 
-function CLASS:getImageLookupTryFallback( useDefaultIfNil )
-    return self:getValue(
-        useDefaultIfNil, "display", "scaling", "imageLookup", "tryFallback" )
+function CLASS:hasImageLookup()
+    return self:hasValue( "display", "scaling", "imageLookup" )
 end
 
 function CLASS:getScalingAxis( useDefaultIfNil )
     return self:getValue( useDefaultIfNil, "display", "scaling", "axis" )
 end
 
+function CLASS:hasScalingAxis()
+    return self:hasValue( "display", "scaling", "axis" )
+end
+
 function CLASS:getStatusBar()
     return self:getValue( true, "display", "statusBar" )
+end
+
+function CLASS:hasStatusBar()
+    return self:hasValue( "display", "statusBar" )
 end
 
 return CLASS

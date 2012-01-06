@@ -19,4 +19,8 @@ function CLASS:getImageSuffix()
     return self:getValue( false, "content", "imageSuffix" )
 end
 
+function CLASS:hasImageSuffix()
+    return self:hasValue( "content", "imageSuffix" )
+end
+
 return CLASS
