@@ -36,8 +36,45 @@ function CLASS:refreshConfig()
 end
 
 CLASS.findImage = Data.memoize( function(
-    self, imageFileName, imageRootPath, coronaPathType, dynamicScale
+    self, imageFileName, imageRootPath, coronaPathType, dynamicScale,
+    bypassDefaultCheck
 )
+    local hasDefaultArguments = false
+
+    if ( imageFileName == nil ) then
+        imageFileName = ""
+        hasDefaultArguments = true
+    end
+
+    if ( imageRootPath == nil ) then
+        imageRootPath = ""
+        hasDefaultArguments = true
+    end
+
+    if ( coronaPathType == nil ) then
+        coronaPathType = system.ResourceDirectory
+        hasDefaultArguments = true
+    end
+
+    if ( dynamicScale == nil ) then
+        dynamicScale = self:getDynamicScale()
+        hasDefaultArguments = true
+    end
+
+    if ( bypassDefaultCheck == nil ) then
+        bypassDefaultCheck = false
+        hasDefaultArguments = true
+    end
+
+    -- If default values have been used, call the method again with the
+    -- default values so that the results are memoized for both method
+    -- invocations.
+    if ( hasDefaultArguments ) then
+        return self:findImage(
+            imageFileName, imageRootPath, coronaPathType, dynamicScale,
+            bypassDefaultCheck )
+    end
+
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
     if ( imageRootPath ~= nil ) then
@@ -46,7 +83,6 @@ CLASS.findImage = Data.memoize( function(
         imageRootPath = ""
     end
 
-    dynamicScale = dynamicScale or self:getDynamicScale()
     local imageLookups = self:getImageLookupsForScale( dynamicScale )
 
     if ( Data.isNonEmptyTable( imageLookups ) ) then
@@ -109,7 +145,7 @@ CLASS.findImage = Data.memoize( function(
         end
     end
 
-    if ( not self:getFrameworkConfig():getImageLookupTryFallback() ) then
+    if ( bypassDefaultCheck ) then
         return nil
     end
 
@@ -125,7 +161,19 @@ end )
 CLASS.getDisplayScale = Data.memoize( function(
     self, scalingAxis
 )
-    scalingAxis = scalingAxis or self:getFrameworkConfig():getScalingAxis()
+    local hasDefaultArguments = false
+
+    if ( scalingAxis == nil ) then
+        scalingAxis = self:getFrameworkConfig():getScalingAxis()
+        hasDefaultArguments = true
+    end
+
+    -- If default values have been used, call the method again with the
+    -- default values so that the results are memoized for both method
+    -- invocations.
+    if ( hasDefaultArguments ) then
+        return self:getDisplayScale( scalingAxis )
+    end
 
     local displayScale = nil
     local height = CLASS.getDisplayHeight()

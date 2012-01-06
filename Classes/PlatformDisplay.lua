@@ -36,6 +36,36 @@ end
 CLASS.findImage = Data.memoize( function (
     self, imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
+    local hasDefaultArguments = false
+
+    if ( imageFileName == nil ) then
+        imageFileName = ""
+        hasDefaultArguments = true
+    end
+
+    if ( imageRootPath == nil ) then
+        imageRootPath = ""
+        hasDefaultArguments = true
+    end
+
+    if ( coronaPathType == nil ) then
+        coronaPathType = system.ResourceDirectory
+        hasDefaultArguments = true
+    end
+
+    if ( dynamicScale == nil ) then
+        dynamicScale = self:getDynamicScale()
+        hasDefaultArguments = true
+    end
+
+    -- If default values have been used, call the method again with the
+    -- default values so that the results are memoized for both method
+    -- invocations.
+    if ( hasDefaultArguments ) then
+        return self:findImage(
+            imageFileName, imageRootPath, coronaPathType, dynamicScale )
+    end
+
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
     if ( imageRootPath ~= nil ) then
@@ -44,7 +74,6 @@ CLASS.findImage = Data.memoize( function (
         imageRootPath = ""
     end
 
-    dynamicScale = dynamicScale or self:getDynamicScale()
     local imageSuffixes = self:getImageSuffixesForScale( dynamicScale )
 
     if ( Data.isNonEmptyTable( imageSuffixes ) ) then
