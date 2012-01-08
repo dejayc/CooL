@@ -9,12 +9,12 @@
 
 local CLASSPATH = require( "classpath" )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
+local DisplayHelper = require( CLASSPATH.CooL.DisplayHelper )
 local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
-local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
+local CLASS = autoclass( packagePath( ... ) )
 
 function CLASS:init( platformConfig, ... )
-    self.super.init( self, ... )
     self.imageSuffix = platformConfig:getImageSuffix()
 end
 
@@ -39,7 +39,7 @@ CLASS.findImage = DataHelper.memoize( function (
     end
 
     if ( dynamicScale == nil ) then
-        dynamicScale = self:getDynamicScale()
+        dynamicScale = DisplayHelper.getDynamicScale()
         hasDefaultArguments = true
     end
 
@@ -88,17 +88,6 @@ CLASS.findImage = DataHelper.memoize( function (
 
     return imageRootPath, imageFileName, 1
 end )
-
-function CLASS:getDisplayScale()
-    local heightScale = display.contentScaleY
-    local widthScale = display.contentScaleX
-
-    if ( heightScale > widthScale ) then
-        return heightScale
-    else
-        return widthScale
-    end
-end
 
 function CLASS:getImageSuffix()
     return self.imageSuffix

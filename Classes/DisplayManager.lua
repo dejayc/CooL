@@ -9,11 +9,9 @@
 
 local CLASSPATH = require( "classpath" )
 
-local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
+local CLASS = autoclass( packagePath( ... ) )
 
 function CLASS:init( platformConfig, frameworkConfig, ... )
-    self.super.init( self, ... )
-
     self:setPlatformDisplay( new( CLASSPATH.CooL.PlatformDisplay ) )
     self:getPlatformDisplay():init( platformConfig )
 
@@ -54,6 +52,20 @@ function CLASS:findImage(
 
     return self:getPlatformDisplay():findImage(
         imageFileName, imageRootPath, coronaPathType, dynamicScale )
+end
+
+function CLASS:getImage(
+    imageFileName, imageRootPath, xPos, yPos, coronaPathType
+)
+    local imagePath, imageScale = self:findImage(
+        imageFileName, imageRootPath, coronaPathType )
+
+    if ( imagePath ~= nil ) then
+        local image = display.newImage( imagePath, xPos, yPos )
+        image.xScale = 1 / imageScale
+        image.yScale = 1 / imageScale
+        return image
+    end
 end
 
 function CLASS.getDisplayScale( scalingAxis )

@@ -11,9 +11,11 @@ local CLASSPATH = require( "classpath" )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
 local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
-local CLASS = autoclass( packagePath( ... ) )
+local CLASS = {}
 
-function CLASS:init()
+function CLASS.getDisplayHeight()
+    return DataHelper.roundNumber(
+        display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
 function CLASS.getDisplayWidth()
@@ -21,18 +23,19 @@ function CLASS.getDisplayWidth()
         display.viewableContentWidth / display.contentScaleX, 0 )
 end
 
-function CLASS.getDisplayHeight()
-    return DataHelper.roundNumber(
-        display.viewableContentHeight / display.contentScaleY, 0 )
+function CLASS.getDisplayScale()
+    local heightScale = display.contentScaleY
+    local widthScale = display.contentScaleX
+
+    if ( heightScale > widthScale ) then
+        return heightScale
+    else
+        return widthScale
+    end
 end
 
--- Abstract, must be defined in subclasses in order to work
-function CLASS:getDisplayScale()
-    error( "Illegal call to abstract function 'Display:getDisplayScale'" )
-end
-
-function CLASS:getDynamicScale( ... )
-    return DataHelper.roundNumber( 1 / self:getDisplayScale( ... ), 3 )
+function CLASS.getDynamicScale()
+    return DataHelper.roundNumber( 1 / CLASS.getDisplayScale(), 3 )
 end
 
 function CLASS.getEffectiveOrientation( orientation )
@@ -44,25 +47,6 @@ function CLASS.getEffectiveOrientation( orientation )
         return "landscape"
     else
         return "portrait"
-    end
-end
-
--- Abstract, must be defined in subclasses in order to work
-function CLASS:findImage()
-    error( "Illegal call to abstract function 'Display:findImageForScale'" )
-end
-
-function CLASS:getImage(
-    imageFileName, imageRootPath, xPos, yPos, coronaPathType
-)
-    local imagePath, imageScale = self:findImage(
-        imageFileName, imageRootPath, coronaPathType )
-
-    if ( imagePath ~= nil ) then
-        local image = display.newImage( imagePath, xPos, yPos )
-        image.xScale = 1 / imageScale
-        image.yScale = 1 / imageScale
-        return image
     end
 end
 

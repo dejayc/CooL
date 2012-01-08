@@ -26,7 +26,7 @@ return {
     BaseClass = COOL_CLASS_PACKAGE,
     BaseConfig = packagePath .. "BaseConfig",
     DataHelper = packagePath .. "DataHelper",
-    Display = packagePath .. "Display",
+    DisplayHelper = packagePath .. "DisplayHelper",
     DisplayManager = packagePath .. "DisplayManager",
     FileHelper = packagePath .. "FileHelper",
     FrameworkConfig = packagePath .. "FrameworkConfig",

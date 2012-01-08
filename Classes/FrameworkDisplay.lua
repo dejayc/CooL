@@ -9,15 +9,15 @@
 
 local CLASSPATH = require( "classpath" )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
+local DisplayHelper = require( CLASSPATH.CooL.DisplayHelper )
 local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
-local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
+local CLASS = autoclass( packagePath( ... ) )
 
 function CLASS:init( frameworkConfig, ... )
-    self.super.init( self, ... )
     self.imageLookup = frameworkConfig:getImageLookup()
     self.scalingAxis = frameworkConfig:getScalingAxis()
-    self.setStatusBar( frameworkConfig:getStatusBar() )
+    DisplayHelper.setStatusBar( frameworkConfig:getStatusBar() )
 end
 
 CLASS.findImage = DataHelper.memoize( function(
@@ -161,9 +161,9 @@ CLASS.getDisplayScale = DataHelper.memoize( function(
     end
 
     local displayScale = nil
-    local height = CLASS.getDisplayHeight()
+    local height = DisplayHelper.getDisplayHeight()
     local heightScale = display.contentScaleY
-    local width = CLASS.getDisplayWidth()
+    local width = DisplayHelper.getDisplayWidth()
     local widthScale = display.contentScaleX
 
     if ( scalingAxis == "minScale" ) then
@@ -207,6 +207,10 @@ CLASS.getDisplayScale = DataHelper.memoize( function(
     end
     return displayScale
 end )
+
+function CLASS:getDynamicScale()
+    return DataHelper.roundNumber( 1 / self:getDisplayScale(), 3 )
+end
 
 function CLASS:getImageLookup()
     return self.imageLookup
