@@ -18,8 +18,7 @@ function CLASS:init( platformConfig, frameworkConfig )
     self:setFrameworkConfig( frameworkConfig )
 
     self:setDisplayManager( new( CLASSPATH.CooL.DisplayManager ) )
-    self:getDisplayManager():init(
-        self:getPlatformConfig(), self:getFrameworkConfig() )
+    self:getDisplayManager():init( platformConfig, frameworkConfig )
 end
 
 function CLASS:getDisplayManager()

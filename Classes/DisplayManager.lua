@@ -12,27 +12,19 @@ local CLASSPATH = require( "classpath" )
 local CLASS = autoclass( packagePath( ... ) )
 
 function CLASS:init( platformConfig, frameworkConfig, ... )
-    self:setPlatformDisplay( new( CLASSPATH.CooL.PlatformDisplay ) )
-    self:getPlatformDisplay():init( platformConfig )
+    self.platformDisplay = new( CLASSPATH.CooL.PlatformDisplay )
+    self.platformDisplay:init( platformConfig )
 
-    self:setFrameworkDisplay( new( CLASSPATH.CooL.FrameworkDisplay ) )
-    self:getFrameworkDisplay():init( frameworkConfig )
+    self.frameworkDisplay = new( CLASSPATH.CooL.FrameworkDisplay )
+    self.frameworkDisplay:init( frameworkConfig )
 end
 
 function CLASS:getFrameworkDisplay()
     return self.frameworkDisplay
 end
 
-function CLASS:setFrameworkDisplay( frameworkDisplay )
-    self.frameworkDisplay = frameworkDisplay
-end
-
 function CLASS:getPlatformDisplay()
     return self.platformDisplay
-end
-
-function CLASS:setPlatformDisplay( platformDisplay )
-    self.platformDisplay = platformDisplay
 end
 
 function CLASS:findImage(
