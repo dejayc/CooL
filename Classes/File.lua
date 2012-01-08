@@ -28,31 +28,21 @@ function CLASS.getFilePath( fileName, coronaPathType )
   return filePath
 end
 
-function CLASS.getRequirePath( filePath, fileName )
-    if ( Data.endsWith( fileName, CLASS.LUA_FILE_EXTENSION ) ) then
-        fileName = string.sub(
-            fileName, 1, -1 * ( string.len( CLASS.LUA_FILE_EXTENSION ) + 1 ) )
+function CLASS.getRequirePath( filePath )
+    if ( Data.endsWith( filePath, CLASS.LUA_FILE_EXTENSION ) ) then
+        filePath = string.sub(
+            filePath, 1, -1 * ( string.len( CLASS.LUA_FILE_EXTENSION ) + 1 ) )
     end
 
     if ( filePath == nil or filePath == "" or
          filePath == CLASS.PATH_SEPARATOR )
     then
-        return fileName
+        return nil
     end
 
-    filePath = string.gsub(
+    return string.gsub(
         string.match( filePath, CLASS.PATH_TRIM_PATTERN ),
         CLASS.PATH_SEPARATOR, CLASS.CLASS_SEPARATOR )
-
-    if ( fileName == nil or fileName == "" ) then
-        return filePath
-    end
-
-    if ( filePath == "" ) then
-        return fileName
-    end
-
-    return filePath .. CLASS.CLASS_SEPARATOR .. fileName
 end
 
 return CLASS
