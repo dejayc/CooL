@@ -78,6 +78,10 @@ function CLASS.getImageBoundingBox( image )
     }
 end
 
+function CLASS.isImageScaled( image )
+    return image.xScale ~= 1 or image.yScale ~= 1
+end
+
 function CLASS.setStatusBar( statusBar )
     if ( statusBar == "hidden" )
     then
