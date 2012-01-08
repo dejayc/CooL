@@ -26,19 +26,3 @@ frameworkConfig:init( require( CLASSPATH.CooL.config.framework ) )
 
 local app = new( CLASSPATH.CooL.BaseApp )
 app:init( platformConfig, frameworkConfig )
-
-local spriteSheetDataPath, spriteSheetDataFile, spriteSheetDataScale =
-    app:getDisplayManager():findImage(
-        "SwapBlocks-Blocks-1.lua", "Assets/Sprites" )
-
-local spriteSheetImagePath, spriteSheetImageFile, spriteSheetImageScale =
-    app:getDisplayManager():findImage(
-        "SwapBlocks-Blocks-1.png", "Assets/Sprites" )
-
-local spriteSheet = new( CLASSPATH.CooL.SpriteSheet )
-spriteSheet:prepare(
-    spriteSheetDataPath .. spriteSheetDataFile, 
-    spriteSheetImagePath .. spriteSheetImageFile )
-
-spriteSheet:load()
-local sprite = spriteSheet:getSprite( "block-blue-1x1" )
