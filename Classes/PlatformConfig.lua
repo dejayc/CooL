@@ -9,7 +9,7 @@
 
 local CLASSPATH = require( "classpath" )
 
-local CLASS = autoextend( CLASSPATH.CooL.Config, packagePath( ... ) )
+local CLASS = autoextend( CLASSPATH.CooL.BaseConfig, packagePath( ... ) )
 
 function CLASS:init( ... )
     self.super.init( self, ... )

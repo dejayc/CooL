@@ -8,7 +8,7 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local File = require( CLASSPATH.CooL.File )
+local FileHelper = require( CLASSPATH.CooL.FileHelper )
 local sprite = require( "sprite" )
 
 local CLASS = autoclass( packagePath( ... ) )
@@ -50,8 +50,8 @@ function CLASS:prepare( dataFileName, imageFileName, coronaPathType )
     self.imageFileName = imageFileName
     self.coronaPathType = coronaPathType
 
-    local spriteSheetData = require( File.getRequirePath( dataFileName ) ).
-        getSpriteSheetData()
+    local spriteSheetData = require(
+        FileHelper.getRequirePath( dataFileName ) ).getSpriteSheetData()
 
     local spriteNames = {}
     local spriteIndexLookup = {}

@@ -8,7 +8,7 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Data = require( CLASSPATH.CooL.Data )
+local DataHelper = require( CLASSPATH.CooL.DataHelper )
 
 local CLASS = autoclass( packagePath( ... ) )
 
@@ -25,7 +25,7 @@ function CLASS:setValues( values )
 end
 
 function CLASS:getValue( useDefault, ... )
-    local value = Data.selectByNestedIndex( self:getValues(), ... )
+    local value = DataHelper.selectByNestedIndex( self:getValues(), ... )
 
     if ( value == nil and ( useDefault or useDefault == nil ) ) then
         value = self:getDefaultValue( ... )
@@ -35,11 +35,11 @@ function CLASS:getValue( useDefault, ... )
 end
 
 function CLASS:setValue( value, ... )
-    Data.updateByNestedIndex( value, self:getValues(), ... )
+    DataHelper.updateByNestedIndex( value, self:getValues(), ... )
 end
 
 function CLASS:hasValue( ... )
-    return Data.hasValue( self:getValue( false, ... ) )
+    return DataHelper.hasValue( self:getValue( false, ... ) )
 end
 
 function CLASS:getDefaultValues()
@@ -51,11 +51,11 @@ function CLASS:setDefaultValues( defaultValues )
 end
 
 function CLASS:getDefaultValue( ... )
-    return Data.selectByNestedIndex( self:getDefaultValues(), ... )
+    return DataHelper.selectByNestedIndex( self:getDefaultValues(), ... )
 end
 
 function CLASS:setDefaultValue( value, ... )
-    Data.updateByNestedIndex( value, self:getDefaultValues(), ... )
+    DataHelper.updateByNestedIndex( value, self:getDefaultValues(), ... )
 end
 
 return CLASS

@@ -8,8 +8,8 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Data = require( CLASSPATH.CooL.Data )
-local File = require( CLASSPATH.CooL.File )
+local DataHelper = require( CLASSPATH.CooL.DataHelper )
+local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
 local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
 
@@ -20,7 +20,7 @@ function CLASS:init( frameworkConfig, ... )
     self.setStatusBar( frameworkConfig:getStatusBar() )
 end
 
-CLASS.findImage = Data.memoize( function(
+CLASS.findImage = DataHelper.memoize( function(
     self, imageFileName, imageRootPath, coronaPathType, dynamicScale,
     bypassDefaultCheck
 )
@@ -63,14 +63,14 @@ CLASS.findImage = Data.memoize( function(
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
     if ( imageRootPath ~= nil ) then
-        imageRootPath = imageRootPath .. File.PATH_SEPARATOR
+        imageRootPath = imageRootPath .. FileHelper.PATH_SEPARATOR
     else
         imageRootPath = ""
     end
 
     local imageLookups = self:getImageLookupsForScale( dynamicScale )
 
-    if ( Data.isNonEmptyTable( imageLookups ) ) then
+    if ( DataHelper.isNonEmptyTable( imageLookups ) ) then
 
         local _, _, imagePrefix, imageExt = string.find(
             imageFileName, "^(.*)%.(.-)$" )
@@ -108,7 +108,7 @@ CLASS.findImage = Data.memoize( function(
 
                         if ( imageSubdir ~= "" ) then
                             imagePath = imagePath .. imageSubdir ..
-                                File.PATH_SEPARATOR
+                                FileHelper.PATH_SEPARATOR
                         end
 
                         local imageFileName =
@@ -118,7 +118,7 @@ CLASS.findImage = Data.memoize( function(
                         if ( checkedPaths[ checkedPath ] == nil ) then
                             checkedPaths[ checkedPath ] = true
 
-                            if ( File.getFilePath(
+                            if ( FileHelper.getFilePath(
                                 checkedPath, coronaPathType ) ~= nil )
                             then
                                 return imagePath, imageFileName, imageScale
@@ -136,14 +136,14 @@ CLASS.findImage = Data.memoize( function(
 
     local checkedPath = imageRootPath .. imageFileName
 
-    if ( File.getFilePath( checkedPath, coronaPathType ) == nil ) then
+    if ( FileHelper.getFilePath( checkedPath, coronaPathType ) == nil ) then
         return nil
     end
 
     return imageRootPath, imageFileName, 1
 end )
 
-CLASS.getDisplayScale = Data.memoize( function(
+CLASS.getDisplayScale = DataHelper.memoize( function(
     self, scalingAxis
 )
     local hasDefaultArguments = false
@@ -213,10 +213,10 @@ function CLASS:getImageLookup()
 end
 
 function CLASS:hasImageLookup()
-    return Data.hasValue( self.imageLookup )
+    return DataHelper.hasValue( self.imageLookup )
 end
 
-CLASS.getImageLookupsForScale = Data.memoize( function(
+CLASS.getImageLookupsForScale = DataHelper.memoize( function(
     self, scale
 )
     local imageLookupsForScale = {}
@@ -253,13 +253,13 @@ CLASS.getImageLookupsForScale = Data.memoize( function(
     return imageLookupsForScale
 end )
 
-CLASS.getImageLookupsSortedByScale = Data.memoize( function(
+CLASS.getImageLookupsSortedByScale = DataHelper.memoize( function(
     self
 )
     local imageLookup = self:getImageLookup()
     if ( imageLookup == nil ) then return nil end
 
-    local imageScales = Data.getNumericKeysSorted( imageLookup )
+    local imageScales = DataHelper.getNumericKeysSorted( imageLookup )
     local imageLookupsSortedByScale = {}
 
     for _, scale in pairs( imageScales ) do
@@ -276,7 +276,7 @@ function CLASS:getScalingAxis()
 end
 
 function CLASS:hasScalingAxis()
-    return Data.hasValue( self.scalingAxis )
+    return DataHelper.hasValue( self.scalingAxis )
 end
 
 return CLASS

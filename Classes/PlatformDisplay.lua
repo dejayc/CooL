@@ -8,8 +8,8 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Data = require( CLASSPATH.CooL.Data )
-local File = require( CLASSPATH.CooL.File )
+local DataHelper = require( CLASSPATH.CooL.DataHelper )
+local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
 local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
 
@@ -18,7 +18,7 @@ function CLASS:init( platformConfig, ... )
     self.imageSuffix = platformConfig:getImageSuffix()
 end
 
-CLASS.findImage = Data.memoize( function (
+CLASS.findImage = DataHelper.memoize( function (
     self, imageFileName, imageRootPath, coronaPathType, dynamicScale
 )
     local hasDefaultArguments = false
@@ -54,14 +54,14 @@ CLASS.findImage = Data.memoize( function (
     if ( imageFileName == nil or imageFileName == "" ) then return nil end
 
     if ( imageRootPath ~= nil ) then
-        imageRootPath = imageRootPath .. File.PATH_SEPARATOR
+        imageRootPath = imageRootPath .. FileHelper.PATH_SEPARATOR
     else
         imageRootPath = ""
     end
 
     local imageSuffixes = self:getImageSuffixesForScale( dynamicScale )
 
-    if ( Data.isNonEmptyTable( imageSuffixes ) ) then
+    if ( DataHelper.isNonEmptyTable( imageSuffixes ) ) then
 
         local _, _, imagePrefix, imageExt = string.find(
             imageFileName, "^(.*)%.(.-)$" )
@@ -73,7 +73,7 @@ CLASS.findImage = Data.memoize( function (
             local imageFileName = imagePrefix .. imageSuffix .. "." .. imageExt
             local checkedPath = imageRootPath .. imageFileName
 
-            if ( File.getFilePath( checkedPath, coronaPathType ) )
+            if ( FileHelper.getFilePath( checkedPath, coronaPathType ) )
             then
                 return imageRootPath, imageFileName, imageScale
             end
@@ -82,7 +82,7 @@ CLASS.findImage = Data.memoize( function (
 
     local checkedPath = imageRootPath .. imageFileName
 
-    if ( File.getFilePath( checkedPath, coronaPathType ) == nil ) then
+    if ( FileHelper.getFilePath( checkedPath, coronaPathType ) == nil ) then
         return nil
     end
 
@@ -104,7 +104,7 @@ function CLASS:getImageSuffix()
     return self.imageSuffix
 end
 
-CLASS.getImageSuffixesForScale = Data.memoize( function(
+CLASS.getImageSuffixesForScale = DataHelper.memoize( function(
     self, scale
 )
     local imageSuffixesForScale = {}
@@ -135,7 +135,7 @@ CLASS.getImageSuffixesForScale = Data.memoize( function(
     return imageSuffixesForScale
 end )
 
-CLASS.getImageSuffixesSortedByScale = Data.memoize( function(
+CLASS.getImageSuffixesSortedByScale = DataHelper.memoize( function(
     self
 )
     local imageSuffix = self:getImageSuffix()

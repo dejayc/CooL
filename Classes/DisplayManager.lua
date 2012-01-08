@@ -8,8 +8,6 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Data = require( CLASSPATH.CooL.Data )
-local File = require( CLASSPATH.CooL.File )
 
 local CLASS = autoextend( CLASSPATH.CooL.Display, packagePath( ... ) )
 

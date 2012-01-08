@@ -8,7 +8,7 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
-local Data = require( CLASSPATH.CooL.Data )
+local DataHelper = require( CLASSPATH.CooL.DataHelper )
 
 local CLASS = {}
 
@@ -29,7 +29,7 @@ function CLASS.getFilePath( fileName, coronaPathType )
 end
 
 function CLASS.getRequirePath( filePath )
-    if ( Data.endsWith( filePath, CLASS.LUA_FILE_EXTENSION ) ) then
+    if ( DataHelper.endsWith( filePath, CLASS.LUA_FILE_EXTENSION ) ) then
         filePath = string.sub(
             filePath, 1, -1 * ( string.len( CLASS.LUA_FILE_EXTENSION ) + 1 ) )
     end

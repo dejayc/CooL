@@ -24,5 +24,5 @@ platformConfig:init( require( CLASSPATH.CooL.config.platform ) )
 local frameworkConfig = new( CLASSPATH.CooL.FrameworkConfig )
 frameworkConfig:init( require( CLASSPATH.CooL.config.framework ) )
 
-local app = new( CLASSPATH.CooL.App )
+local app = new( CLASSPATH.CooL.BaseApp )
 app:init( platformConfig, frameworkConfig )

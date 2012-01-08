@@ -7,7 +7,7 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-local CLASS = { className = "Class" }
+local CLASS = { className = "BaseClass" }
 
 function CLASS:cast( object )
     object = object or {}
