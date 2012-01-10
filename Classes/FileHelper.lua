@@ -12,20 +12,72 @@ local DataHelper = require( CLASSPATH.CooL.DataHelper )
 
 local CLASS = {}
 
-CLASS.CLASS_SEPARATOR = '.'
-CLASS.FILE_EXTENSION_SEPARATOR = '.'
+CLASS.CLASS_SEPARATOR = "."
+CLASS.FILE_EXTENSION_SEPARATOR = "."
+CLASS.FILE_EXTENSION_SPLIT_PATTERN = string.format(
+    "^(.-)([.]?[^.]*)$", CLASS.FILE_EXTENSION_SEPARATOR )
 CLASS.LUA_FILE_EXTENSION = CLASS.FILE_EXTENSION_SEPARATOR .. "lua"
+CLASS.PATH_CURRENT_DIRECTORY = "."
+CLASS.PATH_PARENT_DIRECTORY = ".."
 CLASS.PATH_SEPARATOR = package.config:sub( 1, 1 )
+CLASS.PATH_FILE_NAME_SPLIT_PATTERN = string.format(
+    "^(.-)([^%s]*)$", CLASS.PATH_SEPARATOR )
 CLASS.PATH_TRIM_PATTERN = string.format(
     "^[%s]?(.-)[%s]?$", CLASS.PATH_SEPARATOR, CLASS.PATH_SEPARATOR )
 
 function CLASS.fileExists( fileName, coronaPathType )
-  return CLASS.getFileSystemPath( fileName, coronaPathType ) ~= nil
+    return CLASS.getFileSystemPath( fileName, coronaPathType ) ~= nil
 end
 
 -- Thanks to http://bsharpe.com/code/coronasdk-how-to-know-if-a-file-exists/
 function CLASS.getFileSystemPath( fileName, coronaPathType )
   return system.pathForFile( fileName, coronaPathType )
+end
+
+-- Thanks to http://stackoverflow.com/a/1403489
+function CLASS.getPathComponents( path )
+    path = path or ""
+
+    local filePath, fileName = string.match(
+        path, CLASS.PATH_FILE_NAME_SPLIT_PATTERN )
+
+    if ( filePath == nil ) then
+        filePath, fileName = "", path
+    elseif ( fileName == CLASS.PATH_CURRENT_DIRECTORY or
+        fileName == CLASS.PATH_PARENT_DIRECTORY )
+    then
+        filePath, fileName = filePath .. fileName, ""
+    end
+
+    if ( filePath == "" ) then
+        filePath = nil
+    elseif ( filePath ~= CLASS.PATH_SEPARATOR and
+        DataHelper.endsWith( filePath, CLASS.PATH_SEPARATOR ) )
+    then
+        filePath = string.sub(
+            filePath, 1, -1 * (1 + string.len( CLASS.PATH_SEPARATOR ) ) )
+    end
+
+    local fileBase, fileExt = string.match(
+        fileName, CLASS.FILE_EXTENSION_SPLIT_PATTERN )
+
+    if ( fileBase == "" and fileExt ~= "" ) then
+        fileBase, fileExt = fileExt, ""
+    end
+
+    if ( fileName == "" ) then fileName = nil end
+    if ( fileBase == "" ) then fileBase = nil end
+
+    if ( fileExt == "" ) then
+        fileExt = nil
+    elseif ( fileExt ~= CLASS.FILE_EXTENSION_SEPARATOR and
+        DataHelper.startsWith( fileExt, CLASS.FILE_EXTENSION_SEPARATOR ) )
+    then
+        fileExt = string.sub(
+            fileExt, 1 + string.len( CLASS.FILE_EXTENSION_SEPARATOR ) )
+    end
+
+    return filePath, fileName, fileBase, fileExt
 end
 
 function CLASS.getRequirePath( filePath )
