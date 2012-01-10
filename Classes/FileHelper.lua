@@ -20,13 +20,12 @@ CLASS.PATH_TRIM_PATTERN = string.format(
     "^[%s]?(.-)[%s]?$", CLASS.PATH_SEPARATOR, CLASS.PATH_SEPARATOR )
 
 function CLASS.fileExists( fileName, coronaPathType )
-  return CLASS.getFilePath( fileName, coronaPathType ) ~= nil
+  return CLASS.getFileSystemPath( fileName, coronaPathType ) ~= nil
 end
 
 -- Thanks to http://bsharpe.com/code/coronasdk-how-to-know-if-a-file-exists/
-function CLASS.getFilePath( fileName, coronaPathType )
-  local filePath = system.pathForFile( fileName, coronaPathType )
-  return filePath
+function CLASS.getFileSystemPath( fileName, coronaPathType )
+  return system.pathForFile( fileName, coronaPathType )
 end
 
 function CLASS.getRequirePath( filePath )

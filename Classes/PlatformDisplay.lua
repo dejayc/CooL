@@ -73,7 +73,7 @@ CLASS.findFileByScale = DataHelper.memoize( function (
             local checkedFileName = filePrefix .. imageSuffix .. "." .. fileExt
             local checkedPath = rootPath .. fileName
 
-            if ( FileHelper.getFilePath( checkedPath, coronaPathType ) )
+            if ( FileHelper.getFileSystemPath( checkedPath, coronaPathType ) )
             then
                 return rootPath, fileName, imageScale
             end
@@ -82,7 +82,8 @@ CLASS.findFileByScale = DataHelper.memoize( function (
 
     local checkedPath = rootPath .. fileName
 
-    if ( FileHelper.getFilePath( checkedPath, coronaPathType ) == nil ) then
+    if ( FileHelper.getFileSystemPath( checkedPath, coronaPathType ) == nil )
+    then
         return nil
     end
 

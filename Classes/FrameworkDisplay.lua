@@ -118,7 +118,7 @@ CLASS.findFileByScale = DataHelper.memoize( function(
                         if ( checkedPaths[ checkedPath ] == nil ) then
                             checkedPaths[ checkedPath ] = true
 
-                            if ( FileHelper.getFilePath(
+                            if ( FileHelper.getFileSystemPath(
                                 checkedPath, coronaPathType ) ~= nil )
                             then
                                 return filePath, checkedFileName, fileScale
@@ -136,7 +136,8 @@ CLASS.findFileByScale = DataHelper.memoize( function(
 
     local checkedPath = rootPath .. fileName
 
-    if ( FileHelper.getFilePath( checkedPath, coronaPathType ) == nil ) then
+    if ( FileHelper.getFileSystemPath( checkedPath, coronaPathType ) == nil )
+    then
         return nil
     end
 
