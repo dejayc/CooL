@@ -227,28 +227,23 @@ CLASS.getFileLookupsForScale = DataHelper.memoize( function(
     local fileLookupsSortedByScale = self:getFileLookupsSortedByScale()
 
     if ( fileLookupsSortedByScale ~= nil ) then
+        local cutOff, threshold, indexIncrement
+
         if ( scale >= 1 ) then
-            for _, entry in ipairs( fileLookupsSortedByScale ) do
-                if ( entry.scale > scale ) then break end
-
-                if ( entry.scale >= 1 ) then
-                    local index = 1
-                    for _, lookup in pairs( entry.lookup ) do
-                        table.insert( fileLookupsForScale, index,
-                            { lookup = lookup, scale = entry.scale } )
-                        index = index + 1
-                    end
-                end
-            end
+            cutOff, threshold, indexIncrement = scale, 1, 1
         else
-            for _, entry in ipairs( fileLookupsSortedByScale ) do
-                if ( entry.scale > 1 ) then break end
+            cutOff, threshold, indexIncrement = 1, scale, 0
+        end
 
-                if ( entry.scale >= scale ) then
-                    for _, lookup in pairs( entry.lookup ) do
-                        table.insert( fileLookupsForScale,
-                            { lookup = lookup, scale = entry.scale } )
-                    end
+        for _, entry in ipairs( fileLookupsSortedByScale ) do
+            if ( entry.scale > cutOff ) then break end
+
+            if ( entry.scale >= threshold ) then
+                local index = 1
+                for _, lookup in pairs( entry.lookup ) do
+                    table.insert( fileLookupsForScale, index,
+                        { lookup = lookup, scale = entry.scale } )
+                    index = index + indexIncrement
                 end
             end
         end
