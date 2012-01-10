@@ -15,24 +15,24 @@ local FileHelper = require( CLASSPATH.CooL.FileHelper )
 local CLASS = autoclass( packagePath( ... ) )
 
 function CLASS:init( frameworkConfig, ... )
-    self.imageLookup = frameworkConfig:getImageLookup()
+    self.fileLookup = frameworkConfig:getFileLookup()
     self.scalingAxis = frameworkConfig:getScalingAxis()
     DisplayHelper.setStatusBar( frameworkConfig:getStatusBar() )
 end
 
-CLASS.findImage = DataHelper.memoize( function(
-    self, imageFileName, imageRootPath, coronaPathType, dynamicScale,
+CLASS.findFileByScale = DataHelper.memoize( function(
+    self, fileName, rootPath, coronaPathType, dynamicScale,
     bypassDefaultCheck
 )
     local hasDefaultArguments = false
 
-    if ( imageFileName == nil ) then
-        imageFileName = ""
+    if ( fileName == nil ) then
+        fileName = ""
         hasDefaultArguments = true
     end
 
-    if ( imageRootPath == nil ) then
-        imageRootPath = ""
+    if ( rootPath == nil ) then
+        rootPath = ""
         hasDefaultArguments = true
     end
 
@@ -55,65 +55,65 @@ CLASS.findImage = DataHelper.memoize( function(
     -- default values so that the results are memoized for both method
     -- invocations.
     if ( hasDefaultArguments ) then
-        return self:findImage(
-            imageFileName, imageRootPath, coronaPathType, dynamicScale,
+        return self:findFileByScale(
+            fileName, rootPath, coronaPathType, dynamicScale,
             bypassDefaultCheck )
     end
 
-    if ( imageFileName == nil or imageFileName == "" ) then return nil end
+    if ( fileName == nil or fileName == "" ) then return nil end
 
-    if ( imageRootPath ~= nil ) then
-        imageRootPath = imageRootPath .. FileHelper.PATH_SEPARATOR
+    if ( rootPath ~= nil ) then
+        rootPath = rootPath .. FileHelper.PATH_SEPARATOR
     else
-        imageRootPath = ""
+        rootPath = ""
     end
 
-    local imageLookups = self:getImageLookupsForScale( dynamicScale )
+    local fileLookups = self:getFileLookupsForScale( dynamicScale )
 
-    if ( DataHelper.isNonEmptyTable( imageLookups ) ) then
+    if ( DataHelper.isNonEmptyTable( fileLookups ) ) then
 
-        local _, _, imagePrefix, imageExt = string.find(
-            imageFileName, "^(.*)%.(.-)$" )
+        local _, _, filePrefix, fileExt = string.find(
+            fileName, "^(.*)%.(.-)$" )
 
         local checkedPaths = {}
 
-        for _, entry in ipairs( imageLookups ) do
-            local imageLookup = entry.lookup
-            local imageScale = entry.scale
+        for _, entry in ipairs( fileLookups ) do
+            local fileLookup = entry.lookup
+            local fileScale = entry.scale
 
-            local imageSubdirs = imageLookup.subdir
-            if ( imageSubdirs == nil ) then imageSubdirs = { "" } end
+            local subdirs = fileLookup.subdir
+            if ( subdirs == nil ) then subdirs = { "" } end
 
-            if ( type( imageSubdirs ) ~= "table" ) then
-                imageSubdirs = { imageSubdirs }
+            if ( type( subdirs ) ~= "table" ) then
+                subdirs = { subdirs }
             end
 
-            local imageSuffixes = imageLookup.suffix
-            if ( imageSuffixes == nil ) then imageSuffixes = { "" } end
+            local suffixes = fileLookup.suffix
+            if ( suffixes == nil ) then suffixes = { "" } end
 
-            if ( type( imageSuffixes ) ~= "table" ) then
-                imageSuffixes = { imageSuffixes }
+            if ( type( suffixes ) ~= "table" ) then
+                suffixes = { suffixes }
             end
 
-            for _, imageSubdir in ipairs( imageSubdirs )
+            for _, subdir in ipairs( subdirs )
             do
-                for _, imageSuffix in ipairs( imageSuffixes )
+                for _, suffix in ipairs( suffixes )
                 do
-                    -- Skip the check when imageSubdir and imageSuffix are both
-                    -- empty, as that condition will be checked last, when the
-                    -- default directory and filename are checked.
-                    if ( imageSubdir ~= "" or imageSuffix ~= "" )
+                    -- Skip the check when subdir and suffix are both empty,
+                    -- as that condition will be checked last, when the default
+                    -- directory and filename are checked.
+                    if ( subdir ~= "" or suffix ~= "" )
                     then
-                        local imagePath = imageRootPath
+                        local filePath = rootPath
 
-                        if ( imageSubdir ~= "" ) then
-                            imagePath = imagePath .. imageSubdir ..
+                        if ( subdir ~= "" ) then
+                            filePath = filePath .. subdir ..
                                 FileHelper.PATH_SEPARATOR
                         end
 
-                        local imageFileName =
-                            imagePrefix .. imageSuffix .. "." .. imageExt
-                        local checkedPath = imagePath .. imageFileName
+                        local checkedFileName =
+                            filePrefix .. suffix .. "." .. fileExt
+                        local checkedPath = filePath .. checkedFileName
 
                         if ( checkedPaths[ checkedPath ] == nil ) then
                             checkedPaths[ checkedPath ] = true
@@ -121,7 +121,7 @@ CLASS.findImage = DataHelper.memoize( function(
                             if ( FileHelper.getFilePath(
                                 checkedPath, coronaPathType ) ~= nil )
                             then
-                                return imagePath, imageFileName, imageScale
+                                return filePath, checkedFileName, fileScale
                             end
                         end
                     end
@@ -134,13 +134,13 @@ CLASS.findImage = DataHelper.memoize( function(
         return nil
     end
 
-    local checkedPath = imageRootPath .. imageFileName
+    local checkedPath = rootPath .. fileName
 
     if ( FileHelper.getFilePath( checkedPath, coronaPathType ) == nil ) then
         return nil
     end
 
-    return imageRootPath, imageFileName, 1
+    return rootPath, fileName, 1
 end )
 
 CLASS.getDisplayScale = DataHelper.memoize( function(
@@ -212,41 +212,41 @@ function CLASS:getDynamicScale()
     return DataHelper.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
 
-function CLASS:getImageLookup()
-    return self.imageLookup
+function CLASS:getFileLookup()
+    return self.fileLookup
 end
 
-function CLASS:hasImageLookup()
-    return DataHelper.hasValue( self.imageLookup )
+function CLASS:hasFileLookup()
+    return DataHelper.hasValue( self.fileLookup )
 end
 
-CLASS.getImageLookupsForScale = DataHelper.memoize( function(
+CLASS.getFileLookupsForScale = DataHelper.memoize( function(
     self, scale
 )
-    local imageLookupsForScale = {}
-    local imageLookupsSortedByScale = self:getImageLookupsSortedByScale()
+    local fileLookupsForScale = {}
+    local fileLookupsSortedByScale = self:getFileLookupsSortedByScale()
 
-    if ( imageLookupsSortedByScale ~= nil ) then
+    if ( fileLookupsSortedByScale ~= nil ) then
         if ( scale >= 1 ) then
-            for _, entry in ipairs( imageLookupsSortedByScale ) do
+            for _, entry in ipairs( fileLookupsSortedByScale ) do
                 if ( entry.scale > scale ) then break end
 
                 if ( entry.scale >= 1 ) then
                     local index = 1
                     for _, lookup in pairs( entry.lookup ) do
-                        table.insert( imageLookupsForScale, index,
+                        table.insert( fileLookupsForScale, index,
                             { lookup = lookup, scale = entry.scale } )
                         index = index + 1
                     end
                 end
             end
         else
-            for _, entry in ipairs( imageLookupsSortedByScale ) do
+            for _, entry in ipairs( fileLookupsSortedByScale ) do
                 if ( entry.scale > 1 ) then break end
 
                 if ( entry.scale >= scale ) then
                     for _, lookup in pairs( entry.lookup ) do
-                        table.insert( imageLookupsForScale,
+                        table.insert( fileLookupsForScale,
                             { lookup = lookup, scale = entry.scale } )
                     end
                 end
@@ -254,25 +254,25 @@ CLASS.getImageLookupsForScale = DataHelper.memoize( function(
         end
     end
 
-    return imageLookupsForScale
+    return fileLookupsForScale
 end )
 
-CLASS.getImageLookupsSortedByScale = DataHelper.memoize( function(
+CLASS.getFileLookupsSortedByScale = DataHelper.memoize( function(
     self
 )
-    local imageLookup = self:getImageLookup()
-    if ( imageLookup == nil ) then return nil end
+    local fileLookup = self:getFileLookup()
+    if ( fileLookup == nil ) then return nil end
 
-    local imageScales = DataHelper.getNumericKeysSorted( imageLookup )
-    local imageLookupsSortedByScale = {}
+    local fileScales = DataHelper.getNumericKeysSorted( fileLookup )
+    local fileLookupsSortedByScale = {}
 
-    for _, scale in pairs( imageScales ) do
-        table.insert( imageLookupsSortedByScale, {
+    for _, scale in pairs( fileScales ) do
+        table.insert( fileLookupsSortedByScale, {
             scale = scale,
-            lookup = imageLookup[ scale ] } )
+            lookup = fileLookup[ scale ] } )
     end
 
-    return imageLookupsSortedByScale
+    return fileLookupsSortedByScale
 end )
 
 function CLASS:getScalingAxis()

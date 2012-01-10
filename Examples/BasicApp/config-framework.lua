@@ -25,7 +25,7 @@ return {
             axis = "maxResScale",
 
 -- Replacement for the underpowered 'imageSuffix' feature
-            imageLookup =
+            fileLookup =
             {
                 [ 1 ] =
                 {

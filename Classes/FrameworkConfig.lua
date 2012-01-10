@@ -15,9 +15,6 @@ local defaults = {
     display = {
         scaling = {
             axis = "maxResScale",
-            imageLookup = {
-                tryFallback = true,
-            },
         },
         statusBar = "hidden",
     },
@@ -28,12 +25,12 @@ function CLASS:init( ... )
     self:setDefaultValues( defaults )
 end
 
-function CLASS:getImageLookup()
-    return self:getValue( false, "display", "scaling", "imageLookup" )
+function CLASS:getFileLookup()
+    return self:getValue( false, "display", "scaling", "fileLookup" )
 end
 
-function CLASS:hasImageLookup()
-    return self:hasValue( "display", "scaling", "imageLookup" )
+function CLASS:hasFileLookup()
+    return self:hasValue( "display", "scaling", "fileLookup" )
 end
 
 function CLASS:getScalingAxis( useDefaultIfNil )

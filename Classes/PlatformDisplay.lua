@@ -18,18 +18,18 @@ function CLASS:init( platformConfig, ... )
     self.imageSuffix = platformConfig:getImageSuffix()
 end
 
-CLASS.findImage = DataHelper.memoize( function (
-    self, imageFileName, imageRootPath, coronaPathType, dynamicScale
+CLASS.findFileByScale = DataHelper.memoize( function (
+    self, fileName, rootPath, coronaPathType, dynamicScale
 )
     local hasDefaultArguments = false
 
-    if ( imageFileName == nil ) then
-        imageFileName = ""
+    if ( fileName == nil ) then
+        fileName = ""
         hasDefaultArguments = true
     end
 
-    if ( imageRootPath == nil ) then
-        imageRootPath = ""
+    if ( rootPath == nil ) then
+        rootPath = ""
         hasDefaultArguments = true
     end
 
@@ -47,46 +47,46 @@ CLASS.findImage = DataHelper.memoize( function (
     -- default values so that the results are memoized for both method
     -- invocations.
     if ( hasDefaultArguments ) then
-        return self:findImage(
-            imageFileName, imageRootPath, coronaPathType, dynamicScale )
+        return self:findFileByScale(
+            fileName, rootPath, coronaPathType, dynamicScale )
     end
 
-    if ( imageFileName == nil or imageFileName == "" ) then return nil end
+    if ( fileName == nil or fileName == "" ) then return nil end
 
-    if ( imageRootPath ~= nil ) then
-        imageRootPath = imageRootPath .. FileHelper.PATH_SEPARATOR
+    if ( rootPath ~= nil ) then
+        rootPath = rootPath .. FileHelper.PATH_SEPARATOR
     else
-        imageRootPath = ""
+        rootPath = ""
     end
 
     local imageSuffixes = self:getImageSuffixesForScale( dynamicScale )
 
     if ( DataHelper.isNonEmptyTable( imageSuffixes ) ) then
 
-        local _, _, imagePrefix, imageExt = string.find(
-            imageFileName, "^(.*)%.(.-)$" )
+        local _, _, filePrefix, fileExt = string.find(
+            fileName, "^(.*)%.(.-)$" )
 
         for _, entry in ipairs( imageSuffixes ) do
             local imageSuffix = entry.imageSuffix
             local imageScale = entry.scale
 
-            local imageFileName = imagePrefix .. imageSuffix .. "." .. imageExt
-            local checkedPath = imageRootPath .. imageFileName
+            local checkedFileName = filePrefix .. imageSuffix .. "." .. fileExt
+            local checkedPath = rootPath .. fileName
 
             if ( FileHelper.getFilePath( checkedPath, coronaPathType ) )
             then
-                return imageRootPath, imageFileName, imageScale
+                return rootPath, fileName, imageScale
             end
         end
     end
 
-    local checkedPath = imageRootPath .. imageFileName
+    local checkedPath = rootPath .. fileName
 
     if ( FileHelper.getFilePath( checkedPath, coronaPathType ) == nil ) then
         return nil
     end
 
-    return imageRootPath, imageFileName, 1
+    return rootPath, fileName, 1
 end )
 
 function CLASS:getImageSuffix()

@@ -27,29 +27,29 @@ function CLASS:getPlatformDisplay()
     return self.platformDisplay
 end
 
-function CLASS:findImage(
-    imageFileName, imageRootPath, coronaPathType, dynamicScale
+function CLASS:findFileByScale(
+    fileName, rootPath, coronaPathType, dynamicScale
 )
-    if ( self:getFrameworkDisplay():hasImageLookup() )
+    if ( self:getFrameworkDisplay():hasFileLookup() )
     then
-        local imagePath, imageFileName, imageScale =
-            self:getFrameworkDisplay():findImage(
-                imageFileName, imageRootPath, coronaPathType, dynamicScale,
+        local foundPath, foundFileName, fileScale =
+            self:getFrameworkDisplay():findFileByScale(
+                fileName, rootPath, coronaPathType, dynamicScale,
                 true )
 
-        if ( imagePath ~= nil ) then
-            return imagePath, imageFileName, imageScale
+        if ( foundPath ~= nil ) then
+            return foundPath, foundFileName, fileScale
         end
     end
 
-    return self:getPlatformDisplay():findImage(
-        imageFileName, imageRootPath, coronaPathType, dynamicScale )
+    return self:getPlatformDisplay():findFileByScale(
+        fileName, rootPath, coronaPathType, dynamicScale )
 end
 
 function CLASS:getImage(
     imageFileName, imageRootPath, xPos, yPos, coronaPathType
 )
-    local imagePath, imageScale = self:findImage(
+    local imagePath, imageScale = self:findFileByScale(
         imageFileName, imageRootPath, coronaPathType )
 
     if ( imagePath ~= nil ) then
