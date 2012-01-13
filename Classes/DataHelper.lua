@@ -11,6 +11,13 @@ local CLASSPATH = require( "classpath" )
 
 local CLASS = {}
 
+function CLASS.compareString( target, compareTo, ignoreCase )
+    if ( target == compareTo ) then return true end
+    if ( not ignoreCase ) then return false end
+    if ( target == nil or compareTo == nil ) then return false
+    return target:upper() == compareTo:upper()
+end
+
 -- Thanks to http://stackoverflow.com/a/664611/111948
 -- Thanks to http://lua-users.org/wiki/CopyTable
 function CLASS.copy( object )
