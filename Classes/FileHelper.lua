@@ -81,7 +81,7 @@ function CLASS.getPathComponents( path )
 end
 
 function CLASS.getRequirePath( filePath )
-    if ( DataHelper.endsWith( filePath, CLASS.LUA_FILE_EXTENSION ) ) then
+    if ( DataHelper.endsWith( filePath, CLASS.LUA_FILE_EXTENSION, true ) ) then
         filePath = string.sub(
             filePath, 1, -1 * ( string.len( CLASS.LUA_FILE_EXTENSION ) + 1 ) )
     end
