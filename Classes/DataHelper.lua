@@ -52,11 +52,16 @@ function CLASS.copyDeep( targetTable )
     return _copy( targetTable )
 end
 
-function CLASS.endsWith( target, suffix )
+function CLASS.endsWith( target, suffix, ignoreCase )
     if ( target == nil or suffix == nil ) then return false end
     if ( suffix == "" or target == suffix ) then return true end
 
-    return suffix == string.sub( target, -1 * string.len( suffix ) )
+    if ( ignoreCase ) then
+        return suffix:lower() == string.sub(
+            target, -1 * string.len( suffix ) ):lower()
+    else
+        return suffix == string.sub( target, -1 * string.len( suffix ) )
+    end
 end
 
 function CLASS.getDefault( target, default )
@@ -153,11 +158,16 @@ function CLASS.selectByNestedIndex( targetTable, ... )
     return objRef
 end
 
-function CLASS.startsWith( target, prefix )
+function CLASS.startsWith( target, prefix, ignoreCase )
     if ( target == nil or prefix == nil ) then return false end
     if ( prefix == "" or target == prefix ) then return true end
 
-    return prefix == string.sub( target, 1, string.len( prefix ) )
+    if ( ignoreCase ) then
+        return prefix:lower() == string.sub(
+            target, 1, string.len( prefix ) ):lower()
+    else
+        return prefix == string.sub( target, 1, string.len( prefix ) )
+    end
 end
 
 function CLASS.updateByNestedIndex( value, targetTable, ... )
