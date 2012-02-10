@@ -14,7 +14,7 @@ local CLASS = {}
 function CLASS.compareString( target, compareTo, ignoreCase )
     if ( target == compareTo ) then return true end
     if ( not ignoreCase ) then return false end
-    if ( target == nil or compareTo == nil ) then return false
+    if ( target == nil or compareTo == nil ) then return false end
     return target:upper() == compareTo:upper()
 end
 
