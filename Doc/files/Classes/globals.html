@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Luadocs for Classes//globals.lua</title>
+    <link rel="stylesheet" href="../../../luadoc.css" type="text/css" />
+    <!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+    <div id="product_logo"></div>
+    <div id="product_name"><big><b></b></big></div>
+    <div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../../../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li>
+		<a href="../../../files/Classes//BaseApp.html">Classes//BaseApp.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//BaseClass.html">Classes//BaseClass.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//BaseConfig.html">Classes//BaseConfig.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//DataHelper.html">Classes//DataHelper.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//DisplayHelper.html">Classes//DisplayHelper.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//DisplayManager.html">Classes//DisplayManager.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//FileHelper.html">Classes//FileHelper.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//FrameworkConfig.html">Classes//FrameworkConfig.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//FrameworkDisplay.html">Classes//FrameworkDisplay.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//PlatformConfig.html">Classes//PlatformConfig.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//PlatformDisplay.html">Classes//PlatformDisplay.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//SpriteSheet.html">Classes//SpriteSheet.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//SpriteSheetData.html">Classes//SpriteSheetData.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/Classes//classpath.html">Classes//classpath.lua</a>
+	</li>
+
+	<li><strong>Classes//globals.lua</strong></li>
+	
+</ul>
+
+
+
+
+
+
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h1>File <code>Classes//globals.lua</code></h1>
+
+
+
+
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+    <tr>
+    <td class="name" nowrap><a href="#cast">cast</a>&nbsp;(target, ...)</td>
+    <td class="summary">Invokes the 'cast' method of the specified class, to cast an existing object, class, or table into the specified class.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#class">class</a>&nbsp;(...)</td>
+    <td class="summary">Invokes the 'extend' method of the CooL 'BaseClass' class, effectively allowing CooL subclasses to be created.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#className">className</a>&nbsp;(packagePath)</td>
+    <td class="summary">Extracts the class name of the specified Lua package path.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#extend">extend</a>&nbsp;(target, ...)</td>
+    <td class="summary">Invokes the 'extend' method of the specified class, to create a subclass of the specified class.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#new">new</a>&nbsp;(target, ...)</td>
+    <td class="summary">Invokes the 'new' method of the specified class, to create a new class instance object of the specified class.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#packageName">packageName</a>&nbsp;(packagePath)</td>
+    <td class="summary">Extracts the package name, without the class name, of the specified Lua package path.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#packagePath">packagePath</a>&nbsp;(path)</td>
+    <td class="summary">Returns the provided package path parameter, as a way to provide explicit context for statements that need to get the package path of the current package.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#printf">printf</a>&nbsp;(format, ...)</td>
+    <td class="summary">Prints the provided parameters via 'print', formatted according to the specified format, following the formatting convention of 'string.format'.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#writef">writef</a>&nbsp;(format, ...)</td>
+    <td class="summary">Writes the provided parameters via 'io.write', formatted according to the specified format, following the formatting convention of 'string.format'.</td>
+    </tr>
+
+</table>
+
+
+
+
+
+
+<br/>
+<br/>
+
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="cast"></a><strong>cast</strong>&nbsp;(target, ...)</dt>
+<dd>
+Invokes the 'cast' method of the specified class, to cast an existing object, class, or table into the specified class.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  target: The class upon which to invoke the 'cast' method.  If a string, will be interpreted as a file name to be 'required' first, which will then be expected to return a class with a 'cast' method to invoke.
+	</li>
+	
+	<li>
+	  ...: Optional parameters to be passed to the 'cast' method.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage</h3>
+<ul>
+	
+	<li>local castObject = cast( myClassInstance, existingObjectToCast )
+	
+	<li>local castObject = cast( "myClassName", existingObjectToCast )
+	
+</ul>
+
+
+
+<h3>Return value:</h3>
+The valued returned by the 'cast' method of the specified class, usually expected to be an object instance that is cast to the specified class.
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="">
+		Classes//BaseClass:cast
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="class"></a><strong>class</strong>&nbsp;(...)</dt>
+<dd>
+Invokes the 'extend' method of the CooL 'BaseClass' class, effectively allowing CooL subclasses to be created.  Use this method if you are passing in, as the first parameter, a table to be converted into a class.  The table should contain a property 'className' that defines the name of the resulting class.  If you want to create a new class from scratch, and would rather pass in the class name as a parameter, please see function 'autoclass'.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  ...: Optional parameters to be passed to the 'extend' method of the CooL 'BaseClass' class.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage:</h3>
+local myClassInstance = class( "myClassName" )
+
+
+
+<h3>Return value:</h3>
+The valued returned by the 'extend' method of the CooL 'BaseClass' class, usually expected to be a new class that subclasses 'BaseClass'.
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="">
+		autoclass
+	</a>
+	
+	<li><a href="">
+		Classes//BaseClass:extend
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="className"></a><strong>className</strong>&nbsp;(packagePath)</dt>
+<dd>
+Extracts the class name of the specified Lua package path.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  packagePath: The Lua package path from which to extract the class name.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage:</h3>
+local name = className( "Classes.CooL.globals" ) -- "globals"
+
+
+
+<h3>Return value:</h3>
+The class name of the specified Lua package path.
+
+
+
+</dd>
+
+
+
+
+<dt><a name="extend"></a><strong>extend</strong>&nbsp;(target, ...)</dt>
+<dd>
+Invokes the 'extend' method of the specified class, to create a subclass of the specified class.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  target: The class upon which to invoke the 'extend' method.  If a string, will be interpreted as a file name to be 'required' first, which will then be expected to return a class with an 'extend' method to invoke.
+	</li>
+	
+	<li>
+	  ...: Optional parameters to be passed to the 'extend' method.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage</h3>
+<ul>
+	
+	<li>local mySubClassInstance = extend( myClassInstance )
+	
+	<li>local mySubClassInstance = extend( "myClassName" )
+	
+</ul>
+
+
+
+<h3>Return value:</h3>
+The valued returned by the 'extend' method of the specified class, usually expected to be a new class that subclasses the specified class.
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="">
+		Classes//BaseClass:extend
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="new"></a><strong>new</strong>&nbsp;(target, ...)</dt>
+<dd>
+Invokes the 'new' method of the specified class, to create a new class instance object of the specified class.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  target: The class upon which to invoke the 'new' method.  If a string, will be interpreted as a file name to be 'required' first, which will then be expected to return a class with a 'new' method to invoke.
+	</li>
+	
+	<li>
+	  ...: Optional parameters to be passed to the 'new' method.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage</h3>
+<ul>
+	
+	<li>local myClassObject = new( myClassInstance )
+	
+	<li>local myClassObject = new( "myClassName" )
+	
+</ul>
+
+
+
+<h3>Return value:</h3>
+The valued returned by the 'new' method of the specified class, usually expected to be a new class instance object of the specified class.
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="">
+		Classes//BaseClass:new
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="packageName"></a><strong>packageName</strong>&nbsp;(packagePath)</dt>
+<dd>
+Extracts the package name, without the class name, of the specified Lua package path.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  packagePath: The Lua package path from which to extract the package name.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage:</h3>
+local name = packageName( "Classes.CooL.globals" ) -- "Classes.CooL"
+
+
+
+<h3>Return value:</h3>
+The package name of the specified Lua package path.
+
+
+
+</dd>
+
+
+
+
+<dt><a name="packagePath"></a><strong>packagePath</strong>&nbsp;(path)</dt>
+<dd>
+Returns the provided package path parameter, as a way to provide explicit context for statements that need to get the package path of the current package.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  path: The package path parameter to return.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage:</h3>
+local path = packagePath( ... )
+
+
+
+<h3>Return value:</h3>
+The provided package path parameter.
+
+
+
+</dd>
+
+
+
+
+<dt><a name="printf"></a><strong>printf</strong>&nbsp;(format, ...)</dt>
+<dd>
+Prints the provided parameters via 'print', formatted according to the specified format, following the formatting convention of 'string.format'. Automatically prints an end-of-line character following the string.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  format: The 'string.format' formatting convention to apply to the provided parameters.
+	</li>
+	
+	<li>
+	  ...: Optional parameters to format according to the specified format.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage:</h3>
+printf( "Hello, %s!", "world" )
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="writef"></a><strong>writef</strong>&nbsp;(format, ...)</dt>
+<dd>
+Writes the provided parameters via 'io.write', formatted according to the specified format, following the formatting convention of 'string.format'. Does not automatically print an end-of-line character following the string.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  format: The 'string.format' formatting convention to apply to the provided parameters.
+	</li>
+	
+	<li>
+	  ...: Optional parameters to format according to the specified format.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage:</h3>
+writef( "Hello, %s!", "world" )
+
+
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+    <p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->
+</body>
+</html>
