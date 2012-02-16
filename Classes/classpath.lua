@@ -25,6 +25,7 @@ return {
     BaseApp = packagePath .. "BaseApp",
     BaseClass = COOL_CLASS_PACKAGE,
     BaseConfig = packagePath .. "BaseConfig",
+    ClassHelper = packagePath .. "ClassHelper",
     DataHelper = packagePath .. "DataHelper",
     DisplayHelper = packagePath .. "DisplayHelper",
     DisplayManager = packagePath .. "DisplayManager",
@@ -34,4 +35,5 @@ return {
     PlatformConfig = packagePath .. "PlatformConfig",
     PlatformDisplay = packagePath .. "PlatformDisplay",
     SpriteSheet = packagePath .. "SpriteSheet",
+    SpriteSheetData = packagePath .. "SpriteSheetData",
 }

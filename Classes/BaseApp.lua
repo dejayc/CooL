@@ -8,8 +8,9 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
+local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 
-local CLASS = autoclass( packagePath( ... ) )
+local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
 function CLASS:init( platformConfig, frameworkConfig )
     io.flush()
@@ -17,7 +18,7 @@ function CLASS:init( platformConfig, frameworkConfig )
     self:setPlatformConfig( platformConfig )
     self:setFrameworkConfig( frameworkConfig )
 
-    self:setDisplayManager( new( CLASSPATH.CooL.DisplayManager ) )
+    self:setDisplayManager( ClassHelper.new( CLASSPATH.CooL.DisplayManager ) )
     self:getDisplayManager():init( platformConfig, frameworkConfig )
 end
 

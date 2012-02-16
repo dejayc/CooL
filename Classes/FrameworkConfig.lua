@@ -8,8 +8,10 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
+local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 
-local CLASS = autoextend( CLASSPATH.CooL.BaseConfig, packagePath( ... ) )
+local CLASS = ClassHelper.autoextend(
+    CLASSPATH.CooL.BaseConfig, ClassHelper.getPackagePath( ... ) )
 
 local defaults = {
     display = {

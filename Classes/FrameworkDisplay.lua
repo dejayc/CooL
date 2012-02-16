@@ -8,11 +8,12 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
+local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
 local DisplayHelper = require( CLASSPATH.CooL.DisplayHelper )
 local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
-local CLASS = autoclass( packagePath( ... ) )
+local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
 function CLASS:init( frameworkConfig, ... )
     self.fileLookup = frameworkConfig:getFileLookup()

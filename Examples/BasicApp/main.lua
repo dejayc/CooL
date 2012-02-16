@@ -8,6 +8,7 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
+local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 
 io.flush()
 print( string.format( [[
@@ -18,11 +19,29 @@ the framework should be constructed and invoked.
 ]],
 tostring( CLASSPATH.CooL.config.platform ) ) )
 
-local platformConfig = new( CLASSPATH.CooL.PlatformConfig )
+local platformConfig = ClassHelper.new( CLASSPATH.CooL.PlatformConfig )
 platformConfig:init( require( CLASSPATH.CooL.config.platform ) )
 
-local frameworkConfig = new( CLASSPATH.CooL.FrameworkConfig )
+local frameworkConfig = ClassHelper.new( CLASSPATH.CooL.FrameworkConfig )
 frameworkConfig:init( require( CLASSPATH.CooL.config.framework ) )
 
-local app = new( CLASSPATH.CooL.BaseApp )
+local app = ClassHelper.new( CLASSPATH.CooL.BaseApp )
 app:init( platformConfig, frameworkConfig )
+
+local spriteSheetDataPath, spriteSheetDataFile, spriteSheetDataScale =
+    app:getDisplayManager():findFileByScale(
+        "SwapBlocks-Blocks-1.lua", "Assets/Sprites" )
+
+local spriteSheetImagePath, spriteSheetImageFile, spriteSheetImageScale =
+    app:getDisplayManager():findFileByScale(
+        "SwapBlocks-Blocks-1.png", "Assets/Sprites" )
+
+--[[
+local spriteSheet = ClassHelper.new( CLASSPATH.CooL.SpriteSheet )
+spriteSheet:prepare(
+    spriteSheetDataPath .. spriteSheetDataFile, 
+    spriteSheetImagePath .. spriteSheetImageFile )
+
+spriteSheet:load()
+local sprite = spriteSheet:getSprite( "block-blue-1x1" )
+--]]

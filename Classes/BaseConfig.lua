@@ -8,9 +8,10 @@
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
 local CLASSPATH = require( "classpath" )
+local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
 
-local CLASS = autoclass( packagePath( ... ) )
+local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
 function CLASS:init( values )
     self:setValues( values )

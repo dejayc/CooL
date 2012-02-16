@@ -7,7 +7,10 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-local CLASS = { className = "BaseClass" }
+local CLASSPATH = require( "classpath" )
+local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
+
+local CLASS = { className = ClassHelper.getPackagePath( ... ) }
 
 function CLASS:cast( object )
     object = object or {}
