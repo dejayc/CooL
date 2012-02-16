@@ -10,12 +10,40 @@
 -- Global "nil" object to represent nil values in tables.
 NIL = {}
 
+--- Invokes the 'extend' method of the CooL 'BaseClass' class, effectively
+-- allowing a CooL subclass to be created with the specified name.
+-- @param name The name to assign to the new class.
+-- @param object An optional object to be cast to the new class.
+-- @param ... Optional parameters to be passed to the 'extend' method of the
+-- CooL 'BaseClass' class.
+-- @return The valued returned by the 'extend' method of the CooL 'BaseClass'
+-- class, usually expected to be a new class that subclasses 'BaseClass'.
+-- @usage local myClassInstance = autoclass( "myClassName" )
+-- @usage local myClassInstance = autoclass( "myClassName", existingClass )
+-- @see autoclass
+-- @see Classes//BaseClass:extend
 function autoclass( name, object, ... )
     if ( object == nil ) then object = {} end
     object.className = className( name )
     return class( object, ... )
 end
 
+--- Invokes the 'extend' method of the specified class, to create a subclass
+-- of the specified class with the specified name.
+-- @param target The class upon which to invoke the 'extend' method.  If a
+-- string, will be interpreted as a file name to be 'required' first, which
+-- will then be expected to return a class with an 'extend' method to invoke.
+-- @param name The name to assign to the new subclass.
+-- @param object An optional object to be cast to an instance of the subclass
+-- of the specified class.
+-- @param ... Optional parameters to be passed to the 'extend' method.
+-- @return The valued returned by the 'extend' method of the specified class,
+-- usually expected to be a new class that subclasses the specified class.
+-- @usage local mySubClassInstance = autoextend(
+--   myClassInstance, "MySubClassName" )
+-- @usage local mySubClassInstance = extend(
+--   "myClassName", "MySubClassName" )
+-- @see Classes//BaseClass:extend
 function autoextend( target, name, object, ... )
     if ( object == nil ) then object = {} end
     object.className = className( name )
@@ -40,7 +68,7 @@ function cast( target, ... )
 end
 
 --- Invokes the 'extend' method of the CooL 'BaseClass' class, effectively
--- allowing CooL subclasses to be created.  Use this method if you are passing
+-- allowing a CooL subclass to be created.  Use this method if you are passing
 -- in, as the first parameter, a table to be converted into a class.  The
 -- table should contain a property 'className' that defines the name of the
 -- resulting class.  If you want to create a new class from scratch, and would
