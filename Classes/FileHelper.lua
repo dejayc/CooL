@@ -7,6 +7,14 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Convenience functions for files, file systems, file names, and directories.
+
+module "FileHelper"
+-------------------------------------------------------------------------------
+--]]
+
 local CLASSPATH = require( "classpath" )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
 
@@ -25,16 +33,36 @@ CLASS.PATH_FILE_NAME_SPLIT_PATTERN = string.format(
 CLASS.PATH_TRIM_PATTERN = string.format(
     "^[%s]?(.-)[%s]?$", CLASS.PATH_SEPARATOR, CLASS.PATH_SEPARATOR )
 
+--- Description.
+-- @name .fileExists
+-- @param fileName
+-- @param coronaPathType
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.fileExists( fileName, coronaPathType )
     return CLASS.getFileSystemPath( fileName, coronaPathType ) ~= nil
 end
 
 -- Thanks to http://bsharpe.com/code/coronasdk-how-to-know-if-a-file-exists/
+--- Description.
+-- @name .getFileSystemPath
+-- @param fileName
+-- @param coronaPathType
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getFileSystemPath( fileName, coronaPathType )
   return system.pathForFile( fileName, coronaPathType )
 end
 
 -- Thanks to http://stackoverflow.com/a/1403489
+--- Description.
+-- @name .getPathComponents
+-- @param path
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getPathComponents( path )
     path = path or ""
 
@@ -80,6 +108,12 @@ function CLASS.getPathComponents( path )
     return filePath, fileName, fileBase, fileExt
 end
 
+--- Description.
+-- @name .getRequirePath
+-- @param filePath
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getRequirePath( filePath )
     if ( DataHelper.endsWith( filePath, CLASS.LUA_FILE_EXTENSION, true ) ) then
         filePath = string.sub(

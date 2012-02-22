@@ -7,10 +7,26 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Convenience functions for performing data manipulation.
+
+module "DataHelper"
+-------------------------------------------------------------------------------
+--]]
+
 local CLASSPATH = require( "classpath" )
 
 local CLASS = {}
 
+--- Description.
+-- @name .compareString
+-- @param target
+-- @param compareTo
+-- @param ignoreCase
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.compareString( target, compareTo, ignoreCase )
     if ( target == compareTo ) then return true end
     if ( not ignoreCase ) then return false end
@@ -20,6 +36,12 @@ end
 
 -- Thanks to http://stackoverflow.com/a/664611/111948
 -- Thanks to http://lua-users.org/wiki/CopyTable
+--- Description.
+-- @name .copy
+-- @param object
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.copy( object )
     if ( type( object ) ~= "table" ) then
         return object
@@ -34,6 +56,12 @@ function CLASS.copy( object )
 end
 
 -- Thanks to http://lua-users.org/wiki/CopyTable
+--- Description.
+-- @name .copyDeep
+-- @param targetTable
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.copyDeep( targetTable )
     local lookupTable = {}
 
@@ -59,6 +87,14 @@ function CLASS.copyDeep( targetTable )
     return _copy( targetTable )
 end
 
+--- Description.
+-- @name .endsWith
+-- @param target
+-- @param suffix
+-- @param ignoreCase
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.endsWith( target, suffix, ignoreCase )
     if ( target == nil or suffix == nil ) then return false end
     if ( suffix == "" or target == suffix ) then return true end
@@ -71,16 +107,37 @@ function CLASS.endsWith( target, suffix, ignoreCase )
     end
 end
 
+--- Description.
+-- @name .getDefault
+-- @param target
+-- @param default
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getDefault( target, default )
     if ( target ~= nil ) then return target end
     return default
 end
 
+--- Description.
+-- @name .getDefaultIf
+-- @param target
+-- @param default
+-- @param _if
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getDefaultIf( target, default, _if )
     if ( not _if ) then return target end
     return Data.getDefault( target, default )
 end
 
+--- Description.
+-- @name .getNumericKeysSorted
+-- @param targetTable
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getNumericKeysSorted( targetTable )
     local sorted = {}
     for index, value in pairs( targetTable ) do
@@ -93,22 +150,49 @@ function CLASS.getNumericKeysSorted( targetTable )
     return sorted
 end
 
+--- Description.
+-- @name .hasValue
+-- @param value
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.hasValue( value )
     return value ~= nil and value ~= ""
 end
 
+--- Description.
+-- @name .isNonEmptyTable
+-- @param targetTable
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.isNonEmptyTable( targetTable )
     return
         type( targetTable ) == "table" and
         table.getn( targetTable ) > 0
 end
 
+--- Description.
+-- @name .ite
+-- @param _if
+-- @param _then
+-- @param _else
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.ite( _if, _then, _else )
     if ( _if ) then return _then end
     return _else
 end
 
 -- Thanks to http://lua-users.org/wiki/FuncTables
+--- Description.
+-- @name .memoize
+-- @param fn
+-- @param fnKey
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.memoize( fn, fnKey )
     fnKey = fnKey or function ( ... )
         local key = ""
@@ -142,16 +226,36 @@ function CLASS.memoize( fn, fnKey )
     return setmetatable( object, object )
 end
 
+--- Description.
+-- @name .pack
+-- @param ...
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.pack( ... )
     return arg
 end
 
 -- Thanks to http://lua-users.org/wiki/SimpleRound
+--- Description.
+-- @name .roundNumber
+-- @param num
+-- @param idp
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.roundNumber( num, idp )
     local mult = 10^( idp or 0 )
     return math.floor( num * mult + 0.5 ) / mult
 end
 
+--- Description.
+-- @name .selectByNestedIndex
+-- @param targetTable
+-- @param ...
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.selectByNestedIndex( targetTable, ... )
     if ( targetTable == nil ) then return nil end
 
@@ -165,6 +269,14 @@ function CLASS.selectByNestedIndex( targetTable, ... )
     return objRef
 end
 
+--- Description.
+-- @name .startsWith
+-- @param target
+-- @param prefix
+-- @ignoreCase
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.startsWith( target, prefix, ignoreCase )
     if ( target == nil or prefix == nil ) then return false end
     if ( prefix == "" or target == prefix ) then return true end
@@ -177,6 +289,14 @@ function CLASS.startsWith( target, prefix, ignoreCase )
     end
 end
 
+--- Description.
+-- @name .updateByNestedIndex
+-- @param value
+-- @param targetTable
+-- @param ...
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.updateByNestedIndex( value, targetTable, ... )
     if ( targetTable == nil ) then return nil end
 

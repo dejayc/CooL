@@ -7,6 +7,15 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Convenience methods to inspect and manipulate the state of the display, as
+-- configured by CooL.
+
+module "FrameworkDisplay"
+-------------------------------------------------------------------------------
+--]]
+
 local CLASSPATH = require( "classpath" )
 local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
@@ -15,12 +24,29 @@ local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
+--- Description.
+-- @name init
+-- @param frameworkConfig
+-- @param ...
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:init( frameworkConfig, ... )
     self.fileLookup = frameworkConfig:getFileLookup()
     self.scalingAxis = frameworkConfig:getScalingAxis()
     DisplayHelper.setStatusBar( frameworkConfig:getStatusBar() )
 end
 
+--- Description.
+-- @name findByScale
+-- @param fileName
+-- @param rootPath
+-- @param coronaPathType
+-- @param dynamicScale
+-- @param bypassDefaultCheck
+-- @return description.
+-- @usage example
+-- @see .class
 CLASS.findFileByScale = DataHelper.memoize( function(
     self, fileName, rootPath, coronaPathType, dynamicScale,
     bypassDefaultCheck
@@ -145,6 +171,12 @@ CLASS.findFileByScale = DataHelper.memoize( function(
     return rootPath, fileName, 1
 end )
 
+--- Description.
+-- @name getDisplayScale
+-- @param scalingAxis
+-- @return description.
+-- @usage example
+-- @see .class
 CLASS.getDisplayScale = DataHelper.memoize( function(
     self, scalingAxis
 )
@@ -210,18 +242,39 @@ CLASS.getDisplayScale = DataHelper.memoize( function(
     return displayScale
 end )
 
+--- Description.
+-- @name getDynamicScale
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getDynamicScale()
     return DataHelper.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
 
+--- Description.
+-- @name getFileLookup
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getFileLookup()
     return self.fileLookup
 end
 
+--- Description.
+-- @name hasFileLookup
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:hasFileLookup()
     return DataHelper.hasValue( self.fileLookup )
 end
 
+--- Description.
+-- @name getFileLookupsForScale
+-- @param scale
+-- @return description.
+-- @usage example
+-- @see .class
 CLASS.getFileLookupsForScale = DataHelper.memoize( function(
     self, scale
 )
@@ -254,6 +307,11 @@ CLASS.getFileLookupsForScale = DataHelper.memoize( function(
     return fileLookupsForScale
 end )
 
+--- Description.
+-- @name getFileLookupsSortedByScale
+-- @return description.
+-- @usage example
+-- @see .class
 CLASS.getFileLookupsSortedByScale = DataHelper.memoize( function(
     self
 )
@@ -272,10 +330,20 @@ CLASS.getFileLookupsSortedByScale = DataHelper.memoize( function(
     return fileLookupsSortedByScale
 end )
 
+--- Description.
+-- @name getScalingAxis
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getScalingAxis()
     return self.scalingAxis
 end
 
+--- Description.
+-- @name hasScalingAxis
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:hasScalingAxis()
     return DataHelper.hasValue( self.scalingAxis )
 end

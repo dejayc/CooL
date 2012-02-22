@@ -7,22 +7,45 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Convenience functions for inspecting and manipulating the display.
+
+module "DisplayHelper"
+-------------------------------------------------------------------------------
+--]]
+
 local CLASSPATH = require( "classpath" )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
 local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
 local CLASS = {}
 
+--- Description.
+-- @name .getDisplayHeight
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getDisplayHeight()
     return DataHelper.roundNumber(
         display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
+--- Description.
+-- @name .getDisplayWidth
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getDisplayWidth()
     return DataHelper.roundNumber(
         display.viewableContentWidth / display.contentScaleX, 0 )
 end
 
+--- Description.
+-- @name .getDisplayScale
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getDisplayScale()
     local heightScale = display.contentScaleY
     local widthScale = display.contentScaleX
@@ -34,10 +57,21 @@ function CLASS.getDisplayScale()
     end
 end
 
+--- Description.
+-- @name .getDynamicScale
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getDynamicScale()
     return DataHelper.roundNumber( 1 / CLASS.getDisplayScale(), 3 )
 end
 
+--- Description.
+-- @name .getEffectiveOrientation
+-- @param orientation
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getEffectiveOrientation( orientation )
     orientation = orientation or system.orientation
 
@@ -50,6 +84,12 @@ function CLASS.getEffectiveOrientation( orientation )
     end
 end
 
+--- Description.
+-- @name .getImageBoundingBox
+-- @param image
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getImageBoundingBox( image )
     xBound = ( image.width * image.xScale ) / 2
     yBound = ( image.height * image.yScale ) / 2
@@ -62,10 +102,22 @@ function CLASS.getImageBoundingBox( image )
     }
 end
 
+--- Description.
+-- @name .isImageScaled
+-- @param image
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.isImageScaled( image )
     return image.xScale ~= 1 or image.yScale ~= 1
 end
 
+--- Description.
+-- @name .setStatusBar
+-- @param statusBar
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.setStatusBar( statusBar )
     if ( statusBar == "hidden" )
     then

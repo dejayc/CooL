@@ -7,6 +7,14 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Represents Corona SpriteSheet objects.
+
+module "SpriteSheet"
+-------------------------------------------------------------------------------
+--]]
+
 local CLASSPATH = require( "classpath" )
 local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
@@ -18,22 +26,47 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 CLASS.DEFAULT_DATA_EXTENSION = "lua"
 CLASS.DEFAULT_IMAGE_EXTENSION = "png"
 
+--- Description.
+-- @name getCoronaPathType
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getCoronaPathType()
     return self.coronaPathType
 end
 
+--- Description.
+-- @name getDataFileName
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getDataFileName()
     return self.dataFileName
 end
 
+--- Description.
+-- @name getImageFileName
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getImageFileName()
     return self.imageFileName
 end
 
+--- Description.
+-- @name getSpriteSheetData
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getSpriteSheetData()
     return self.spriteSheetData
 end
 
+--- Description.
+-- @name release
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:release()
     if ( self.spriteSheet ~= nil ) then
         self.spriteSheet:dispose()
@@ -44,6 +77,14 @@ function CLASS:release()
     end
 end
 
+--- Description.
+-- @name prepare
+-- @param dataFileName
+-- @param imageFileName
+-- @param coronaPathType
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:prepare( dataFileName, imageFileName, coronaPathType )
     self:release()
 
@@ -105,6 +146,11 @@ function CLASS:prepare( dataFileName, imageFileName, coronaPathType )
     self.spriteSheetData = spriteSheetData
 end
 
+--- Description.
+-- @name load
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:load()
     if ( spriteSheet == nil ) then
         self:release()
@@ -117,6 +163,12 @@ function CLASS:load()
     end
 end
 
+--- Description.
+-- @name getSprite
+-- @param spriteIndex
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getSprite( spriteIndex )
     if ( type( spriteIndex ) == "string" ) then
         spriteIndex = self.spriteIndexLookup[ spriteIndex ]

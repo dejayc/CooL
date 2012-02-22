@@ -7,6 +7,15 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Convenience methods to inspect and manipulate the state of the display, as
+-- configured by Corona.
+
+module "PlatformDisplay"
+-------------------------------------------------------------------------------
+--]]
+
 local CLASSPATH = require( "classpath" )
 local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
@@ -15,10 +24,26 @@ local FileHelper = require( CLASSPATH.CooL.FileHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
+--- Description.
+-- @name init
+-- @param platformConfig
+-- @param ...
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:init( platformConfig, ... )
     self.imageSuffix = platformConfig:getImageSuffix()
 end
 
+--- Description.
+-- @name findFileByScale
+-- @param fileName
+-- @param rootPath
+-- @param coronaPathType
+-- @param dynamicScale
+-- @return description.
+-- @usage example
+-- @see .class
 CLASS.findFileByScale = DataHelper.memoize( function (
     self, fileName, rootPath, coronaPathType, dynamicScale
 )
@@ -91,10 +116,21 @@ CLASS.findFileByScale = DataHelper.memoize( function (
     return rootPath, fileName, 1
 end )
 
+--- Description.
+-- @name getImageSuffix
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getImageSuffix()
     return self.imageSuffix
 end
 
+--- Description.
+-- @name getImageSuffixesForScale
+-- @param scale
+-- @return description.
+-- @usage example
+-- @see .class
 CLASS.getImageSuffixesForScale = DataHelper.memoize( function(
     self, scale
 )
@@ -126,6 +162,11 @@ CLASS.getImageSuffixesForScale = DataHelper.memoize( function(
     return imageSuffixesForScale
 end )
 
+--- Description.
+-- @name getImageSuffixesSortedByScale
+-- @return description.
+-- @usage example
+-- @see .class
 CLASS.getImageSuffixesSortedByScale = DataHelper.memoize( function(
     self
 )

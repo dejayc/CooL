@@ -7,11 +7,27 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Manages the display as configured by Corona and CooL.
+
+module "DisplayManager"
+-------------------------------------------------------------------------------
+--]]
+
 local CLASSPATH = require( "classpath" )
 local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
+--- Description.
+-- @name init
+-- @param platformConfig
+-- @param frameworkConfig
+-- @param ...
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:init( platformConfig, frameworkConfig, ... )
     self.platformDisplay = ClassHelper.new( CLASSPATH.CooL.PlatformDisplay )
     self.platformDisplay:init( platformConfig )
@@ -20,14 +36,33 @@ function CLASS:init( platformConfig, frameworkConfig, ... )
     self.frameworkDisplay:init( frameworkConfig )
 end
 
+--- Description.
+-- @name getFrameworkDisplay
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getFrameworkDisplay()
     return self.frameworkDisplay
 end
 
+--- Description.
+-- @name getPlatformDisplay
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getPlatformDisplay()
     return self.platformDisplay
 end
 
+--- Description.
+-- @name findFileByScale
+-- @param fileName
+-- @param rootPath
+-- @param coronaPathType
+-- @param dynamicScale
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:findFileByScale(
     fileName, rootPath, coronaPathType, dynamicScale
 )
@@ -47,6 +82,16 @@ function CLASS:findFileByScale(
         fileName, rootPath, coronaPathType, dynamicScale )
 end
 
+--- Description.
+-- @name getImage
+-- @param imageFileName
+-- @param imageRootPath
+-- @param xPos
+-- @param yPos
+-- @param coronaPathType
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS:getImage(
     imageFileName, imageRootPath, xPos, yPos, coronaPathType
 )
@@ -61,6 +106,12 @@ function CLASS:getImage(
     end
 end
 
+--- Description.
+-- @name .getDisplayScale
+-- @param scalingAxis
+-- @return description.
+-- @usage example
+-- @see .class
 function CLASS.getDisplayScale( scalingAxis )
     local hasDefaultArguments = false
 

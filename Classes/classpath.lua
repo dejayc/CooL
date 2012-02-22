@@ -7,6 +7,15 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Base 'classpath' file that includes CooL classes and defines certain CooL
+-- global variables.
+
+module "global"
+-------------------------------------------------------------------------------
+--]]
+
 -- Define CooL globals, and determine current package path
 PACKAGE_CLASS_PATTERN = "^.*%.(.-)$"
 PACKAGE_PATH_PATTERN = "^(.*%.).-$"

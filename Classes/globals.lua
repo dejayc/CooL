@@ -7,6 +7,14 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
+--[[
+-------------------------------------------------------------------------------
+-- Global convenience functions and variables.
+
+module "globals"
+-------------------------------------------------------------------------------
+--]]
+
 --- Prints the provided parameters via 'print', formatted according to the
 -- specified format, following the formatting convention of 'string.format'.
 -- Automatically prints an end-of-line character following the string.
