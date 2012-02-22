@@ -15,35 +15,22 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 function CLASS:init( platformConfig, frameworkConfig )
     io.flush()
 
-    self:setPlatformConfig( platformConfig )
-    self:setFrameworkConfig( frameworkConfig )
-
-    self:setDisplayManager( ClassHelper.new( CLASSPATH.CooL.DisplayManager ) )
-    self:getDisplayManager():init( platformConfig, frameworkConfig )
+    self.platformConfig = platformConfig
+    self.frameworkConfig = frameworkConfig
+    self.displayManager = ClassHelper.new( CLASSPATH.CooL.DisplayManager )
+    self.displayManager:init( platformConfig, frameworkConfig )
 end
 
 function CLASS:getDisplayManager()
     return self.displayManager
 end
 
-function CLASS:setDisplayManager( displayManager )
-    self.displayManager = displayManager
-end
-
 function CLASS:getFrameworkConfig()
     return self.frameworkConfig
 end
 
-function CLASS:setFrameworkConfig( frameworkConfig )
-    self.frameworkConfig = frameworkConfig
-end
-
 function CLASS:getPlatformConfig()
     return self.platformConfig
-end
-
-function CLASS:setPlatformConfig( platformConfig )
-    self.platformConfig = platformConfig
 end
 
 return CLASS
