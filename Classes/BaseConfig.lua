@@ -26,7 +26,7 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 -- @param values
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:init( values )
     self:setValues( values )
 end
@@ -35,7 +35,7 @@ end
 -- @name getValue
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getValues()
     return self.values
 end
@@ -45,7 +45,7 @@ end
 -- @param values
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:setValues( values )
     self.values = values
 end
@@ -56,7 +56,7 @@ end
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getValue( useDefault, ... )
     local value = DataHelper.selectByNestedIndex( self:getValues(), ... )
 
@@ -73,7 +73,7 @@ end
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:setValue( value, ... )
     DataHelper.updateByNestedIndex( value, self:getValues(), ... )
 end
@@ -83,7 +83,7 @@ end
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:hasValue( ... )
     return DataHelper.hasValue( self:getValue( false, ... ) )
 end
@@ -92,7 +92,7 @@ end
 -- @name getDefaultValues
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getDefaultValues()
     return self.defaultValues
 end
@@ -102,7 +102,7 @@ end
 -- @param defaultValues
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:setDefaultValues( defaultValues )
     self.defaultValues = defaultValues
 end
@@ -112,7 +112,7 @@ end
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getDefaultValue( ... )
     return DataHelper.selectByNestedIndex( self:getDefaultValues(), ... )
 end
@@ -123,7 +123,7 @@ end
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:setDefaultValue( value, ... )
     DataHelper.updateByNestedIndex( value, self:getDefaultValues(), ... )
 end

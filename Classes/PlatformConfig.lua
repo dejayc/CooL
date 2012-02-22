@@ -27,7 +27,7 @@ local CLASS = ClassHelper.autoextend(
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:init( ... )
     self.super.init( self, ... )
 end
@@ -36,7 +36,7 @@ end
 -- @name getImageSuffix
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getImageSuffix()
     return self:getValue( false, "content", "imageSuffix" )
 end
@@ -45,7 +45,7 @@ end
 -- @name hasImageSuffix
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:hasImageSuffix()
     return self:hasValue( "content", "imageSuffix" )
 end

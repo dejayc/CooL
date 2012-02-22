@@ -30,7 +30,7 @@ CLASS.DEFAULT_IMAGE_EXTENSION = "png"
 -- @name getCoronaPathType
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getCoronaPathType()
     return self.coronaPathType
 end
@@ -39,7 +39,7 @@ end
 -- @name getDataFileName
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getDataFileName()
     return self.dataFileName
 end
@@ -48,7 +48,7 @@ end
 -- @name getImageFileName
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getImageFileName()
     return self.imageFileName
 end
@@ -57,7 +57,7 @@ end
 -- @name getSpriteSheetData
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getSpriteSheetData()
     return self.spriteSheetData
 end
@@ -66,7 +66,7 @@ end
 -- @name release
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:release()
     if ( self.spriteSheet ~= nil ) then
         self.spriteSheet:dispose()
@@ -84,7 +84,7 @@ end
 -- @param coronaPathType
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:prepare( dataFileName, imageFileName, coronaPathType )
     self:release()
 
@@ -150,7 +150,7 @@ end
 -- @name load
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:load()
     if ( spriteSheet == nil ) then
         self:release()
@@ -168,7 +168,7 @@ end
 -- @param spriteIndex
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getSprite( spriteIndex )
     if ( type( spriteIndex ) == "string" ) then
         spriteIndex = self.spriteIndexLookup[ spriteIndex ]

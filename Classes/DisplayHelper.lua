@@ -22,30 +22,30 @@ local FileHelper = require( CLASSPATH.CooL.FileHelper )
 local CLASS = {}
 
 --- Description.
--- @name .getDisplayHeight
+-- @name getDisplayHeight
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getDisplayHeight()
     return DataHelper.roundNumber(
         display.viewableContentHeight / display.contentScaleY, 0 )
 end
 
 --- Description.
--- @name .getDisplayWidth
+-- @name getDisplayWidth
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getDisplayWidth()
     return DataHelper.roundNumber(
         display.viewableContentWidth / display.contentScaleX, 0 )
 end
 
 --- Description.
--- @name .getDisplayScale
+-- @name getDisplayScale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getDisplayScale()
     local heightScale = display.contentScaleY
     local widthScale = display.contentScaleX
@@ -58,20 +58,20 @@ function CLASS.getDisplayScale()
 end
 
 --- Description.
--- @name .getDynamicScale
+-- @name getDynamicScale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getDynamicScale()
     return DataHelper.roundNumber( 1 / CLASS.getDisplayScale(), 3 )
 end
 
 --- Description.
--- @name .getEffectiveOrientation
+-- @name getEffectiveOrientation
 -- @param orientation
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getEffectiveOrientation( orientation )
     orientation = orientation or system.orientation
 
@@ -85,11 +85,11 @@ function CLASS.getEffectiveOrientation( orientation )
 end
 
 --- Description.
--- @name .getImageBoundingBox
+-- @name getImageBoundingBox
 -- @param image
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getImageBoundingBox( image )
     xBound = ( image.width * image.xScale ) / 2
     yBound = ( image.height * image.yScale ) / 2
@@ -103,21 +103,21 @@ function CLASS.getImageBoundingBox( image )
 end
 
 --- Description.
--- @name .isImageScaled
+-- @name isImageScaled
 -- @param image
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.isImageScaled( image )
     return image.xScale ~= 1 or image.yScale ~= 1
 end
 
 --- Description.
--- @name .setStatusBar
+-- @name setStatusBar
 -- @param statusBar
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.setStatusBar( statusBar )
     if ( statusBar == "hidden" )
     then

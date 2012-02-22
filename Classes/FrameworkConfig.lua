@@ -36,7 +36,7 @@ local defaults = {
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:init( ... )
     self.super.init( self, ... )
     self:setDefaultValues( defaults )
@@ -46,7 +46,7 @@ end
 -- @name getFileLookup
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getFileLookup()
     return self:getValue( false, "display", "scaling", "fileLookup" )
 end
@@ -55,7 +55,7 @@ end
 -- @name hasFileLookup
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:hasFileLookup()
     return self:hasValue( "display", "scaling", "fileLookup" )
 end
@@ -65,7 +65,7 @@ end
 -- @param useDefaultIfNil
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getScalingAxis( useDefaultIfNil )
     return self:getValue( useDefaultIfNil, "display", "scaling", "axis" )
 end
@@ -74,7 +74,7 @@ end
 -- @name hasScalingAxis
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:hasScalingAxis()
     return self:hasValue( "display", "scaling", "axis" )
 end
@@ -83,7 +83,7 @@ end
 -- @name getStatusBar
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getStatusBar()
     return self:getValue( true, "display", "statusBar" )
 end
@@ -92,7 +92,7 @@ end
 -- @name hasStatusBar
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:hasStatusBar()
     return self:hasValue( "display", "statusBar" )
 end

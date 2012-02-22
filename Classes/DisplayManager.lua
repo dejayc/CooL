@@ -27,7 +27,7 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:init( platformConfig, frameworkConfig, ... )
     self.platformDisplay = ClassHelper.new( CLASSPATH.CooL.PlatformDisplay )
     self.platformDisplay:init( platformConfig )
@@ -40,7 +40,7 @@ end
 -- @name getFrameworkDisplay
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getFrameworkDisplay()
     return self.frameworkDisplay
 end
@@ -49,7 +49,7 @@ end
 -- @name getPlatformDisplay
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getPlatformDisplay()
     return self.platformDisplay
 end
@@ -62,7 +62,7 @@ end
 -- @param dynamicScale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:findFileByScale(
     fileName, rootPath, coronaPathType, dynamicScale
 )
@@ -91,7 +91,7 @@ end
 -- @param coronaPathType
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getImage(
     imageFileName, imageRootPath, xPos, yPos, coronaPathType
 )
@@ -107,11 +107,11 @@ function CLASS:getImage(
 end
 
 --- Description.
--- @name .getDisplayScale
+-- @name getDisplayScale
 -- @param scalingAxis
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getDisplayScale( scalingAxis )
     local hasDefaultArguments = false
 

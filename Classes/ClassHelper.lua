@@ -22,7 +22,7 @@ local CLASS = {}
 
 --- Invokes the 'extend' method of the CooL 'BaseClass' class, effectively
 -- allowing a CooL subclass to be created with the specified name.
--- @name .autoclass
+-- @name autoclass
 -- @param name The name to assign to the new class.
 -- @param object An optional object to be cast to the new class.
 -- @param ... Optional parameters to be passed to the 'extend' method of the
@@ -32,7 +32,7 @@ local CLASS = {}
 -- @usage local myClassInstance = ClassHelper.autoclass( "myClassName" )
 -- @usage local myClassInstance = ClassHelper.autoclass(
 --   "myClassName", existingClass )
--- @see .autoclass
+-- @see autoclass
 -- @see BaseClass:extend
 function CLASS.autoclass( name, object, ... )
     if ( object == nil ) then object = {} end
@@ -43,7 +43,7 @@ end
 
 --- Invokes the 'extend' method of the specified class, to create a subclass
 -- of the specified class with the specified name.
--- @name .autoextend
+-- @name autoextend
 -- @param target The class upon which to invoke the 'extend' method.  If a
 -- string, will be interpreted as a file name to be 'required' first, which
 -- will then be expected to return a class with an 'extend' method to invoke.
@@ -67,7 +67,7 @@ end
 
 --- Invokes the 'cast' method of the specified class, to cast an existing
 -- object, class, or table into the specified class.
--- @name .cast
+-- @name cast
 -- @param target The class upon which to invoke the 'cast' method.  If a
 -- string, will be interpreted as a file name to be 'required' first, which
 -- will then be expected to return a class with a 'cast' method to invoke.
@@ -92,13 +92,13 @@ end
 -- resulting class.  If you want to create a new class from scratch, and would
 -- rather pass in the class name as a parameter, please see function
 -- 'autoclass'.
--- @name .class
+-- @name class
 -- @param ... Optional parameters to be passed to the 'extend' method of the
 -- CooL 'BaseClass' class.
 -- @return The valued returned by the 'extend' method of the CooL 'BaseClass'
 -- class, usually expected to be a new class that subclasses 'BaseClass'.
 -- @usage local myClassInstance = ClassHelper.class( "myClassName" )
--- @see .autoclass
+-- @see autoclass
 -- @see BaseClass:extend
 function CLASS.class( ... )
     return require( COOL_CLASS_PACKAGE ):extend( ... )
@@ -106,7 +106,7 @@ end
 
 --- Invokes the 'extend' method of the specified class, to create a subclass
 -- of the specified class.
--- @name .extend
+-- @name extend
 -- @param target The class upon which to invoke the 'extend' method.  If a
 -- string, will be interpreted as a file name to be 'required' first, which
 -- will then be expected to return a class with an 'extend' method to invoke.
@@ -122,7 +122,7 @@ function CLASS.extend( target, ... )
 end
 
 --- Extracts the class name of the specified Lua package path.
--- @name .getClassName
+-- @name getClassName
 -- @param packagePath The Lua package path from which to extract the class
 -- name.
 -- @return The class name of the specified Lua package path.
@@ -136,7 +136,7 @@ end
 
 --- Extracts the package name, without the class name, of the specified Lua
 -- package path.
--- @name .getPackageName
+-- @name getPackageName
 -- @param packagePath The Lua package path from which to extract the package
 -- name.
 -- @return The package name of the specified Lua package path.
@@ -150,7 +150,7 @@ end
 --- Returns the provided package path parameter, as a way to provide explicit
 -- context for statements that need to get the package path of the current
 -- package.
--- @name .getPackagePath
+-- @name getPackagePath
 -- @param path The package path parameter to return.
 -- @return The provided package path parameter.
 -- @usage local path = ClassHelper.getPackagePath( ... )
@@ -160,7 +160,7 @@ end
 
 --- Invokes the 'new' method of the specified class, to create a new class
 -- instance object of the specified class.
--- @name .new
+-- @name new
 -- @param target The class upon which to invoke the 'new' method.  If a string,
 -- will be interpreted as a file name to be 'required' first, which will then
 -- be expected to return a class with a 'new' method to invoke.

@@ -34,35 +34,35 @@ CLASS.PATH_TRIM_PATTERN = string.format(
     "^[%s]?(.-)[%s]?$", CLASS.PATH_SEPARATOR, CLASS.PATH_SEPARATOR )
 
 --- Description.
--- @name .fileExists
+-- @name fileExists
 -- @param fileName
 -- @param coronaPathType
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.fileExists( fileName, coronaPathType )
     return CLASS.getFileSystemPath( fileName, coronaPathType ) ~= nil
 end
 
 -- Thanks to http://bsharpe.com/code/coronasdk-how-to-know-if-a-file-exists/
 --- Description.
--- @name .getFileSystemPath
+-- @name getFileSystemPath
 -- @param fileName
 -- @param coronaPathType
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getFileSystemPath( fileName, coronaPathType )
   return system.pathForFile( fileName, coronaPathType )
 end
 
 -- Thanks to http://stackoverflow.com/a/1403489
 --- Description.
--- @name .getPathComponents
+-- @name getPathComponents
 -- @param path
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getPathComponents( path )
     path = path or ""
 
@@ -109,11 +109,11 @@ function CLASS.getPathComponents( path )
 end
 
 --- Description.
--- @name .getRequirePath
+-- @name getRequirePath
 -- @param filePath
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS.getRequirePath( filePath )
     if ( DataHelper.endsWith( filePath, CLASS.LUA_FILE_EXTENSION, true ) ) then
         filePath = string.sub(

@@ -30,7 +30,7 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:init( frameworkConfig, ... )
     self.fileLookup = frameworkConfig:getFileLookup()
     self.scalingAxis = frameworkConfig:getScalingAxis()
@@ -46,7 +46,7 @@ end
 -- @param bypassDefaultCheck
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 CLASS.findFileByScale = DataHelper.memoize( function(
     self, fileName, rootPath, coronaPathType, dynamicScale,
     bypassDefaultCheck
@@ -176,7 +176,7 @@ end )
 -- @param scalingAxis
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 CLASS.getDisplayScale = DataHelper.memoize( function(
     self, scalingAxis
 )
@@ -246,7 +246,7 @@ end )
 -- @name getDynamicScale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getDynamicScale()
     return DataHelper.roundNumber( 1 / self:getDisplayScale(), 3 )
 end
@@ -255,7 +255,7 @@ end
 -- @name getFileLookup
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getFileLookup()
     return self.fileLookup
 end
@@ -264,7 +264,7 @@ end
 -- @name hasFileLookup
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:hasFileLookup()
     return DataHelper.hasValue( self.fileLookup )
 end
@@ -274,7 +274,7 @@ end
 -- @param scale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 CLASS.getFileLookupsForScale = DataHelper.memoize( function(
     self, scale
 )
@@ -311,7 +311,7 @@ end )
 -- @name getFileLookupsSortedByScale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 CLASS.getFileLookupsSortedByScale = DataHelper.memoize( function(
     self
 )
@@ -334,7 +334,7 @@ end )
 -- @name getScalingAxis
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getScalingAxis()
     return self.scalingAxis
 end
@@ -343,7 +343,7 @@ end
 -- @name hasScalingAxis
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:hasScalingAxis()
     return DataHelper.hasValue( self.scalingAxis )
 end

@@ -30,7 +30,7 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 -- @param ...
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:init( platformConfig, ... )
     self.imageSuffix = platformConfig:getImageSuffix()
 end
@@ -43,7 +43,7 @@ end
 -- @param dynamicScale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 CLASS.findFileByScale = DataHelper.memoize( function (
     self, fileName, rootPath, coronaPathType, dynamicScale
 )
@@ -120,7 +120,7 @@ end )
 -- @name getImageSuffix
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getImageSuffix()
     return self.imageSuffix
 end
@@ -130,7 +130,7 @@ end
 -- @param scale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 CLASS.getImageSuffixesForScale = DataHelper.memoize( function(
     self, scale
 )
@@ -166,7 +166,7 @@ end )
 -- @name getImageSuffixesSortedByScale
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 CLASS.getImageSuffixesSortedByScale = DataHelper.memoize( function(
     self
 )

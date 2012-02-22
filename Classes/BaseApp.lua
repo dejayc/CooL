@@ -49,8 +49,6 @@ end
 -- @name getDisplayManager
 -- @return The DisplayManager instance associated with this application.
 -- @see DisplayManager
--- @see DisplayManager.printf
--- @see DisplayManager:printf
 function CLASS:getDisplayManager()
     return self.displayManager
 end

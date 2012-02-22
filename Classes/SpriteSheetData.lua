@@ -26,7 +26,7 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 -- @param fileName
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:load( fileName )
     local spriteSheetData = require(
         FileHelper.getRequirePath( fileName ) ).getSpriteSheetData()
@@ -48,7 +48,7 @@ end
 -- @name getData
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getData()
     return self.spriteSheetData
 end
@@ -58,7 +58,7 @@ end
 -- @param spriteName
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getSpriteIndex( spriteName )
     return self.spriteIndexLookup[ spriteName ]
 end
@@ -67,7 +67,7 @@ end
 -- @name getSpriteNames
 -- @return description.
 -- @usage example
--- @see .class
+-- @see class
 function CLASS:getSpriteNames()
     return self.spriteNames
 end
