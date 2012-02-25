@@ -27,10 +27,10 @@ local CLASS = {}
 -- @param compareTo The second string to compare.
 -- @param ignoreCase Determines whether case is ignored during comparison.
 -- @return True if both strings are nil or are equal; false otherwise.
--- @usage DataHelper.compareString( nil, nil ) -- true
--- @usage DataHelper.compareString( "Hi", "hi" ) -- false
--- @usage DataHelper.compareString( "Hi", "hi", true ) -- true
--- @usage s = {}; DataHelper.compareString( s, s ) -- false
+-- @usage compareString( nil, nil ) -- true
+-- @usage compareString( "Hi", "hi" ) -- false
+-- @usage compareString( "Hi", "hi", true ) -- true
+-- @usage s = {}; compareString( s, s ) -- false
 function CLASS.compareString( target, compareTo, ignoreCase )
     if ( target == nil and compareTo == nil ) then return true end
 
@@ -53,8 +53,8 @@ end
 -- elements should share metatables with the resulting copies of the tables;
 -- True if metatables should be copied recursively.  Defaults to false.
 -- @return A copy of the specified table.
--- @usage local table2 = DataHelper.copy( table1 )
--- @usage local table2 = DataHelper.copy( table1, true )
+-- @usage table2 = copy( table1 )
+-- @usage table2 = copy( table1, true )
 -- @see http://lua-users.org/wiki/CopyTable
 function CLASS.copy( sourceTable, copyTables, copyMetatables )
     local lookupTable = {}
@@ -102,12 +102,12 @@ end
 -- @return True if both strings are nil, or if the specified target string
 -- ends with the specified suffix string, or if the specified suffix string is
 -- an empty string; false otherwise.
--- @usage DataHelper.endsWith( nil, nil ) -- true
--- @usage DataHelper.endsWith( "Hi there", "Here" ) -- false
--- @usage DataHelper.endsWith( "Hi there", "Here", true ) -- true
--- @usage DataHelper.endsWith( "Hi there", "" ) -- true
--- @usage s = "a"; DataHelper.endsWith( s, s ) -- true
--- @usage s = {}; DataHelper.endsWith( s, s ) -- false
+-- @usage endsWith( nil, nil ) -- true
+-- @usage endsWith( "Hi there", "Here" ) -- false
+-- @usage endsWith( "Hi there", "Here", true ) -- true
+-- @usage endsWith( "Hi there", "" ) -- true
+-- @usage s = "a"; endsWith( s, s ) -- true
+-- @usage s = {}; endsWith( s, s ) -- false
 -- @see startsWith
 function CLASS.endsWith( target, suffix, ignoreCase )
     if ( target == nil and suffix == nil ) then return true end
@@ -134,8 +134,8 @@ end
 -- @name getNonNil
 -- @param ... A list of values to search for the first non-nil value.
 -- @return The first non-nil value.
--- @usage DataHelper.getNonNil( nil, 5, nil ) -- 5
--- @usage DataHelper.getNonNil( "Hi", nil, 3 ) -- "Hi"
+-- @usage getNonNil( nil, 5, nil ) -- 5
+-- @usage getNonNil( "Hi", nil, 3 ) -- "Hi"
 function CLASS.getNonNil( ... )
     for i = 1, table.getn( arg ) do
         local value = arg[ i ]
@@ -149,10 +149,9 @@ end
 -- @name getNumericKeysSorted
 -- @param target The target table to search for numeric key values.
 -- @return The sorted numeric key values of the specified table.
--- @usage DataHelper.getNumericKeysSorted (
+-- @usage getNumericKeysSorted (
 --   { 3 = "a", 1 = "b", "hi" = "bye", 2 = "c" } ) -- { 1, 2, 3 }
--- @usage for index, value in ipairs(
---   DataHelper.getNumericKeysSorted ( mixedTable ) ) do
+-- @usage for index, value in ipairs( getNumericKeysSorted ( mixedTable ) ) do
 function CLASS.getNumericKeysSorted( target )
     local sorted = {}
     for index, value in pairs( target ) do
@@ -171,10 +170,10 @@ end
 -- @param value The target value to evaluate.
 -- @return True if the specified target value is not nil and is not an empty
 -- string; otherwise, false.
--- @usage DataHelper.hasValue( nil ) -- false
--- @usage DataHelper.hasValue( 5 ) -- true
--- @usage DataHelper.hasValue( "" ) -- false
--- @usage DataHelper.hasValue( " " ) -- true
+-- @usage hasValue( nil ) -- false
+-- @usage hasValue( 5 ) -- true
+-- @usage hasValue( "" ) -- false
+-- @usage hasValue( " " ) -- true
 function CLASS.hasValue( value )
     return value ~= nil and value ~= ""
 end
@@ -191,8 +190,8 @@ end
 -- test parameter is false.
 -- @return The specified target value if the specified boolean test parameter
 -- is true; otherwise, the specified default value.
--- @usage DataHelper.ifThenElse( true, 1, 0 ) -- 1
--- @usage x = 3; y = 9; DataHelper.ifThenElse( x > y, x, y ) -- 9
+-- @usage ifThenElse( true, 1, 0 ) -- 1
+-- @usage x = 3; y = 9; ifThenElse( x > y, x, y ) -- 9
 function CLASS.ifThenElse( _if, _then, _else )
     if ( _if ) then return _then end
     return _else
@@ -204,10 +203,10 @@ end
 -- @param target The target parameter to evaluate.
 -- @return True if the specified parameter is a table that contains at least
 -- one element; otherwise, false.
--- @usage DataHelper.isNonEmptyTable( nil ) -- false
--- @usage DataHelper.isNonEmptyTable( "Hi" ) -- false
--- @usage DataHelper.isNonEmptyTable( { } ) -- false
--- @usage DataHelper.isNonEmptyTable( { "" } ) -- true
+-- @usage isNonEmptyTable( nil ) -- false
+-- @usage isNonEmptyTable( "Hi" ) -- false
+-- @usage isNonEmptyTable( { } ) -- false
+-- @usage isNonEmptyTable( { "" } ) -- true
 function CLASS.isNonEmptyTable( target )
     return
         type( target ) == "table" and
@@ -224,17 +223,16 @@ end
 -- @param fnIndex An optional function to create a memoization index from the
 -- parameters that are passed to invocations of the memoized function.
 -- @return The memoized version of the specified function.
--- @usage inc = DataHelper.memoize(
---   function( a ) print( a ); return a + 1 end )
+-- @usage inc = memoize( function( a ) print( a ); return a + 1 end )
 -- @usage inc( 5 ) -- Executes function, printing "5" and returning "6"
 -- @usage inc( 5 ) -- Returns memoized result "6" without executing function
 -- @usage inc:__forget() -- Clears all memoized results.
 -- @usage inc( 5 ) -- Executes function again, printing "5" and returning "6"
--- @usage sub = DataHelper.memoize( function( a, b ) return a - b end )
+-- @usage sub = memoize( function( a, b ) return a - b end )
 -- @usage sub( 3, 1 ) -- Executes function and returns 2
 -- @usage sub( 1, 3 ) -- Parameters are in different order, so no memoized
 --   result is found.  Executes function and returns -2
--- @usage add = DataHelper.memoize(
+-- @usage add = memoize(
 --   function( a, b ) return a + b end,
 --   function( a, b ) return a + b end )
 -- @usage add( 1, 3 ) -- Executes function and returns 4
@@ -280,8 +278,8 @@ end
 -- @param ... A list of optional parameters with which to populate the
 -- returned table.
 -- @return A table that contains all of the passed parameters.
--- @usage DataHelper.pack ( 1, 2, 3 ) -- { 1, 2, 3 }
--- @usage DataHelper.pack ( 1, nil, 2, 3 ) -- { 1, nil, 2, 3 }
+-- @usage pack ( 1, 2, 3 ) -- { 1, 2, 3 }
+-- @usage pack ( 1, nil, 2, 3 ) -- { 1, nil, 2, 3 }
 function CLASS.pack( ... )
     return arg
 end
@@ -292,10 +290,10 @@ end
 -- @param decimalPlaces The number of decimal places to which to round
 -- the specified number.  Defaults to 0.
 -- @return The simply rounded representation of the specified number.
--- @usage DataHelper.roundNumber( 98.4 ) -- 98
--- @usage DataHelper.roundNumber( 98.6 ) -- 99
--- @usage DataHelper.roundNumber( 98.625, 1 ) -- 98.6
--- @usage DataHelper.roundNumber( 98.625, 2 ) -- 98.63
+-- @usage roundNumber( 98.4 ) -- 98
+-- @usage roundNumber( 98.6 ) -- 99
+-- @usage roundNumber( 98.625, 1 ) -- 98.6
+-- @usage roundNumber( 98.625, 2 ) -- 98.63
 -- @see http://lua-users.org/wiki/SimpleRound
 function CLASS.roundNumber( number, decimalPlaces )
     local multiplier = 10^( incrementalDecimalPlaces or 0 )
@@ -311,13 +309,12 @@ end
 -- deeper into the hierarchy of nested table elements.
 -- @return The specified named element of the specified table, if available;
 -- otherwise, nil.
--- @usage DataHelper.selectByNestedIndex(
---   { "hi" = { "bye" = 9 } }, "hi", "bye" ) -- 9
--- @usage DataHelper.selectByNestedIndex(
+-- @usage selectByNestedIndex( { "hi" = { "bye" = 9 } }, "hi", "bye" ) -- 9
+-- @usage selectByNestedIndex(
 --   { "hi" = { "bye" = 9 } }, "hi" ) -- { "bye" = 9 }
--- @usage DataHelper.selectByNestedIndex(
+-- @usage selectByNestedIndex(
 --   { "hi" = { "bye" = 9 } }, "hi", "there" ) -- nil
--- @usage DataHelper.selectByNestedIndex( nil, "hi", "bye" ) -- nil
+-- @usage selectByNestedIndex( nil, "hi", "bye" ) -- nil
 -- @see updateByNestedIndex
 function CLASS.selectByNestedIndex( target, ... )
     if ( target == nil ) then return nil end
@@ -344,12 +341,12 @@ end
 -- @return True if both strings are nil, or if the specified target string
 -- starts with the specified prefix string, or if the specified prefix string
 -- is an empty string; false otherwise.
--- @usage DataHelper.startsWith( nil, nil ) -- true
--- @usage DataHelper.startsWith( "Hi there", "HI" ) -- false
--- @usage DataHelper.startsWith( "Hi there", "HI", true ) -- true
--- @usage DataHelper.startsWith( "Hi there", "" ) -- true
--- @usage s = "a"; DataHelper.startsWith( s, s ) -- true
--- @usage s = {}; DataHelper.startsWith( s, s ) -- false
+-- @usage startsWith( nil, nil ) -- true
+-- @usage startsWith( "Hi there", "HI" ) -- false
+-- @usage startsWith( "Hi there", "HI", true ) -- true
+-- @usage startsWith( "Hi there", "" ) -- true
+-- @usage s = "a"; startsWith( s, s ) -- true
+-- @usage s = {}; startsWith( s, s ) -- false
 -- @see endsWith
 function CLASS.startsWith( target, prefix, ignoreCase )
     if ( target == nil and prefix == nil ) then return true end
@@ -383,14 +380,14 @@ end
 -- deeper into the hierarchy of nested table elements.
 -- @return The specified named element of the specified table, if the table is
 -- not nil; otherwise, nil.
--- @usage DataHelper.updateByNestedIndex(
+-- @usage updateByNestedIndex(
 --   9, { "hi" = { "bye" = 0 } }, "hi", "bye" ) -- { "bye" = 9 }
--- @usage DataHelper.updateByNestedIndex(
+-- @usage updateByNestedIndex(
 --   9, { "hi" }, "hi", "bye" ) -- { "hi" = { "bye" = 9 } }
--- @usage DataHelper.updateByNestedIndex(
+-- @usage updateByNestedIndex(
 --   { "bye" = 9}, { "hi" }, "hi" ) -- { "hi" = { "bye" = 9 } }
--- @usage DataHelper.updateByNestedIndex( 9, { "hi" } ) --  { "hi" }
--- @usage DataHelper.updateByNestedIndex( nil, "hi", "bye" ) -- nil
+-- @usage updateByNestedIndex( 9, { "hi" } ) --  { "hi" }
+-- @usage updateByNestedIndex( nil, "hi", "bye" ) -- nil
 -- @see selectByNestedIndex
 function CLASS.updateByNestedIndex( value, target, ... )
     if ( target == nil ) then return nil end
