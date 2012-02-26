@@ -33,29 +33,6 @@ CLASS.PATH_FILE_NAME_SPLIT_PATTERN = string.format(
 CLASS.PATH_TRIM_PATTERN = string.format(
     "^[%s]?(.-)[%s]?$", CLASS.PATH_SEPARATOR, CLASS.PATH_SEPARATOR )
 
---- Description.
--- @name fileExists
--- @param fileName
--- @param coronaPathType
--- @return description.
--- @usage example
--- @see class
-function CLASS.fileExists( fileName, coronaPathType )
-    return CLASS.getFileSystemPath( fileName, coronaPathType ) ~= nil
-end
-
--- Thanks to http://bsharpe.com/code/coronasdk-how-to-know-if-a-file-exists/
---- Description.
--- @name getFileSystemPath
--- @param fileName
--- @param coronaPathType
--- @return description.
--- @usage example
--- @see class
-function CLASS.getFileSystemPath( fileName, coronaPathType )
-  return system.pathForFile( fileName, coronaPathType )
-end
-
 -- Thanks to http://stackoverflow.com/a/1403489
 --- Description.
 -- @name getPathComponents
