@@ -12,7 +12,7 @@
 -- Base 'classpath' file that includes CooL classes and defines certain CooL
 -- global variables.
 
-module "global"
+module "classpath.lua"
 -------------------------------------------------------------------------------
 --]]
 
