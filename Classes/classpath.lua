@@ -43,6 +43,7 @@ return {
     FrameworkDisplay = packagePath .. "FrameworkDisplay",
     PlatformConfig = packagePath .. "PlatformConfig",
     PlatformDisplay = packagePath .. "PlatformDisplay",
+    PlatformFileHelper = packagePath .. "PlatformFileHelper",
     SpriteSheet = packagePath .. "SpriteSheet",
     SpriteSheetData = packagePath .. "SpriteSheetData",
 }
