@@ -198,52 +198,27 @@
 
     <tr>
     <td class="name" nowrap><a href="#getDefaultValue">getDefaultValue</a>&nbsp;(...)</td>
-    <td class="summary">Description.</td>
-    </tr>
-
-    <tr>
-    <td class="name" nowrap><a href="#getDefaultValues">getDefaultValues</a>&nbsp;()</td>
-    <td class="summary">Description.</td>
+    <td class="summary">Returns the default value of the specified configuration setting, if it exists.</td>
     </tr>
 
     <tr>
     <td class="name" nowrap><a href="#getValue">getValue</a>&nbsp;(useDefault, ...)</td>
-    <td class="summary">Description.</td>
-    </tr>
-
-    <tr>
-    <td class="name" nowrap><a href="#getValue">getValue</a>&nbsp;(useDefault, ...)</td>
-    <td class="summary">Description.</td>
+    <td class="summary">Returns the value of the specified configuration setting, optionally returning a default value if the specified configuration setting is missing.</td>
     </tr>
 
     <tr>
     <td class="name" nowrap><a href="#hasValue">hasValue</a>&nbsp;(...)</td>
-    <td class="summary">Description.</td>
+    <td class="summary">Indicates whether the specified configuration setting exists and has a value other than empty string.</td>
     </tr>
 
     <tr>
-    <td class="name" nowrap><a href="#init">init</a>&nbsp;(values)</td>
-    <td class="summary">Description.</td>
-    </tr>
-
-    <tr>
-    <td class="name" nowrap><a href="#setDefaultValue">setDefaultValue</a>&nbsp;(value, ...)</td>
-    <td class="summary">Description.</td>
-    </tr>
-
-    <tr>
-    <td class="name" nowrap><a href="#setDefaultValues">setDefaultValues</a>&nbsp;(defaultValues)</td>
-    <td class="summary">Description.</td>
+    <td class="name" nowrap><a href="#init">init</a>&nbsp;(values, defaultValues)</td>
+    <td class="summary">Initializes the configuration with the specified values and default values.</td>
     </tr>
 
     <tr>
     <td class="name" nowrap><a href="#setValue">setValue</a>&nbsp;(value, ...)</td>
-    <td class="summary">Description.</td>
-    </tr>
-
-    <tr>
-    <td class="name" nowrap><a href="#setValues">setValues</a>&nbsp;(values)</td>
-    <td class="summary">Description.</td>
+    <td class="summary">Sets the value of the specified configuration setting.</td>
     </tr>
 
 </table>
@@ -265,14 +240,14 @@
 
 <dt><a name="getDefaultValue"></a><strong>getDefaultValue</strong>&nbsp;(...)</dt>
 <dd>
-Description.
+Returns the default value of the specified configuration setting, if it exists.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  ...: 
+	  ...: A list of configuration setting names, with each name representing a step deeper into the hierarchy of nested configuration settings.
 	</li>
 	
 </ul>
@@ -280,53 +255,37 @@ Description.
 
 
 
-<h3>Usage:</h3>
-example
-
-
-
-<h3>Return value:</h3>
-description.
-
-
-
-<h3>See also:</h3>
+<h3>Usage</h3>
 <ul>
 	
-	<li><a href="">
-		class
-	</a>
+	<li>init( { name = "test", tests = { test = 1 } }, { status = "pass" } )
+	
+	<li>getDefaultValue( "name" ) -- nil
+	
+	<li>getDefaultValue( "status" ) -- "pass"
 	
 </ul>
 
-</dd>
-
-
-
-
-<dt><a name="getDefaultValues"></a><strong>getDefaultValues</strong>&nbsp;()</dt>
-<dd>
-Description.
-
-
-
-
-
-<h3>Usage:</h3>
-example
-
 
 
 <h3>Return value:</h3>
-description.
+The default value of the specified configuration setting, if it exists; otherwise, nil.
 
 
 
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="">
-		class
+	<li><a href="../modules/BaseConfig.html#getValue">
+		getValue
+	</a>
+	
+	<li><a href="../modules/BaseConfig.html#setValue">
+		setValue
+	</a>
+	
+	<li><a href="../modules/DataHelper.html#selectByNestedIndex">
+		DataHelper.selectByNestedIndex
 	</a>
 	
 </ul>
@@ -338,18 +297,18 @@ description.
 
 <dt><a name="getValue"></a><strong>getValue</strong>&nbsp;(useDefault, ...)</dt>
 <dd>
-Description.
+Returns the value of the specified configuration setting, optionally returning a default value if the specified configuration setting is missing.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  useDefault: 
+	  useDefault: True if a default value should be returned if the specified configuration setting is missing.
 	</li>
 	
 	<li>
-	  ...: 
+	  ...: A list of configuration setting names, with each name representing a step deeper into the hierarchy of nested configuration settings.
 	</li>
 	
 </ul>
@@ -357,66 +316,45 @@ Description.
 
 
 
-<h3>Usage:</h3>
-example
+<h3>Usage</h3>
+<ul>
+	
+	<li>init( { name = "test", tests = { test = 1 } }, { status = "pass" } )
+	
+	<li>getValue( false, "name" ) -- "test"
+	
+	<li>getValue( false, "tests", "test" ) -- 1
+	
+	<li>getValue( false, "status" ) -- nil
+	
+	<li>getValue( true, "status" ) -- "pass"
+	
+</ul>
 
 
 
 <h3>Return value:</h3>
-description.
+The value of the specified configuration setting, if it exists; otherwise, the default value, if it exists and default values have been specified to be returned.
 
 
 
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="">
-		class
+	<li><a href="../modules/BaseConfig.html#getDefaultValue">
+		getDefaultValue
 	</a>
 	
-</ul>
-
-</dd>
-
-
-
-
-<dt><a name="getValue"></a><strong>getValue</strong>&nbsp;(useDefault, ...)</dt>
-<dd>
-Description.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  useDefault: 
-	</li>
-	
-	<li>
-	  ...: 
-	</li>
-	
-</ul>
-
-
-
-
-<h3>Usage:</h3>
-example
-
-
-
-<h3>Return value:</h3>
-description.
-
-
-
-<h3>See also:</h3>
-<ul>
-	
 	<li><a href="">
-		class
+		setDefaultValue
+	</a>
+	
+	<li><a href="../modules/BaseConfig.html#setValue">
+		setValue
+	</a>
+	
+	<li><a href="../modules/DataHelper.html#selectByNestedIndex">
+		DataHelper.selectByNestedIndex
 	</a>
 	
 </ul>
@@ -428,14 +366,14 @@ description.
 
 <dt><a name="hasValue"></a><strong>hasValue</strong>&nbsp;(...)</dt>
 <dd>
-Description.
+Indicates whether the specified configuration setting exists and has a value other than empty string.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  ...: 
+	  ...: A list of configuration setting names, with each name representing a step deeper into the hierarchy of nested configuration settings.
 	</li>
 	
 </ul>
@@ -443,21 +381,31 @@ Description.
 
 
 
-<h3>Usage:</h3>
-example
+<h3>Usage</h3>
+<ul>
+	
+	<li>init( { name = "test", tests = { test = 1 } }, { status = "pass" } )
+	
+	<li>hasValue( "name" ) -- true
+	
+	<li>hasValue( "tests", "test" ) -- true
+	
+	<li>hasValue( "status" ) -- false
+	
+</ul>
 
 
 
 <h3>Return value:</h3>
-description.
+True if the specified configuration setting exists and has a value other than empty string; otherwise, false.
 
 
 
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="">
-		class
+	<li><a href="../modules/BaseConfig.html#getValue">
+		getValue
 	</a>
 	
 </ul>
@@ -467,61 +415,20 @@ description.
 
 
 
-<dt><a name="init"></a><strong>init</strong>&nbsp;(values)</dt>
+<dt><a name="init"></a><strong>init</strong>&nbsp;(values, defaultValues)</dt>
 <dd>
-Description.
+Initializes the configuration with the specified values and default values.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  values: 
-	</li>
-	
-</ul>
-
-
-
-
-<h3>Usage:</h3>
-example
-
-
-
-<h3>Return value:</h3>
-description.
-
-
-
-<h3>See also:</h3>
-<ul>
-	
-	<li><a href="">
-		class
-	</a>
-	
-</ul>
-
-</dd>
-
-
-
-
-<dt><a name="setDefaultValue"></a><strong>setDefaultValue</strong>&nbsp;(value, ...)</dt>
-<dd>
-Description.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  value: 
+	  values: The values with which to initialize the configuration.
 	</li>
 	
 	<li>
-	  ...: 
+	  defaultValues: The optional default values with which to initialize the configuration.
 	</li>
 	
 </ul>
@@ -529,65 +436,9 @@ Description.
 
 
 
-<h3>Usage:</h3>
-example
 
 
 
-<h3>Return value:</h3>
-description.
-
-
-
-<h3>See also:</h3>
-<ul>
-	
-	<li><a href="">
-		class
-	</a>
-	
-</ul>
-
-</dd>
-
-
-
-
-<dt><a name="setDefaultValues"></a><strong>setDefaultValues</strong>&nbsp;(defaultValues)</dt>
-<dd>
-Description.
-
-
-<h3>Parameters</h3>
-<ul>
-	
-	<li>
-	  defaultValues: 
-	</li>
-	
-</ul>
-
-
-
-
-<h3>Usage:</h3>
-example
-
-
-
-<h3>Return value:</h3>
-description.
-
-
-
-<h3>See also:</h3>
-<ul>
-	
-	<li><a href="">
-		class
-	</a>
-	
-</ul>
 
 </dd>
 
@@ -596,18 +447,18 @@ description.
 
 <dt><a name="setValue"></a><strong>setValue</strong>&nbsp;(value, ...)</dt>
 <dd>
-Description.
+Sets the value of the specified configuration setting.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  value: 
+	  value: The value to set for the specified configuratino setting.
 	</li>
 	
 	<li>
-	  ...: 
+	  ...: A list of configuration setting names, with each name representing a step deeper into the hierarchy of nested configuration settings.
 	</li>
 	
 </ul>
@@ -615,62 +466,39 @@ Description.
 
 
 
-<h3>Usage:</h3>
-example
+<h3>Usage</h3>
+<ul>
+	
+	<li>init( { name = "test", tests = { test = 1 } } )
+	
+	<li>setValue( "qa", "name" ) -- { name = "qa" }
+	
+	<li>setValue( 2, "tests", "test" ) -- { test = 2 }
+	
+	<li>setValue( 4, "tests", "control", "flag" ) -- { tests = { control = { flag = 4 } } }
+	
+</ul>
 
 
 
 <h3>Return value:</h3>
-description.
+The new value of the specified configuration setting.
 
 
 
 <h3>See also:</h3>
 <ul>
 	
-	<li><a href="">
-		class
+	<li><a href="../modules/BaseConfig.html#getDefaultValue">
+		getDefaultValue
 	</a>
 	
-</ul>
-
-</dd>
-
-
-
-
-<dt><a name="setValues"></a><strong>setValues</strong>&nbsp;(values)</dt>
-<dd>
-Description.
-
-
-<h3>Parameters</h3>
-<ul>
+	<li><a href="../modules/BaseConfig.html#setValue">
+		setValue
+	</a>
 	
-	<li>
-	  values: 
-	</li>
-	
-</ul>
-
-
-
-
-<h3>Usage:</h3>
-example
-
-
-
-<h3>Return value:</h3>
-description.
-
-
-
-<h3>See also:</h3>
-<ul>
-	
-	<li><a href="">
-		class
+	<li><a href="../modules/DataHelper.html#updateByNestedIndex">
+		DataHelper.updateByNestedIndex
 	</a>
 	
 </ul>

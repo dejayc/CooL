@@ -509,7 +509,7 @@ Returns a new table consisting of the sorted numeric key values of the specified
 <h3>Usage</h3>
 <ul>
 	
-	<li>getNumericKeysSorted ( { 3 = "a", 1 = "b", "hi" = "bye", 2 = "c" } ) -- { 1, 2, 3 }
+	<li>getNumericKeysSorted ( { 3 = "a", 1 = "b", hi = "bye", 2 = "c" } ) -- { 1, 2, 3 }
 	
 	<li>for index, value in ipairs( getNumericKeysSorted ( mixedTable ) ) do
 	
@@ -843,11 +843,11 @@ Returns the specified named element of the specified table, traversing nested ta
 <h3>Usage</h3>
 <ul>
 	
-	<li>selectByNestedIndex( { "hi" = { "bye" = 9 } }, "hi", "bye" ) -- 9
+	<li>selectByNestedIndex( { hi = { bye = 9 } }, "hi", "bye" ) -- 9
 	
-	<li>selectByNestedIndex( { "hi" = { "bye" = 9 } }, "hi" ) -- { "bye" = 9 }
+	<li>selectByNestedIndex( { hi = { bye = 9 } }, "hi" ) -- { bye = 9 }
 	
-	<li>selectByNestedIndex( { "hi" = { "bye" = 9 } }, "hi", "there" ) -- nil
+	<li>selectByNestedIndex( { hi = { bye = 9 } }, "hi", "there" ) -- nil
 	
 	<li>selectByNestedIndex( nil, "hi", "bye" ) -- nil
 	
@@ -965,13 +965,13 @@ Updates the specified named element of the specified table to the specified valu
 <h3>Usage</h3>
 <ul>
 	
-	<li>updateByNestedIndex( 9, { "hi" = { "bye" = 0 } }, "hi", "bye" ) -- { "bye" = 9 }
+	<li>updateByNestedIndex( 9, { hi = { bye = 0 } }, "hi", "bye" ) -- { bye = 9 }
 	
-	<li>updateByNestedIndex( 9, { "hi" }, "hi", "bye" ) -- { "hi" = { "bye" = 9 } }
+	<li>updateByNestedIndex( 9, { hi = {} }, "hi", "bye" ) -- { hi = { bye = 9 } }
 	
-	<li>updateByNestedIndex( { "bye" = 9}, { "hi" }, "hi" ) -- { "hi" = { "bye" = 9 } }
+	<li>updateByNestedIndex( { bye = 9}, { hi = {} }, "hi" ) -- { hi = { bye = 9 } }
 	
-	<li>updateByNestedIndex( 9, { "hi" } ) --  { "hi" }
+	<li>updateByNestedIndex( 9, { hi = {} } ) --  { hi = {} }
 	
 	<li>updateByNestedIndex( nil, "hi", "bye" ) -- nil
 	

@@ -150,7 +150,7 @@ end
 -- @param target The target table to search for numeric key values.
 -- @return The sorted numeric key values of the specified table.
 -- @usage getNumericKeysSorted (
---   { 3 = "a", 1 = "b", "hi" = "bye", 2 = "c" } ) -- { 1, 2, 3 }
+--   { 3 = "a", 1 = "b", hi = "bye", 2 = "c" } ) -- { 1, 2, 3 }
 -- @usage for index, value in ipairs( getNumericKeysSorted ( mixedTable ) ) do
 function CLASS.getNumericKeysSorted( target )
     local sorted = {}
@@ -309,11 +309,11 @@ end
 -- deeper into the hierarchy of nested table elements.
 -- @return The specified named element of the specified table, if available;
 -- otherwise, nil.
--- @usage selectByNestedIndex( { "hi" = { "bye" = 9 } }, "hi", "bye" ) -- 9
+-- @usage selectByNestedIndex( { hi = { bye = 9 } }, "hi", "bye" ) -- 9
 -- @usage selectByNestedIndex(
---   { "hi" = { "bye" = 9 } }, "hi" ) -- { "bye" = 9 }
+--   { hi = { bye = 9 } }, "hi" ) -- { bye = 9 }
 -- @usage selectByNestedIndex(
---   { "hi" = { "bye" = 9 } }, "hi", "there" ) -- nil
+--   { hi = { bye = 9 } }, "hi", "there" ) -- nil
 -- @usage selectByNestedIndex( nil, "hi", "bye" ) -- nil
 -- @see updateByNestedIndex
 function CLASS.selectByNestedIndex( target, ... )
@@ -381,12 +381,12 @@ end
 -- @return The specified named element of the specified table, if the table is
 -- not nil; otherwise, nil.
 -- @usage updateByNestedIndex(
---   9, { "hi" = { "bye" = 0 } }, "hi", "bye" ) -- { "bye" = 9 }
+--   9, { hi = { bye = 0 } }, "hi", "bye" ) -- { bye = 9 }
 -- @usage updateByNestedIndex(
---   9, { "hi" }, "hi", "bye" ) -- { "hi" = { "bye" = 9 } }
+--   9, { hi = {} }, "hi", "bye" ) -- { hi = { bye = 9 } }
 -- @usage updateByNestedIndex(
---   { "bye" = 9}, { "hi" }, "hi" ) -- { "hi" = { "bye" = 9 } }
--- @usage updateByNestedIndex( 9, { "hi" } ) --  { "hi" }
+--   { bye = 9}, { hi = {} }, "hi" ) -- { hi = { bye = 9 } }
+-- @usage updateByNestedIndex( 9, { hi = {} } ) --  { hi = {} }
 -- @usage updateByNestedIndex( nil, "hi", "bye" ) -- nil
 -- @see selectByNestedIndex
 function CLASS.updateByNestedIndex( value, target, ... )

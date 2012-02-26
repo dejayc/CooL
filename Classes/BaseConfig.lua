@@ -21,42 +21,38 @@ local DataHelper = require( CLASSPATH.CooL.DataHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
---- Description.
+--- Initializes the configuration with the specified values and default
+-- values.
 -- @name init
--- @param values
--- @return description.
--- @usage example
--- @see class
-function CLASS:init( values )
-    self:setValues( values )
-end
-
---- Description.
--- @name getValue
--- @return description.
--- @usage example
--- @see class
-function CLASS:getValues()
-    return self.values
-end
-
---- Description.
--- @name setValues
--- @param values
--- @return description.
--- @usage example
--- @see class
-function CLASS:setValues( values )
+-- @param values The values with which to initialize the configuration.
+-- @param defaultValues The optional default values with which to initialize
+-- the configuration.
+function CLASS:init( values, defaultValues )
     self.values = values
+    self.defaultValues = defaultValues
 end
 
---- Description.
+--- Returns the value of the specified configuration setting, optionally
+-- returning a default value if the specified configuration setting is
+-- missing.
 -- @name getValue
--- @param useDefault
--- @param ...
--- @return description.
--- @usage example
--- @see class
+-- @param useDefault True if a default value should be returned if the
+-- specified configuration setting is missing.
+-- @param ... A list of configuration setting names, with each name
+--   representing a step deeper into the hierarchy of nested configuration
+--   settings.
+-- @return The value of the specified configuration setting, if it exists;
+--   otherwise, the default value, if it exists and default values have been
+--   specified to be returned.
+-- @usage init( { name = "test", tests = { test = 1 } }, { status = "pass" } )
+-- @usage getValue( false, "name" ) -- "test"
+-- @usage getValue( false, "tests", "test" ) -- 1
+-- @usage getValue( false, "status" ) -- nil
+-- @usage getValue( true, "status" ) -- "pass"
+-- @see getDefaultValue
+-- @see setDefaultValue
+-- @see setValue
+-- @see DataHelper.selectByNestedIndex
 function CLASS:getValue( useDefault, ... )
     local value = DataHelper.selectByNestedIndex( self:getValues(), ... )
 
@@ -67,65 +63,58 @@ function CLASS:getValue( useDefault, ... )
     return value
 end
 
---- Description.
+--- Sets the value of the specified configuration setting.
 -- @name setValue
--- @param value
--- @param ...
--- @return description.
--- @usage example
--- @see class
+-- @param value The value to set for the specified configuratino setting.
+-- @param ... A list of configuration setting names, with each name
+--   representing a step deeper into the hierarchy of nested configuration
+--   settings.
+-- @return The new value of the specified configuration setting.
+-- @usage init( { name = "test", tests = { test = 1 } } )
+-- @usage setValue( "qa", "name" ) -- { name = "qa" }
+-- @usage setValue( 2, "tests", "test" ) -- { test = 2 }
+-- @usage setValue( 4, "tests", "control", "flag" )
+--   -- { tests = { control = { flag = 4 } } }
+-- @see getDefaultValue
+-- @see setValue
+-- @see DataHelper.updateByNestedIndex
 function CLASS:setValue( value, ... )
-    DataHelper.updateByNestedIndex( value, self:getValues(), ... )
+    DataHelper.updateByNestedIndex( value, self.values, ... )
 end
 
---- Description.
+--- Indicates whether the specified configuration setting exists and has a
+-- value other than empty string.
 -- @name hasValue
--- @param ...
--- @return description.
--- @usage example
--- @see class
+-- @param ... A list of configuration setting names, with each name
+--   representing a step deeper into the hierarchy of nested configuration
+--   settings.
+-- @return True if the specified configuration setting exists and has a value
+--   other than empty string; otherwise, false.
+-- @usage init( { name = "test", tests = { test = 1 } }, { status = "pass" } )
+-- @usage hasValue( "name" ) -- true
+-- @usage hasValue( "tests", "test" ) -- true
+-- @usage hasValue( "status" ) -- false
+-- @see getValue
 function CLASS:hasValue( ... )
     return DataHelper.hasValue( self:getValue( false, ... ) )
 end
 
---- Description.
--- @name getDefaultValues
--- @return description.
--- @usage example
--- @see class
-function CLASS:getDefaultValues()
-    return self.defaultValues
-end
-
---- Description.
--- @name setDefaultValues
--- @param defaultValues
--- @return description.
--- @usage example
--- @see class
-function CLASS:setDefaultValues( defaultValues )
-    self.defaultValues = defaultValues
-end
-
---- Description.
+--- Returns the default value of the specified configuration setting, if it
+-- exists.
 -- @name getDefaultValue
--- @param ...
--- @return description.
--- @usage example
--- @see class
+-- @param ... A list of configuration setting names, with each name
+--   representing a step deeper into the hierarchy of nested configuration
+--   settings.
+-- @return The default value of the specified configuration setting, if it
+--   exists; otherwise, nil.
+-- @usage init( { name = "test", tests = { test = 1 } }, { status = "pass" } )
+-- @usage getDefaultValue( "name" ) -- nil
+-- @usage getDefaultValue( "status" ) -- "pass"
+-- @see getValue
+-- @see setValue
+-- @see DataHelper.selectByNestedIndex
 function CLASS:getDefaultValue( ... )
-    return DataHelper.selectByNestedIndex( self:getDefaultValues(), ... )
-end
-
---- Description.
--- @name setDefaultValue
--- @param value
--- @param ...
--- @return description.
--- @usage example
--- @see class
-function CLASS:setDefaultValue( value, ... )
-    DataHelper.updateByNestedIndex( value, self:getDefaultValues(), ... )
+    return DataHelper.selectByNestedIndex( self.defaultValues, ... )
 end
 
 return CLASS
