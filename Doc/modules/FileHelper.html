@@ -198,12 +198,12 @@
 
     <tr>
     <td class="name" nowrap><a href="#getPathComponents">getPathComponents</a>&nbsp;(path)</td>
-    <td class="summary">Description.</td>
+    <td class="summary">Returns the base path, file name, file base name, and file extension components of the specified path.</td>
     </tr>
 
     <tr>
     <td class="name" nowrap><a href="#getRequirePath">getRequirePath</a>&nbsp;(filePath)</td>
-    <td class="summary">Description.</td>
+    <td class="summary">Translates the specified path into a format compatible with the Lua "require" function.</td>
     </tr>
 
 </table>
@@ -225,14 +225,14 @@
 
 <dt><a name="getPathComponents"></a><strong>getPathComponents</strong>&nbsp;(path)</dt>
 <dd>
-Description.
+Returns the base path, file name, file base name, and file extension components of the specified path.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  path: 
+	  path: The path to split into separate components.
 	</li>
 	
 </ul>
@@ -240,13 +240,47 @@ Description.
 
 
 
-<h3>Usage:</h3>
-example
+<h3>Usage</h3>
+<ul>
+	
+	<li>getPathComponents( "/" ) -- { "/", nil, nil, nil }
+	
+	<li>getPathComponents( "/path/to/" ) -- { "/path/to/", nil, nil, nil }
+	
+	<li>getPathComponents( "/path/to/file" ) -- { "/path/to/", "file", "file", nil }
+	
+	<li>getPathComponents( "/path/to/file.txt" ) -- { "/path/to/", "file.txt", "file", "txt" }
+	
+	<li>getPathComponents( "/path/to/file.txt.bak" ) -- { "/path/to", "file.txt.bak", "file.txt", "bak" }
+	
+	<li>getPathComponents( "/path/to/.file" ) -- { "/path/to/", ".file", ".file", nil }
+	
+	<li>getPathComponents( "/path/to/.file.txt" ) -- { "/path/to/", ".file.txt", ".file", "txt" }
+	
+	<li>getPathComponents( "/path/to/../" ) -- { "/path/to/..", nil, nil, nil }
+	
+	<li>getPathComponents( "/path/to/./" ) -- { "/path/to/.", nil, nil, nil }
+	
+	<li>getPathComponents( "/path/to/.." ) -- { "/path/to/../", nil, nil, nil }
+	
+	<li>getPathComponents( "/path/to/." ) -- { "/path/to/./", nil, nil, nil }
+	
+</ul>
 
 
 
-<h3>Return value:</h3>
-description.
+<h3>Return values:</h3>
+<ol>
+	
+	<li>The base path of the specified path.
+	
+	<li>The file name of the specified path.
+	
+	<li>The file base name of the specified path.
+	
+	<li>The file extension of the specified path. components of the specified path.
+	
+</ol>
 
 
 
@@ -254,7 +288,7 @@ description.
 <ul>
 	
 	<li><a href="">
-		class
+		http://stackoverflow.com/a/1403489
 	</a>
 	
 </ul>
@@ -266,14 +300,14 @@ description.
 
 <dt><a name="getRequirePath"></a><strong>getRequirePath</strong>&nbsp;(filePath)</dt>
 <dd>
-Description.
+Translates the specified path into a format compatible with the Lua "require" function.
 
 
 <h3>Parameters</h3>
 <ul>
 	
 	<li>
-	  filePath: 
+	  filePath: The path to be translated.
 	</li>
 	
 </ul>
@@ -281,24 +315,21 @@ Description.
 
 
 
-<h3>Usage:</h3>
-example
+<h3>Usage</h3>
+<ul>
+	
+	<li>getRequirePath( "myModule.lua" ) -- "myModule"
+	
+	<li>getRequirePath( "Classes/myModule.lua" ) -- "Classes.myModule"
+	
+</ul>
 
 
 
 <h3>Return value:</h3>
-description.
+The specified path translated into a format compatible with the Lua "require" function.
 
 
-
-<h3>See also:</h3>
-<ul>
-	
-	<li><a href="">
-		class
-	</a>
-	
-</ul>
 
 </dd>
 

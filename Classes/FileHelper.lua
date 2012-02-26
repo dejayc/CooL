@@ -33,13 +33,36 @@ CLASS.PATH_FILE_NAME_SPLIT_PATTERN = string.format(
 CLASS.PATH_TRIM_PATTERN = string.format(
     "^[%s]?(.-)[%s]?$", CLASS.PATH_SEPARATOR, CLASS.PATH_SEPARATOR )
 
--- Thanks to http://stackoverflow.com/a/1403489
---- Description.
+--- Returns the base path, file name, file base name, and file extension
+-- components of the specified path.
 -- @name getPathComponents
--- @param path
--- @return description.
--- @usage example
--- @see class
+-- @param path The path to split into separate components.
+-- @return The base path of the specified path.
+-- @return The file name of the specified path.
+-- @return The file base name of the specified path.
+-- @return The file extension of the specified path.
+-- components of the specified path.
+-- @usage getPathComponents( "/" ) -- { "/", nil, nil, nil }
+-- @usage getPathComponents( "/path/to/" ) -- { "/path/to/", nil, nil, nil }
+-- @usage getPathComponents( "/path/to/file" )
+--   -- { "/path/to/", "file", "file", nil }
+-- @usage getPathComponents( "/path/to/file.txt" )
+--   -- { "/path/to/", "file.txt", "file", "txt" }
+-- @usage getPathComponents( "/path/to/file.txt.bak" )
+--   -- { "/path/to", "file.txt.bak", "file.txt", "bak" }
+-- @usage getPathComponents( "/path/to/.file" )
+--   -- { "/path/to/", ".file", ".file", nil }
+-- @usage getPathComponents( "/path/to/.file.txt" )
+--   -- { "/path/to/", ".file.txt", ".file", "txt" }
+-- @usage getPathComponents( "/path/to/../" )
+--   -- { "/path/to/..", nil, nil, nil }
+-- @usage getPathComponents( "/path/to/./" )
+--   -- { "/path/to/.", nil, nil, nil }
+-- @usage getPathComponents( "/path/to/.." )
+--   -- { "/path/to/../", nil, nil, nil }
+-- @usage getPathComponents( "/path/to/." )
+--   -- { "/path/to/./", nil, nil, nil }
+-- @see http://stackoverflow.com/a/1403489
 function CLASS.getPathComponents( path )
     path = path or ""
 
@@ -85,14 +108,17 @@ function CLASS.getPathComponents( path )
     return filePath, fileName, fileBase, fileExt
 end
 
---- Description.
+--- Translates the specified path into a format compatible with the Lua
+-- "require" function.
 -- @name getRequirePath
--- @param filePath
--- @return description.
--- @usage example
--- @see class
+-- @param filePath The path to be translated.
+-- @return The specified path translated into a format compatible with the
+--   Lua "require" function.
+-- @usage getRequirePath( "myModule.lua" ) -- "myModule"
+-- @usage getRequirePath( "Classes/myModule.lua" ) -- "Classes.myModule"
 function CLASS.getRequirePath( filePath )
-    if ( DataHelper.endsWith( filePath, CLASS.LUA_FILE_EXTENSION, true ) ) then
+    if ( DataHelper.endsWith( filePath, CLASS.LUA_FILE_EXTENSION, true ) )
+    then
         filePath = string.sub(
             filePath, 1, -1 * ( string.len( CLASS.LUA_FILE_EXTENSION ) + 1 ) )
     end
