@@ -3,7 +3,7 @@
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-    <title>Luadocs for Classes//BaseClass.lua</title>
+    <title>Luadocs for Classes//PlatformFileHelper.lua</title>
     <link rel="stylesheet" href="../../../luadoc.css" type="text/css" />
     <!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
 </head>
@@ -112,8 +112,10 @@
 		<a href="../../../files/Classes//BaseApp.html">Classes//BaseApp.lua</a>
 	</li>
 
-	<li><strong>Classes//BaseClass.lua</strong></li>
-	
+	<li>
+		<a href="../../../files/Classes//BaseClass.html">Classes//BaseClass.lua</a>
+	</li>
+
 	<li>
 		<a href="../../../files/Classes//BaseConfig.html">Classes//BaseConfig.lua</a>
 	</li>
@@ -154,10 +156,8 @@
 		<a href="../../../files/Classes//PlatformDisplay.html">Classes//PlatformDisplay.lua</a>
 	</li>
 
-	<li>
-		<a href="../../../files/Classes//PlatformFileHelper.html">Classes//PlatformFileHelper.lua</a>
-	</li>
-
+	<li><strong>Classes//PlatformFileHelper.lua</strong></li>
+	
 	<li>
 		<a href="../../../files/Classes//SpriteSheet.html">Classes//SpriteSheet.lua</a>
 	</li>
@@ -185,13 +185,30 @@
 
 <div id="content">
 
-<h1>File <code>Classes//BaseClass.lua</code></h1>
+<h1>File <code>Classes//PlatformFileHelper.lua</code></h1>
+
+
+<p>Convenience functions for files, file systems, file names, and directories in Corona.</p>
 
 
 
 
 
 
+<h2>Functions</h2>
+<table class="function_list">
+
+    <tr>
+    <td class="name" nowrap><a href="#fileExists">fileExists</a>&nbsp;(fileName, coronaPathType)</td>
+    <td class="summary">Indicates whether the specified file exists within the specified Corona path type.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#getFileSystemPath">getFileSystemPath</a>&nbsp;(fileName, coronaPathType)</td>
+    <td class="summary">Returns an absolute path for the specified file if it exists within the specified Corona path type; otherwise, nil.</td>
+    </tr>
+
+</table>
 
 
 
@@ -203,6 +220,125 @@
 
 
 
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="fileExists"></a><strong>fileExists</strong>&nbsp;(fileName, coronaPathType)</dt>
+<dd>
+Indicates whether the specified file exists within the specified Corona path type.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  fileName: The file name, optionally containing a file path, to check for in the specified Corona path type.
+	</li>
+	
+	<li>
+	  coronaPathType: The type of Corona path in which to search for the specified file name.  Valid values are "system.DocumentsDirectory", "system.ResourceDirectory", and "system.TemporaryDirectory".  Defaults to "system.ResourceDirectory".
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage</h3>
+<ul>
+	
+	<li>fileExists( "data.xml" ) -- true if "data.xml" exists in the system.ResourceDirectory directory.
+	
+	<li>fileExists( "data/data.xml" ) -- true if "data.xml" exists in the "data" subdirectory of the system.ResourceDirectory directory.
+	
+	<li>fileExists( "data.xml", system.DocumentsDirectory ) -- true if "data.xml" exists in the system.DocumentsDirectory directory.
+	
+</ul>
+
+
+
+<h3>Return value:</h3>
+True if the specified file name exists within the specified Corona path type; otherwise, false.
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="../../../files/Classes//PlatformFileHelper.html#getFileSystemPath">
+		getFileSystemPath
+	</a>
+	
+	<li><a href="">
+		system.pathForFile
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="getFileSystemPath"></a><strong>getFileSystemPath</strong>&nbsp;(fileName, coronaPathType)</dt>
+<dd>
+Returns an absolute path for the specified file if it exists within the specified Corona path type; otherwise, nil.
+
+
+<h3>Parameters</h3>
+<ul>
+	
+	<li>
+	  fileName: The file name, optionally containing a file path, to check for in the specified Corona path type.
+	</li>
+	
+	<li>
+	  coronaPathType: The type of Corona path in which to search for the specified file name.  Valid values are "system.DocumentsDirectory", "system.ResourceDirectory", and "system.TemporaryDirectory".  Defaults to "system.ResourceDirectory".
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage</h3>
+<ul>
+	
+	<li>getFileSystemPath( "data.xml" ) -- Absolute path to "data.xml" in the system.ResourceDirectory directory.
+	
+	<li>getFileSystemPath( "data/data.xml" ) -- Absolute path to "data.xml" in the "data" subdirectory of the system.ResourceDirectory directory.
+	
+	<li>getFileSystemPath( "data.xml", system.DocumentsDirectory ) -- Absolute path to "data.xml" in the system.DocumentsDirectory directory.
+	
+</ul>
+
+
+
+<h3>Return value:</h3>
+The absolute path for the specified file if it exists within the specified Corona path type; otherwise, nil.
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="">
+		system.pathForFile
+	</a>
+	
+	<li><a href="">
+		http://bsharpe.com/code/coronasdk-how-to-know-if-a-file-exists/
+	</a>
+	
+</ul>
+
+</dd>
+
+
+</dl>
 
 
 
