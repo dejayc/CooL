@@ -213,6 +213,16 @@
 
 
 
+<h2>Tables</h2>
+<table class="table_list">
+
+    <tr>
+    <td class="name" nowrap><a href="#FileHelper">FileHelper</a></td>
+    <td class="summary">FileHelper class fields.</td>
+    </tr>
+
+</table>
+
 
 
 <br/>
@@ -341,6 +351,60 @@ The specified path translated into a format compatible with the Lua "require" fu
 
 
 
+
+<h2><a name="tables"></a>Tables</h2>
+<dl class="table">
+
+<dt><a name="FileHelper"></a><strong>FileHelper</strong></dt>
+<dd>FileHelper class fields.
+
+
+<h3>Fields</h3>
+<ul>
+	
+	<li>
+	  CLASS_SEPARATOR: Indicates the character that separates Lua subdirectory names that appear in the package name string parameter that is passed to the Lua "require" function.  Statically assigned the value "."
+	</li>
+	
+	<li>
+	  FILE_EXTENSION_SEPARATOR: Indicates the character that separates base file names from file extensions.  Statically assigned the value "."
+	</li>
+	
+	<li>
+	  FILE_EXTENSION_SPLIT_PATTERN: The Lua pattern that can be used to identify file extensions from file names.
+	</li>
+	
+	<li>
+	  LUA_FILE_EXTENSION: Indicates the common file extension for Lua source code files.  Statically assigned the value ".lua"
+	</li>
+	
+	<li>
+	  PATH_CURRENT_DIRECTORY: Indicates that convention for specifying the current directory in a path.  Statically assigned the value "."
+	</li>
+	
+	<li>
+	  PATH_PARENT_DIRECTORY: Indicates the convention for specifying the parent directory in a path.  Statically assigned the value ".."
+	</li>
+	
+	<li>
+	  PATH_SEPARATOR: Indicates the character that separates subdirectories in paths.  Assigned based on the environment during runtime; usually either "/" or "\"
+	</li>
+	
+	<li>
+	  PATH_FILE_NAME_SPLIT_PATTERN: The Lua pattern that can be used to identify path and file names from paths that contain file names.
+	</li>
+	
+	<li>
+	  PATH_TRIM_PATTERN: The Lua pattern that can be used to identify the leading path from in paths that contain file names.
+	</li>
+	
+</ul>
+
+
+</dd>
+
+
+</dl>
 
 
 

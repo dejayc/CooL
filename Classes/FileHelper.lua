@@ -18,6 +18,30 @@ module "FileHelper"
 local CLASSPATH = require( "classpath" )
 local DataHelper = require( CLASSPATH.CooL.DataHelper )
 
+--- FileHelper class fields.
+-- @class table
+-- @name FileHelper
+-- @field CLASS_SEPARATOR Indicates the character that separates Lua
+--   subdirectory names that appear in the package name string parameter that
+--   is passed to the Lua "require" function.  Statically assigned the value
+--   "."
+-- @field FILE_EXTENSION_SEPARATOR Indicates the character that separates base
+--   file names from file extensions.  Statically assigned the value "."
+-- @field FILE_EXTENSION_SPLIT_PATTERN The Lua pattern that can be used to
+--   identify file extensions from file names.
+-- @field LUA_FILE_EXTENSION Indicates the common file extension for Lua
+--   source code files.  Statically assigned the value ".lua"
+-- @field PATH_CURRENT_DIRECTORY Indicates that convention for specifying the
+--   current directory in a path.  Statically assigned the value "."
+-- @field PATH_PARENT_DIRECTORY Indicates the convention for specifying the
+--   parent directory in a path.  Statically assigned the value ".."
+-- @field PATH_SEPARATOR Indicates the character that separates subdirectories
+--   in paths.  Assigned based on the environment during runtime; usually
+--   either "/" or "\"
+-- @field PATH_FILE_NAME_SPLIT_PATTERN The Lua pattern that can be used to
+--   identify path and file names from paths that contain file names.
+-- @field PATH_TRIM_PATTERN The Lua pattern that can be used to identify the
+--   leading path from in paths that contain file names.
 local CLASS = {}
 
 CLASS.CLASS_SEPARATOR = "."
