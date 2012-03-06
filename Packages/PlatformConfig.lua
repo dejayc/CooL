@@ -16,11 +16,13 @@ module "PlatformConfig"
 -------------------------------------------------------------------------------
 --]]
 
-local CLASSPATH = require( "classpath" )
-local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
+local BaseLua = require( "BaseLua" )
+local CooL = require( "CooL" )
+
+local ClassHelper = require( BaseLua.package.ClassHelper )
 
 local CLASS = ClassHelper.autoextend(
-    CLASSPATH.CooL.BaseConfig, ClassHelper.getPackagePath( ... ) )
+    CooL.package.BaseConfig, ClassHelper.getPackagePath( ... ) )
 
 --- Description.
 -- @name init

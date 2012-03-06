@@ -7,8 +7,15 @@
 
      http://www.apache.org/licenses/LICENSE-2.0 --]]
 
-local CLASSPATH = require( "classpath" )
-local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
+local BaseLua = require( "Packages.BaseLua.BaseLua" )
+local CooL = require( "Packages.CooL.CooL" )
+
+CooL.config = {
+    framework = "config-framework",
+    platform = "config-platform",
+}
+
+local ClassHelper = require( BaseLua.package.ClassHelper )
 
 io.flush()
 print( string.format( [[
@@ -17,15 +24,15 @@ Please make sure that 'config.lua' is symlinked or copied to '%s'!
 This basic app doesn't do much, but demonstrates how various objects within
 the framework should be constructed and invoked.
 ]],
-tostring( CLASSPATH.CooL.config.platform ) ) )
+tostring( CooL.config.platform ) ) )
 
-local platformConfig = ClassHelper.new( CLASSPATH.CooL.PlatformConfig )
-platformConfig:init( require( CLASSPATH.CooL.config.platform ) )
+local platformConfig = ClassHelper.new( CooL.package.PlatformConfig )
+platformConfig:init( require( CooL.config.platform ) )
 
-local frameworkConfig = ClassHelper.new( CLASSPATH.CooL.FrameworkConfig )
-frameworkConfig:init( require( CLASSPATH.CooL.config.framework ) )
+local frameworkConfig = ClassHelper.new( CooL.package.FrameworkConfig )
+frameworkConfig:init( require( CooL.config.framework ) )
 
-local app = ClassHelper.new( CLASSPATH.CooL.BaseApp )
+local app = ClassHelper.new( CooL.package.BaseApp )
 app:init( platformConfig, frameworkConfig )
 
 local spriteSheetDataPath, spriteSheetDataFile, spriteSheetDataScale =

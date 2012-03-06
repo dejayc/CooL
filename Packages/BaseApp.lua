@@ -20,8 +20,10 @@ module "BaseApp"
 -------------------------------------------------------------------------------
 --]]
 
-local CLASSPATH = require( "classpath" )
-local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
+local BaseLua = require( "BaseLua" )
+local CooL = require( "CooL" )
+
+local ClassHelper = require( BaseLua.package.ClassHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
@@ -40,7 +42,7 @@ function CLASS:init( platformConfig, frameworkConfig )
 
     self.platformConfig = platformConfig
     self.frameworkConfig = frameworkConfig
-    self.displayManager = ClassHelper.new( CLASSPATH.CooL.DisplayManager )
+    self.displayManager = ClassHelper.new( CooL.package.DisplayManager )
     self.displayManager:init( platformConfig, frameworkConfig )
 end
 

@@ -16,8 +16,10 @@ module "PlatformFileHelper"
 -------------------------------------------------------------------------------
 --]]
 
-local CLASSPATH = require( "classpath" )
-local DataHelper = require( CLASSPATH.CooL.DataHelper )
+local BaseLua = require( "BaseLua" )
+local CooL = require( "CooL" )
+
+local DataHelper = require( BaseLua.package.DataHelper )
 
 local CLASS = {}
 

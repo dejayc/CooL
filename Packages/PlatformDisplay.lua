@@ -16,11 +16,14 @@ module "PlatformDisplay"
 -------------------------------------------------------------------------------
 --]]
 
-local CLASSPATH = require( "classpath" )
-local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
-local DataHelper = require( CLASSPATH.CooL.DataHelper )
-local DisplayHelper = require( CLASSPATH.CooL.DisplayHelper )
-local FileHelper = require( CLASSPATH.CooL.FileHelper )
+local BaseLua = require( "BaseLua" )
+local CooL = require( "CooL" )
+
+local ClassHelper = require( BaseLua.package.ClassHelper )
+local DataHelper = require( BaseLua.package.DataHelper )
+local FileHelper = require( BaseLua.package.FileHelper )
+
+local DisplayHelper = require( CooL.package.DisplayHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 

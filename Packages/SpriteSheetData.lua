@@ -15,9 +15,11 @@ module "SpriteSheetData"
 -------------------------------------------------------------------------------
 --]]
 
-local CLASSPATH = require( "classpath" )
-local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
-local FileHelper = require( CLASSPATH.CooL.FileHelper )
+local BaseLua = require( "BaseLua" )
+local CooL = require( "CooL" )
+
+local ClassHelper = require( BaseLua.package.ClassHelper )
+local FileHelper = require( BaseLua.package.FileHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 

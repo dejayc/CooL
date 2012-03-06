@@ -15,9 +15,11 @@ module "DisplayHelper"
 -------------------------------------------------------------------------------
 --]]
 
-local CLASSPATH = require( "classpath" )
-local DataHelper = require( CLASSPATH.CooL.DataHelper )
-local FileHelper = require( CLASSPATH.CooL.FileHelper )
+local BaseLua = require( "BaseLua" )
+local CooL = require( "CooL" )
+
+local DataHelper = require( BaseLua.package.DataHelper )
+local FileHelper = require( BaseLua.package.FileHelper )
 
 local CLASS = {}
 

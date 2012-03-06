@@ -16,34 +16,44 @@ module "classpath.lua"
 -------------------------------------------------------------------------------
 --]]
 
--- Define CooL globals, and determine current package path
-PACKAGE_CLASS_PATTERN = "^.*%.(.-)$"
-PACKAGE_PATH_PATTERN = "^(.*%.).-$"
+local BaseLua = require( "BaseLua" )
 
-local _, _, packagePath = string.find( ..., PACKAGE_PATH_PATTERN )
-if ( packagePath == nil ) then packagePath = "" end
+--- CooL class fields.
+-- @class table
+-- @name CooL
+CLASS = {}
 
-COOL_PACKAGE_PATH = packagePath
-COOL_CLASS_PACKAGE = COOL_PACKAGE_PATH .. "BaseClass"
+local _, _, packageName = string.find( ..., BaseLua.PACKAGE_NAME_PATTERN )
+local _, _, packagePath = string.find( ..., BaseLua.PACKAGE_PATH_PATTERN )
+packageName = packageName or "CooL"
+packagePath = packagePath or ""
 
--- Load CooL 'Globals' file
-require( packagePath .. "globals" )
+--- CooL package helper that facilitates working with CooL packages.
+-- @class table
+-- @name package 
+-- @field name The package name for this CooL class.  Usually should be
+--   'CooL', unless the file name of this class has been changed.
+-- @field path The package path for all CooL classes.
+-- @field PACKAGE_NAME An invocation of package that contains a child index
+--   other than "name" or "path" will return the child index appended to the
+--   package path.  Replace "PACKAGE_NAME" with the name of the package to
+--   return.
+-- @Usage: CooL.package.BaseApp -- Packages.BaseClass
+CLASS.package = setmetatable(
+    {
+        name = packageName,
+        path = packagePath,
+    },
+    {
+        __index = function( t, index )
+            return ( packagePath or "" ) .. index
+        end,
+    }
+)
 
--- CooL Classpaths
-return {
-    BaseApp = packagePath .. "BaseApp",
-    BaseClass = COOL_CLASS_PACKAGE,
-    BaseConfig = packagePath .. "BaseConfig",
-    ClassHelper = packagePath .. "ClassHelper",
-    DataHelper = packagePath .. "DataHelper",
-    DisplayHelper = packagePath .. "DisplayHelper",
-    DisplayManager = packagePath .. "DisplayManager",
-    FileHelper = packagePath .. "FileHelper",
-    FrameworkConfig = packagePath .. "FrameworkConfig",
-    FrameworkDisplay = packagePath .. "FrameworkDisplay",
-    PlatformConfig = packagePath .. "PlatformConfig",
-    PlatformDisplay = packagePath .. "PlatformDisplay",
-    PlatformFileHelper = packagePath .. "PlatformFileHelper",
-    SpriteSheet = packagePath .. "SpriteSheet",
-    SpriteSheetData = packagePath .. "SpriteSheetData",
-}
+-- Update the global loaded package table so that future invocations of the
+-- Lua function 'require' can retrieve this class without knowing the path to
+-- this class.
+package.loaded[ packageName ] = CLASS
+
+return CLASS

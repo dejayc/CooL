@@ -15,8 +15,10 @@ module "DisplayManager"
 -------------------------------------------------------------------------------
 --]]
 
-local CLASSPATH = require( "classpath" )
-local ClassHelper = require( CLASSPATH.CooL.ClassHelper )
+local BaseLua = require( "BaseLua" )
+local CooL = require( "CooL" )
+
+local ClassHelper = require( BaseLua.package.ClassHelper )
 
 local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 
@@ -29,10 +31,10 @@ local CLASS = ClassHelper.autoclass( ClassHelper.getPackagePath( ... ) )
 -- @usage example
 -- @see class
 function CLASS:init( platformConfig, frameworkConfig, ... )
-    self.platformDisplay = ClassHelper.new( CLASSPATH.CooL.PlatformDisplay )
+    self.platformDisplay = ClassHelper.new( CooL.package.PlatformDisplay )
     self.platformDisplay:init( platformConfig )
 
-    self.frameworkDisplay = ClassHelper.new( CLASSPATH.CooL.FrameworkDisplay )
+    self.frameworkDisplay = ClassHelper.new( CooL.package.FrameworkDisplay )
     self.frameworkDisplay:init( frameworkConfig )
 end
 
